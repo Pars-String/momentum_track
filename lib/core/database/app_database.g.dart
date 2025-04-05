@@ -37,6 +37,17 @@ class $ProjectsTable extends Projects with TableInfo<$ProjectsTable, Project> {
   late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
     'start_date',
     aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createAtMeta = const VerificationMeta(
+    'createAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createAt = GeneratedColumn<DateTime>(
+    'create_at',
+    aliasedName,
     false,
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
@@ -53,7 +64,13 @@ class $ProjectsTable extends Projects with TableInfo<$ProjectsTable, Project> {
     requiredDuringInsert: false,
   );
   @override
-  List<GeneratedColumn> get $columns => [id, name, startDate, description];
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    startDate,
+    createAt,
+    description,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -82,8 +99,14 @@ class $ProjectsTable extends Projects with TableInfo<$ProjectsTable, Project> {
         _startDateMeta,
         startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
       );
+    }
+    if (data.containsKey('create_at')) {
+      context.handle(
+        _createAtMeta,
+        createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
+      );
     } else if (isInserting) {
-      context.missing(_startDateMeta);
+      context.missing(_createAtMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
@@ -113,10 +136,14 @@ class $ProjectsTable extends Projects with TableInfo<$ProjectsTable, Project> {
             DriftSqlType.string,
             data['${effectivePrefix}name'],
           )!,
-      startDate:
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      ),
+      createAt:
           attachedDatabase.typeMapping.read(
             DriftSqlType.dateTime,
-            data['${effectivePrefix}start_date'],
+            data['${effectivePrefix}create_at'],
           )!,
       description: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -134,12 +161,14 @@ class $ProjectsTable extends Projects with TableInfo<$ProjectsTable, Project> {
 class Project extends DataClass implements Insertable<Project> {
   final int id;
   final String name;
-  final DateTime startDate;
+  final DateTime? startDate;
+  final DateTime createAt;
   final String? description;
   const Project({
     required this.id,
     required this.name,
-    required this.startDate,
+    this.startDate,
+    required this.createAt,
     this.description,
   });
   @override
@@ -147,7 +176,10 @@ class Project extends DataClass implements Insertable<Project> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
-    map['start_date'] = Variable<DateTime>(startDate);
+    if (!nullToAbsent || startDate != null) {
+      map['start_date'] = Variable<DateTime>(startDate);
+    }
+    map['create_at'] = Variable<DateTime>(createAt);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
@@ -158,7 +190,11 @@ class Project extends DataClass implements Insertable<Project> {
     return ProjectsCompanion(
       id: Value(id),
       name: Value(name),
-      startDate: Value(startDate),
+      startDate:
+          startDate == null && nullToAbsent
+              ? const Value.absent()
+              : Value(startDate),
+      createAt: Value(createAt),
       description:
           description == null && nullToAbsent
               ? const Value.absent()
@@ -174,7 +210,8 @@ class Project extends DataClass implements Insertable<Project> {
     return Project(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      startDate: serializer.fromJson<DateTime?>(json['startDate']),
+      createAt: serializer.fromJson<DateTime>(json['createAt']),
       description: serializer.fromJson<String?>(json['description']),
     );
   }
@@ -184,7 +221,8 @@ class Project extends DataClass implements Insertable<Project> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
-      'startDate': serializer.toJson<DateTime>(startDate),
+      'startDate': serializer.toJson<DateTime?>(startDate),
+      'createAt': serializer.toJson<DateTime>(createAt),
       'description': serializer.toJson<String?>(description),
     };
   }
@@ -192,12 +230,14 @@ class Project extends DataClass implements Insertable<Project> {
   Project copyWith({
     int? id,
     String? name,
-    DateTime? startDate,
+    Value<DateTime?> startDate = const Value.absent(),
+    DateTime? createAt,
     Value<String?> description = const Value.absent(),
   }) => Project(
     id: id ?? this.id,
     name: name ?? this.name,
-    startDate: startDate ?? this.startDate,
+    startDate: startDate.present ? startDate.value : this.startDate,
+    createAt: createAt ?? this.createAt,
     description: description.present ? description.value : this.description,
   );
   Project copyWithCompanion(ProjectsCompanion data) {
@@ -205,6 +245,7 @@ class Project extends DataClass implements Insertable<Project> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      createAt: data.createAt.present ? data.createAt.value : this.createAt,
       description:
           data.description.present ? data.description.value : this.description,
     );
@@ -216,13 +257,14 @@ class Project extends DataClass implements Insertable<Project> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('startDate: $startDate, ')
+          ..write('createAt: $createAt, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, startDate, description);
+  int get hashCode => Object.hash(id, name, startDate, createAt, description);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -230,37 +272,43 @@ class Project extends DataClass implements Insertable<Project> {
           other.id == this.id &&
           other.name == this.name &&
           other.startDate == this.startDate &&
+          other.createAt == this.createAt &&
           other.description == this.description);
 }
 
 class ProjectsCompanion extends UpdateCompanion<Project> {
   final Value<int> id;
   final Value<String> name;
-  final Value<DateTime> startDate;
+  final Value<DateTime?> startDate;
+  final Value<DateTime> createAt;
   final Value<String?> description;
   const ProjectsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.startDate = const Value.absent(),
+    this.createAt = const Value.absent(),
     this.description = const Value.absent(),
   });
   ProjectsCompanion.insert({
     this.id = const Value.absent(),
     required String name,
-    required DateTime startDate,
+    this.startDate = const Value.absent(),
+    required DateTime createAt,
     this.description = const Value.absent(),
   }) : name = Value(name),
-       startDate = Value(startDate);
+       createAt = Value(createAt);
   static Insertable<Project> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<DateTime>? startDate,
+    Expression<DateTime>? createAt,
     Expression<String>? description,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (startDate != null) 'start_date': startDate,
+      if (createAt != null) 'create_at': createAt,
       if (description != null) 'description': description,
     });
   }
@@ -268,13 +316,15 @@ class ProjectsCompanion extends UpdateCompanion<Project> {
   ProjectsCompanion copyWith({
     Value<int>? id,
     Value<String>? name,
-    Value<DateTime>? startDate,
+    Value<DateTime?>? startDate,
+    Value<DateTime>? createAt,
     Value<String?>? description,
   }) {
     return ProjectsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       startDate: startDate ?? this.startDate,
+      createAt: createAt ?? this.createAt,
       description: description ?? this.description,
     );
   }
@@ -291,6 +341,9 @@ class ProjectsCompanion extends UpdateCompanion<Project> {
     if (startDate.present) {
       map['start_date'] = Variable<DateTime>(startDate.value);
     }
+    if (createAt.present) {
+      map['create_at'] = Variable<DateTime>(createAt.value);
+    }
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
@@ -303,6 +356,7 @@ class ProjectsCompanion extends UpdateCompanion<Project> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('startDate: $startDate, ')
+          ..write('createAt: $createAt, ')
           ..write('description: $description')
           ..write(')'))
         .toString();
@@ -350,6 +404,17 @@ class $TimeEntriesTable extends TimeEntries
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _createAtMeta = const VerificationMeta(
+    'createAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createAt = GeneratedColumn<DateTime>(
+    'create_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
   static const VerificationMeta _noteMeta = const VerificationMeta('note');
   @override
   late final GeneratedColumn<String> note = GeneratedColumn<String>(
@@ -389,6 +454,7 @@ class $TimeEntriesTable extends TimeEntries
     id,
     startTime,
     endTime,
+    createAt,
     note,
     duration,
     projectId,
@@ -421,6 +487,14 @@ class $TimeEntriesTable extends TimeEntries
         _endTimeMeta,
         endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta),
       );
+    }
+    if (data.containsKey('create_at')) {
+      context.handle(
+        _createAtMeta,
+        createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createAtMeta);
     }
     if (data.containsKey('note')) {
       context.handle(
@@ -465,6 +539,11 @@ class $TimeEntriesTable extends TimeEntries
         DriftSqlType.dateTime,
         data['${effectivePrefix}end_time'],
       ),
+      createAt:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.dateTime,
+            data['${effectivePrefix}create_at'],
+          )!,
       note: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}note'],
@@ -491,6 +570,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
   final int id;
   final DateTime startTime;
   final DateTime? endTime;
+  final DateTime createAt;
   final String? note;
   final double? duration;
   final int projectId;
@@ -498,6 +578,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
     required this.id,
     required this.startTime,
     this.endTime,
+    required this.createAt,
     this.note,
     this.duration,
     required this.projectId,
@@ -510,6 +591,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
     if (!nullToAbsent || endTime != null) {
       map['end_time'] = Variable<DateTime>(endTime);
     }
+    map['create_at'] = Variable<DateTime>(createAt);
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
     }
@@ -528,6 +610,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
           endTime == null && nullToAbsent
               ? const Value.absent()
               : Value(endTime),
+      createAt: Value(createAt),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
       duration:
           duration == null && nullToAbsent
@@ -546,6 +629,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
       id: serializer.fromJson<int>(json['id']),
       startTime: serializer.fromJson<DateTime>(json['startTime']),
       endTime: serializer.fromJson<DateTime?>(json['endTime']),
+      createAt: serializer.fromJson<DateTime>(json['createAt']),
       note: serializer.fromJson<String?>(json['note']),
       duration: serializer.fromJson<double?>(json['duration']),
       projectId: serializer.fromJson<int>(json['projectId']),
@@ -558,6 +642,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
       'id': serializer.toJson<int>(id),
       'startTime': serializer.toJson<DateTime>(startTime),
       'endTime': serializer.toJson<DateTime?>(endTime),
+      'createAt': serializer.toJson<DateTime>(createAt),
       'note': serializer.toJson<String?>(note),
       'duration': serializer.toJson<double?>(duration),
       'projectId': serializer.toJson<int>(projectId),
@@ -568,6 +653,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
     int? id,
     DateTime? startTime,
     Value<DateTime?> endTime = const Value.absent(),
+    DateTime? createAt,
     Value<String?> note = const Value.absent(),
     Value<double?> duration = const Value.absent(),
     int? projectId,
@@ -575,6 +661,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
     id: id ?? this.id,
     startTime: startTime ?? this.startTime,
     endTime: endTime.present ? endTime.value : this.endTime,
+    createAt: createAt ?? this.createAt,
     note: note.present ? note.value : this.note,
     duration: duration.present ? duration.value : this.duration,
     projectId: projectId ?? this.projectId,
@@ -584,6 +671,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
       id: data.id.present ? data.id.value : this.id,
       startTime: data.startTime.present ? data.startTime.value : this.startTime,
       endTime: data.endTime.present ? data.endTime.value : this.endTime,
+      createAt: data.createAt.present ? data.createAt.value : this.createAt,
       note: data.note.present ? data.note.value : this.note,
       duration: data.duration.present ? data.duration.value : this.duration,
       projectId: data.projectId.present ? data.projectId.value : this.projectId,
@@ -596,6 +684,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
           ..write('id: $id, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime, ')
+          ..write('createAt: $createAt, ')
           ..write('note: $note, ')
           ..write('duration: $duration, ')
           ..write('projectId: $projectId')
@@ -605,7 +694,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
 
   @override
   int get hashCode =>
-      Object.hash(id, startTime, endTime, note, duration, projectId);
+      Object.hash(id, startTime, endTime, createAt, note, duration, projectId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -613,6 +702,7 @@ class TimeEntry extends DataClass implements Insertable<TimeEntry> {
           other.id == this.id &&
           other.startTime == this.startTime &&
           other.endTime == this.endTime &&
+          other.createAt == this.createAt &&
           other.note == this.note &&
           other.duration == this.duration &&
           other.projectId == this.projectId);
@@ -622,6 +712,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
   final Value<int> id;
   final Value<DateTime> startTime;
   final Value<DateTime?> endTime;
+  final Value<DateTime> createAt;
   final Value<String?> note;
   final Value<double?> duration;
   final Value<int> projectId;
@@ -629,6 +720,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
     this.id = const Value.absent(),
     this.startTime = const Value.absent(),
     this.endTime = const Value.absent(),
+    this.createAt = const Value.absent(),
     this.note = const Value.absent(),
     this.duration = const Value.absent(),
     this.projectId = const Value.absent(),
@@ -637,15 +729,18 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
     this.id = const Value.absent(),
     required DateTime startTime,
     this.endTime = const Value.absent(),
+    required DateTime createAt,
     this.note = const Value.absent(),
     this.duration = const Value.absent(),
     required int projectId,
   }) : startTime = Value(startTime),
+       createAt = Value(createAt),
        projectId = Value(projectId);
   static Insertable<TimeEntry> custom({
     Expression<int>? id,
     Expression<DateTime>? startTime,
     Expression<DateTime>? endTime,
+    Expression<DateTime>? createAt,
     Expression<String>? note,
     Expression<double>? duration,
     Expression<int>? projectId,
@@ -654,6 +749,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
       if (id != null) 'id': id,
       if (startTime != null) 'start_time': startTime,
       if (endTime != null) 'end_time': endTime,
+      if (createAt != null) 'create_at': createAt,
       if (note != null) 'note': note,
       if (duration != null) 'duration': duration,
       if (projectId != null) 'project_id': projectId,
@@ -664,6 +760,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
     Value<int>? id,
     Value<DateTime>? startTime,
     Value<DateTime?>? endTime,
+    Value<DateTime>? createAt,
     Value<String?>? note,
     Value<double?>? duration,
     Value<int>? projectId,
@@ -672,6 +769,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
       id: id ?? this.id,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      createAt: createAt ?? this.createAt,
       note: note ?? this.note,
       duration: duration ?? this.duration,
       projectId: projectId ?? this.projectId,
@@ -689,6 +787,9 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
     }
     if (endTime.present) {
       map['end_time'] = Variable<DateTime>(endTime.value);
+    }
+    if (createAt.present) {
+      map['create_at'] = Variable<DateTime>(createAt.value);
     }
     if (note.present) {
       map['note'] = Variable<String>(note.value);
@@ -708,6 +809,7 @@ class TimeEntriesCompanion extends UpdateCompanion<TimeEntry> {
           ..write('id: $id, ')
           ..write('startTime: $startTime, ')
           ..write('endTime: $endTime, ')
+          ..write('createAt: $createAt, ')
           ..write('note: $note, ')
           ..write('duration: $duration, ')
           ..write('projectId: $projectId')
@@ -732,14 +834,16 @@ typedef $$ProjectsTableCreateCompanionBuilder =
     ProjectsCompanion Function({
       Value<int> id,
       required String name,
-      required DateTime startDate,
+      Value<DateTime?> startDate,
+      required DateTime createAt,
       Value<String?> description,
     });
 typedef $$ProjectsTableUpdateCompanionBuilder =
     ProjectsCompanion Function({
       Value<int> id,
       Value<String> name,
-      Value<DateTime> startDate,
+      Value<DateTime?> startDate,
+      Value<DateTime> createAt,
       Value<String?> description,
     });
 
@@ -787,6 +891,11 @@ class $$ProjectsTableFilterComposer
 
   ColumnFilters<DateTime> get startDate => $composableBuilder(
     column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -845,6 +954,11 @@ class $$ProjectsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get description => $composableBuilder(
     column: $table.description,
     builder: (column) => ColumnOrderings(column),
@@ -868,6 +982,9 @@ class $$ProjectsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get startDate =>
       $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createAt =>
+      $composableBuilder(column: $table.createAt, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
     column: $table.description,
@@ -930,24 +1047,28 @@ class $$ProjectsTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<DateTime> startDate = const Value.absent(),
+                Value<DateTime?> startDate = const Value.absent(),
+                Value<DateTime> createAt = const Value.absent(),
                 Value<String?> description = const Value.absent(),
               }) => ProjectsCompanion(
                 id: id,
                 name: name,
                 startDate: startDate,
+                createAt: createAt,
                 description: description,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String name,
-                required DateTime startDate,
+                Value<DateTime?> startDate = const Value.absent(),
+                required DateTime createAt,
                 Value<String?> description = const Value.absent(),
               }) => ProjectsCompanion.insert(
                 id: id,
                 name: name,
                 startDate: startDate,
+                createAt: createAt,
                 description: description,
               ),
           withReferenceMapper:
@@ -1016,6 +1137,7 @@ typedef $$TimeEntriesTableCreateCompanionBuilder =
       Value<int> id,
       required DateTime startTime,
       Value<DateTime?> endTime,
+      required DateTime createAt,
       Value<String?> note,
       Value<double?> duration,
       required int projectId,
@@ -1025,6 +1147,7 @@ typedef $$TimeEntriesTableUpdateCompanionBuilder =
       Value<int> id,
       Value<DateTime> startTime,
       Value<DateTime?> endTime,
+      Value<DateTime> createAt,
       Value<String?> note,
       Value<double?> duration,
       Value<int> projectId,
@@ -1075,6 +1198,11 @@ class $$TimeEntriesTableFilterComposer
 
   ColumnFilters<DateTime> get endTime => $composableBuilder(
     column: $table.endTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1136,6 +1264,11 @@ class $$TimeEntriesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get note => $composableBuilder(
     column: $table.note,
     builder: (column) => ColumnOrderings(column),
@@ -1187,6 +1320,9 @@ class $$TimeEntriesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get endTime =>
       $composableBuilder(column: $table.endTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createAt =>
+      $composableBuilder(column: $table.createAt, builder: (column) => column);
 
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
@@ -1250,6 +1386,7 @@ class $$TimeEntriesTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<DateTime> startTime = const Value.absent(),
                 Value<DateTime?> endTime = const Value.absent(),
+                Value<DateTime> createAt = const Value.absent(),
                 Value<String?> note = const Value.absent(),
                 Value<double?> duration = const Value.absent(),
                 Value<int> projectId = const Value.absent(),
@@ -1257,6 +1394,7 @@ class $$TimeEntriesTableTableManager
                 id: id,
                 startTime: startTime,
                 endTime: endTime,
+                createAt: createAt,
                 note: note,
                 duration: duration,
                 projectId: projectId,
@@ -1266,6 +1404,7 @@ class $$TimeEntriesTableTableManager
                 Value<int> id = const Value.absent(),
                 required DateTime startTime,
                 Value<DateTime?> endTime = const Value.absent(),
+                required DateTime createAt,
                 Value<String?> note = const Value.absent(),
                 Value<double?> duration = const Value.absent(),
                 required int projectId,
@@ -1273,6 +1412,7 @@ class $$TimeEntriesTableTableManager
                 id: id,
                 startTime: startTime,
                 endTime: endTime,
+                createAt: createAt,
                 note: note,
                 duration: duration,
                 projectId: projectId,
