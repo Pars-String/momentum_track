@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DatabaseService {
   final AppDatabase db;
@@ -72,5 +76,16 @@ class DatabaseService {
 
   Future<void> deleteTimeEntry(int id) async {
     await (db.delete(db.timeEntries)..where((tbl) => tbl.id.equals(id))).go();
+  }
+
+  Future<void> deleteDatabase() async {
+    await db.close();
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final dbPath = join(dbFolder.path, 'your_database_name.sqlite');
+    final file = File(dbPath);
+
+    if (await file.exists()) {
+      await file.delete();
+    }
   }
 }
