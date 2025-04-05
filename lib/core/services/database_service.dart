@@ -1,0 +1,76 @@
+import 'package:drift/drift.dart';
+import 'package:momentum_track/core/database/app_database.dart';
+
+class DatabaseService {
+  final AppDatabase db;
+  DatabaseService(this.db);
+
+  Future<void> insertProject(ProjectsCompanion project) async {
+    await db.into(db.projects).insert(project);
+  }
+
+  Future<List<Project>> getAllProjects() async {
+    return await db.select(db.projects).get();
+  }
+
+  Future<Project> getProject(int projectID) async {
+    return (db.select(db.projects)
+      ..where((tbl) => tbl.id.equals(projectID))).getSingle();
+  }
+
+  Future<void> updateProject(ProjectsCompanion project) async {
+    await db.update(db.projects).replace(project);
+  }
+
+  Future<void> deleteProject(int id) async {
+    await (db.delete(db.projects)..where((tbl) => tbl.id.equals(id))).go();
+  }
+
+  Future<void> insertTimeEntry(TimeEntriesCompanion timeEntry) async {
+    await db.into(db.timeEntries).insert(timeEntry);
+  }
+
+  Future<List<TimeEntry>> getAllTimeEntries({
+    required int projectId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final DateTime sDate = DateTime(
+      startDate.year,
+      startDate.month,
+      startDate.day,
+      0,
+      0,
+      0,
+    );
+    final DateTime eDate = DateTime(
+      endDate.year,
+      endDate.month,
+      endDate.day,
+      23,
+      59,
+      59,
+    );
+
+    return (db.select(db.timeEntries)
+          ..where((tbl) => tbl.projectId.equals(projectId))
+          ..where((tbl) => tbl.startTime.isBetweenValues(sDate, eDate))
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+        .get();
+  }
+
+  Future<List<TimeEntry>> getAllTimeEntriesByProjectID({
+    required int projectId,
+  }) async {
+    return (db.select(db.timeEntries)
+      ..where((tbl) => tbl.projectId.equals(projectId))).get();
+  }
+
+  Future<void> updateTimeEntry(TimeEntriesCompanion timeEntry) async {
+    await db.update(db.timeEntries).replace(timeEntry);
+  }
+
+  Future<void> deleteTimeEntry(int id) async {
+    await (db.delete(db.timeEntries)..where((tbl) => tbl.id.equals(id))).go();
+  }
+}
