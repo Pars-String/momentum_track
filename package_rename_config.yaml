@@ -1,32 +1,32 @@
 # to use package_rename_config.yaml please run `dart run package_rename`
 package_rename_config:
   android:
-    app_name: Momentum DEV
-    package_name: dev.momentum.track
+    app_name: Momentum Track
+    package_name: com.momentum.track
     # lang: # (Optional) (String) The android development language {kotlin(default) or java}
 
   ios:
-    app_name: Momentum DEV
+    app_name: Momentum Track
     bundle_name: momentum
-    package_name: dev.momentum.track
+    package_name: com.momentum.track
 
   linux:
-    app_name: Momentum DEV
-    package_name: dev.momentum.track
-    exe_name: momentum-development
+    app_name: Momentum Track
+    package_name: com.momentum.track
+    exe_name: momentum-track
 
   macos:
-    app_name: Momentum DEV
-    package_name: dev.momentum.track
+    app_name: Momentum Track
+    package_name: com.momentum.track
     # copyright_notice: # (String) The product copyright of the macos app
 
   web:
-    app_name: Momentum DEV
+    app_name: Momentum Track
     short_app_name: Momentum Track
     description: Manage your moments
 
   windows:
-    app_name: Momentum DEV
-    organization: Momentum dev
+    app_name: Momentum Track
+    organization: Momentum Track
     # copyright_notice: # (String) The legal copyright of the windows app
-    exe_name: momentum_dev
+    exe_name: momentum_track

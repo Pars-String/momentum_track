@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Momentum dev" "\0"
-            VALUE "FileDescription", "Momentum DEV" "\0"
+            VALUE "CompanyName", "Momentum Track" "\0"
+            VALUE "FileDescription", "Momentum Track" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "Momentum DEV" "\0"
+            VALUE "InternalName", "Momentum Track" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "momentum_dev.exe" "\0"
-            VALUE "ProductName", "Momentum DEV" "\0"
+            VALUE "OriginalFilename", "momentum_track.exe" "\0"
+            VALUE "ProductName", "Momentum Track" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
