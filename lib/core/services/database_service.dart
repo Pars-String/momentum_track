@@ -30,8 +30,8 @@ class DatabaseService {
     await (db.delete(db.projects)..where((tbl) => tbl.id.equals(id))).go();
   }
 
-  Future<void> insertTimeEntry(TimeEntriesCompanion timeEntry) async {
-    await db.into(db.timeEntries).insert(timeEntry);
+  Future<int> insertTimeEntry(TimeEntriesCompanion timeEntry) async {
+    return await db.into(db.timeEntries).insert(timeEntry);
   }
 
   Future<List<TimeEntry>> getAllTimeEntries({
@@ -63,6 +63,27 @@ class DatabaseService {
         .get();
   }
 
+  Future<List<TimeEntry>> getTimeEntriesForOneDay({
+    required int projectId,
+    required DateTime date,
+  }) async {
+    final DateTime sDate = DateTime(date.year, date.month, date.day, 0, 0, 0);
+    final DateTime eDate = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      23,
+      59,
+      59,
+    );
+
+    return (db.select(db.timeEntries)
+          ..where((tbl) => tbl.projectId.equals(projectId))
+          ..where((tbl) => tbl.startTime.isBetweenValues(sDate, eDate))
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+        .get();
+  }
+
   Future<List<TimeEntry>> getAllTimeEntriesByProjectID({
     required int projectId,
   }) async {
@@ -70,7 +91,7 @@ class DatabaseService {
       ..where((tbl) => tbl.projectId.equals(projectId))).get();
   }
 
-  Future<void> updateTimeEntry(TimeEntriesCompanion timeEntry) async {
+  Future<void> updateTimeEntry(Insertable<TimeEntry> timeEntry) async {
     await db.update(db.timeEntries).replace(timeEntry);
   }
 
