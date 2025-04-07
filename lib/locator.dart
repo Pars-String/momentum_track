@@ -9,7 +9,7 @@ import 'package:momentum_track/features/projects/repository/projects_repository.
 GetIt locator = GetIt.instance;
 
 Future<void> locatorSetup() async {
-  final database = AppDatabase();
+  final database = locator.registerSingleton<AppDatabase>(AppDatabase());
 
   locator.registerSingleton<DatabaseService>(DatabaseService(database));
 

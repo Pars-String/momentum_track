@@ -5,6 +5,7 @@ import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_modal_view.dart';
+import 'package:momentum_track/features/recovery_method/presentation/widgets/recovery_buttons.dart';
 
 class ProjectsScreen extends StatelessWidget {
   static const String routeName = '/';
@@ -58,21 +59,27 @@ class ProjectsScreen extends StatelessWidget {
             bottom: 0,
             right: 0,
             left: 0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 15.0, top: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RecoveryButtons(),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0, top: 8),
 
-                child: Text(
-                  'DEV 1.0.0',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    child: Text(
+                      'DEV 1.0.0',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
