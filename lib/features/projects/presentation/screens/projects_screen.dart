@@ -71,7 +71,7 @@ class ProjectsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15.0, top: 8),
 
                     child: Text(
-                      'DEV 1.0.0',
+                      'V 1.0.0',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
