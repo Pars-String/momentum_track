@@ -17,11 +17,17 @@ class AppDatabase extends _$AppDatabase {
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final file = File(join(dbFolder.path, 'momentum_db.sqlite'));
+      final file = await databaseFile;
       return NativeDatabase(file, logStatements: true);
     });
   }
+}
+
+Future<File> get databaseFile async {
+  // We use `path_provider` to find a suitable path to store our data in.
+  final appDir = await getApplicationDocumentsDirectory();
+  final dbPath = join(appDir.path, 'momentum_db.sqlite');
+  return File(dbPath);
 }
 
 class Projects extends Table {
