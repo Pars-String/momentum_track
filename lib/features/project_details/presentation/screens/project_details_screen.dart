@@ -6,6 +6,7 @@ import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/change_date_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/this_week.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
@@ -41,6 +42,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
         appBar: AppBar(
           title: Text(project.name),
           actions: [
+            ChangeDateButton(projectID: project.id),
             AddTimeEntryButton(projectID: project.id),
             IconButton(
               onPressed: () {},
