@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/this_week.dart';
 
@@ -40,28 +41,14 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
         appBar: AppBar(
           title: Text(project.name),
           actions: [
-            IconButton(
-              onPressed: () {
-                AppModalBottomSheet.show(
-                  context,
-                  title: 'Add Time Entry',
-                  children: [
-                    AddTimeEntryModalView(
-                      innerContext: context,
-                      projectID: project.id,
-                    ),
-                  ],
-                );
-              },
-              icon: const Icon(Icons.add_circle_rounded),
-            ),
+            AddTimeEntryButton(projectID: project.id),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.edit_note_sharp),
             ),
           ],
           bottom: PreferredSize(
-            preferredSize: Size(MediaQuery.sizeOf(context).width, 35),
+            preferredSize: Size(MediaQuery.sizeOf(context).width, 100),
             child: ThisWeek(project.id),
           ),
         ),
