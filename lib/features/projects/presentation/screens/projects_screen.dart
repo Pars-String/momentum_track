@@ -86,6 +86,7 @@ class ProjectsScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        tooltip: 'Add Project',
         onPressed: () {
           AppModalBottomSheet.show(
             context,
