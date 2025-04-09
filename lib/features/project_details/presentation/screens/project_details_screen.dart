@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
@@ -89,6 +90,10 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       Divider(color: Theme.of(context).colorScheme.primary),
               itemBuilder: (context, index) {
                 final TimeEntry timeEntry = timeEntries[index];
+                final String note =
+                    timeEntry.note != null && timeEntry.note?.isNotEmpty == true
+                        ? timeEntry.note!
+                        : 'No description';
                 final String startTime =
                     '${timeEntry.startTime.hour.toString().padLeft(2, '0')}:${timeEntry.startTime.minute.toString().padLeft(2, '0')}';
                 final String endTime =
@@ -99,9 +104,73 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                         : '${timeEntry.endTime!.difference(timeEntry.startTime).inHours}h ${timeEntry.endTime!.difference(timeEntry.startTime).inMinutes.remainder(60)}m';
 
                 return ListTile(
-                  title: Text(timeEntry.note ?? ''),
-                  subtitle: Text('$startTime - $endTime'),
-                  trailing: Text(duration),
+                  title: Text(note, style: TextStyle(fontSize: 14)),
+                  subtitle: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6.0,
+                        vertical: 3,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Start at  ',
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                  TextSpan(
+                                    text: startTime,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (timeEntry.endTime != null) ...[
+                                    TextSpan(
+                                      text: '\nEnd at    ',
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                    TextSpan(
+                                      text: '$endTime  ',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: DateFormat(
+                                        'dd, MMMM',
+                                      ).format(timeEntry.endTime!),
+                                      style: TextStyle(fontSize: 9),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text(
+                            duration,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimaryContainer,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
                   onTap: () {
                     AppModalBottomSheet.show(
                       context,
