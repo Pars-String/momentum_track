@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
@@ -24,12 +25,59 @@ class AddTimeEntryModalView extends StatefulWidget {
 
 class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
   final TextEditingController descriptionController = TextEditingController();
-  DateTime? selectedStartTime;
-  DateTime? selectedEndTime;
+  final TextEditingController startDateController = TextEditingController();
+  final TextEditingController startTimeController = TextEditingController();
+  final TextEditingController endDateController = TextEditingController();
+  final TextEditingController endTimeController = TextEditingController();
+  final startTimeFormKey = GlobalKey<FormState>();
+  final allFormKey = GlobalKey<FormState>();
+
+  DateTime? pickedStartDate;
+  DateTime? pickedEndDate;
+
+  DateTime? selectedStartDateTime;
+  DateTime? selectedEndDateTime;
+
+  bool hasInitialized = false;
+
+  void initStartDate(DateTime selectedDateState, {bool? isEditing}) {
+    hasInitialized = true;
+    startDateController.text = DateFormat.MMMMEEEEd().format(selectedDateState);
+    pickedStartDate = selectedDateState.copyWith(
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
+
+    if (isEditing == true) {
+      selectedStartDateTime = selectedDateState;
+      startTimeController.text = DateFormat('h:mm a').format(selectedDateState);
+    }
+  }
+
+  void initEndDate(DateTime selectedDateState) {
+    endDateController.text = DateFormat.MMMMEEEEd().format(selectedDateState);
+    pickedEndDate = selectedDateState.copyWith(
+      hour: 0,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
+    );
+
+    selectedEndDateTime = selectedDateState;
+    endTimeController.text = DateFormat('h:mm a').format(selectedDateState);
+  }
 
   @override
   void dispose() {
     descriptionController.dispose();
+    startDateController.dispose();
+    startTimeController.dispose();
+    endDateController.dispose();
+    endTimeController.dispose();
     super.dispose();
   }
 
@@ -39,8 +87,10 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
 
     if (widget.timeEntry != null) {
       descriptionController.text = widget.timeEntry!.note ?? '';
-      selectedStartTime = widget.timeEntry!.startTime;
-      selectedEndTime = widget.timeEntry!.endTime;
+      initStartDate(widget.timeEntry!.startTime, isEditing: true);
+      if (widget.timeEntry!.endTime != null) {
+        initEndDate(widget.timeEntry!.endTime!);
+      }
     }
   }
 
@@ -50,135 +100,211 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
       value: widget.innerContext.read<DetailsBloc>(),
       child: Builder(
         builder: (context) {
-          return Column(
-            children: [
-              AppTextFormField(
-                controller: descriptionController,
-                label: 'Description',
-                hint: 'Enter description',
-                minLines: 3,
-              ),
-              Gap(8),
-              TextButton(
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                  ).then((value) async {
-                    if (value != null && context.mounted) {
-                      // Pick the time
-                      final TimeOfDay? pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(
-                          selectedStartTime ?? DateTime.now(),
-                        ),
-                      );
+          return BlocBuilder<DetailsBloc, DetailsState>(
+            buildWhen: (p, c) => p.selectedDate != c.selectedDate,
+            builder: (context, state) {
+              if (widget.timeEntry == null && !hasInitialized) {
+                initStartDate(state.selectedDate);
+              }
 
-                      if (pickedTime != null) {
-                        // Combine the date and time
-                        final DateTime dateTime = DateTime(
-                          value.year,
-                          value.month,
-                          value.day,
-                          pickedTime.hour,
-                          pickedTime.minute,
-                        );
-                        // Set the selected start time
-                        selectedStartTime = dateTime;
-                        setState(() {});
-                      }
-                    }
-                  });
-                },
-                child: Text(
-                  selectedStartTime == null
-                      ? 'Select start date'
-                      : 'Start at ${selectedStartTime!.toLocal()}',
-                ),
-              ),
-              Gap(8),
-              TextButton(
-                onPressed: () {
-                  showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                  ).then((value) async {
-                    if (value != null && context.mounted) {
-                      // Pick the time
-                      final TimeOfDay? pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.fromDateTime(
-                          selectedEndTime ?? DateTime.now(),
+              return Form(
+                key: allFormKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 95,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: AppTextFormField(
+                              label: 'Start at',
+                              controller: startDateController,
+                              readOnly: true,
+                              onTap: (focusNode) {
+                                showDatePicker(
+                                  context: context,
+                                  initialDate:
+                                      selectedStartDateTime ??
+                                      state.selectedDate,
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100),
+                                ).then((pickedDate) async {
+                                  if (pickedDate != null) {
+                                    pickedStartDate = pickedDate.copyWith(
+                                      hour: 0,
+                                      minute: 0,
+                                      second: 0,
+                                      millisecond: 0,
+                                      microsecond: 0,
+                                    );
+                                    startDateController
+                                        .text = DateFormat.MMMMEEEEd().format(
+                                      pickedDate,
+                                    );
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                          Gap(8),
+                          Flexible(
+                            child: Form(
+                              key: startTimeFormKey,
+                              child: AppTextFormField(
+                                controller: startTimeController,
+                                label: 'time',
+                                readOnly: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '*Required';
+                                  }
+                                  return null;
+                                },
+                                onTap: (focusNode) {
+                                  showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.fromDateTime(
+                                      selectedStartDateTime ??
+                                          state.selectedDate,
+                                    ),
+                                    initialEntryMode:
+                                        TimePickerEntryMode.inputOnly,
+                                  ).then((pickedTime) async {
+                                    if (pickedTime != null) {
+                                      selectedStartDateTime = pickedStartDate!
+                                          .add(
+                                            Duration(
+                                              hours: pickedTime.hour,
+                                              minutes: pickedTime.minute,
+                                            ),
+                                          );
+                                      startTimeController.text = DateFormat(
+                                        'h:mm a',
+                                      ).format(selectedStartDateTime!);
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: AppTextFormField(
+                            label: 'End at (optional)',
+                            controller: endDateController,
+                            readOnly: true,
+                            onTap: (focusNode) {
+                              showDatePicker(
+                                context: context,
+                                initialDate: selectedEndDateTime,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              ).then((pickedDate) async {
+                                if (pickedDate != null) {
+                                  pickedEndDate = pickedDate.copyWith(
+                                    hour: 0,
+                                    minute: 0,
+                                    second: 0,
+                                    millisecond: 0,
+                                    microsecond: 0,
+                                  );
+                                  endDateController.text =
+                                      DateFormat.MMMMEEEEd().format(pickedDate);
+                                }
+                              });
+                            },
+                          ),
                         ),
-                      );
+                        Gap(8),
+                        Flexible(
+                          child: AppTextFormField(
+                            controller: endTimeController,
+                            label: 'time',
+                            readOnly: true,
+                            onTap: (focusNode) {
+                              showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.fromDateTime(
+                                  selectedEndDateTime ?? DateTime.now(),
+                                ),
+                                initialEntryMode: TimePickerEntryMode.inputOnly,
+                              ).then((pickedTime) async {
+                                if (pickedTime != null) {
+                                  selectedEndDateTime = pickedEndDate!.add(
+                                    Duration(
+                                      hours: pickedTime.hour,
+                                      minutes: pickedTime.minute,
+                                    ),
+                                  );
+                                  endTimeController.text = DateFormat(
+                                    'h:mm a',
+                                  ).format(selectedEndDateTime!);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
 
-                      if (pickedTime != null) {
-                        // Combine the date and time
-                        final DateTime dateTime = DateTime(
-                          value.year,
-                          value.month,
-                          value.day,
-                          pickedTime.hour,
-                          pickedTime.minute,
-                        );
-                        // Set the selected start time
-                        selectedEndTime = dateTime;
-                        setState(() {});
-                      }
-                    }
-                  });
-                },
-                child: Text(
-                  selectedEndTime == null
-                      ? 'Select end date (Optional)'
-                      : 'Start at ${selectedEndTime!.toLocal()}',
-                ),
-              ),
-              Gap(16),
-              Row(
-                children: [
-                  Expanded(
-                    child: AppElevatedButton(
-                      onPressed:
-                          selectedStartTime == null
-                              ? null
-                              : () {
-                                if (widget.timeEntry != null) {
+                    Gap(16),
+                    AppTextFormField(
+                      controller: descriptionController,
+                      hint: 'Enter description (optional)',
+                      minLines: 3,
+                    ),
+                    Gap(16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppElevatedButton(
+                            onPressed: () {
+                              if (widget.timeEntry != null) {
+                                if (startTimeFormKey.currentState!.validate()) {
                                   context.read<DetailsBloc>().add(
                                     EditTimeEntry(
                                       id: widget.timeEntry!.id,
                                       note: descriptionController.text,
-                                      startTime: selectedStartTime!,
-                                      endTime: selectedEndTime,
+                                      startTime: selectedStartDateTime!,
+                                      endTime: selectedEndDateTime,
                                     ),
                                   );
-                                } else {
+                                  context.pop();
+                                }
+                              } else {
+                                if (startTimeFormKey.currentState!.validate()) {
                                   context.read<DetailsBloc>().add(
                                     AddNewTimeEntry(
                                       projectID: widget.projectID,
                                       note: descriptionController.text,
-                                      startTime: selectedStartTime!,
-                                      endTime: selectedEndTime,
+                                      startTime: selectedStartDateTime!,
+                                      endTime: selectedEndDateTime,
                                     ),
                                   );
+                                  context.pop();
                                 }
-                                context.pop();
-                              },
-                      title: 'Add',
+                              }
+                            },
+                            title: 'Add',
+                          ),
+                        ),
+                        Gap(8),
+                        TextButton(
+                          onPressed: () => context.pop(),
+                          child: Text('Cancel'),
+                        ),
+                      ],
                     ),
-                  ),
-                  Gap(8),
-                  TextButton(
-                    onPressed: () => context.pop(),
-                    child: Text('Cancel'),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              );
+            },
           );
         },
       ),

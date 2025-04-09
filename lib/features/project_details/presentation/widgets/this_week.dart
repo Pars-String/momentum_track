@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:gap/gap.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
 
 class ThisWeek extends StatelessWidget {
   final int projectID;
@@ -17,6 +17,7 @@ class ThisWeek extends StatelessWidget {
               p.selectedDate != c.selectedDate,
       builder: (context, state) {
         final List<DateTime> dateList = [];
+
         if (state.detailsDateStatus is DetailsDateSuccess) {
           dateList.addAll(
             (state.detailsDateStatus as DetailsDateSuccess).dateList,
@@ -32,58 +33,54 @@ class ThisWeek extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children:
-                dateList.map((e) {
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color:
-                            e == CalculatingHelper.today()
-                                ? Theme.of(context).colorScheme.primaryContainer
-                                : Colors.transparent,
-                        width: 3,
-                      ),
-                      color:
-                          state.selectedDate == e
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.transparent,
-                    ),
-                    child: InkWell(
-                      onTap:
-                          state.selectedDate == e
-                              ? null
-                              : () {
-                                context.read<DetailsBloc>().add(
-                                  SelectNewDate(date: e, projectID: projectID),
-                                );
-                              },
-                      borderRadius: BorderRadius.circular(16),
-                      child: Column(
-                        children: [
-                          Text(
-                            '${e.day < 10 ? "0${e.day}" : e.day} ${DateFormat('MMM').format(e)}',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:
+                    dateList.map((e) {
+                      return DateTile(
+                        selectedDate: state.selectedDate,
+                        projectID: projectID,
+                        date: e,
+                      );
+                    }).toList(),
+              ),
+              Row(
+                children: [
+                  Gap(8),
+                  TextButton(
+                    onPressed: () {
+                      final DateTime date = dateList.first.subtract(
+                        Duration(days: 4),
+                      );
 
-                          Text(
-                            DateFormat('EEE').format(e),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+                      context.read<DetailsBloc>().add(InitDateList(date: date));
+                      context.read<DetailsBloc>().add(
+                        SelectNewDate(date: date, projectID: projectID),
+                      );
+                    },
+                    child: Text('Previous Week'),
+                  ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      final DateTime date = dateList.last.add(
+                        Duration(days: 4),
+                      );
+
+                      context.read<DetailsBloc>().add(InitDateList(date: date));
+                      context.read<DetailsBloc>().add(
+                        SelectNewDate(date: date, projectID: projectID),
+                      );
+                    },
+                    child: Text('Next Week'),
+                  ),
+                  Gap(12),
+                ],
+              ),
+            ],
           ),
         );
       },
