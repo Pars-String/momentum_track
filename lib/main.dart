@@ -2,10 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/theme/app_theme.dart';
 import 'package:momentum_track/locator.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
   await locatorSetup();
+
+  WindowOptions windowOptions = WindowOptions(
+    minimumSize: const Size(800, 600),
+    // maximumSize: const Size(800, 600),
+    size: Size(800, 600),
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
 
   runApp(const MyApp());
 }
