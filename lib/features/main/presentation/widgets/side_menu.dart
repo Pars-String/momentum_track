@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:momentum_track/core/constant/app_constant.dart';
 import 'package:momentum_track/core/constant/app_pages.dart';
+import 'package:momentum_track/core/constant/app_versions.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 import 'package:momentum_track/features/main/presentation/widgets/menu_item.dart';
 
@@ -88,7 +88,7 @@ class _SideMenuState extends State<SideMenu> {
 
           Spacer(),
           Text(
-            'DEV ${AppConstant.appVersion}',
+            'DEV ${AppVersions.appVersion}',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.surface,

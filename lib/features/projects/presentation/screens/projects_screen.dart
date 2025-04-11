@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:momentum_track/core/constant/app_constant.dart';
+import 'package:momentum_track/core/constant/app_versions.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
@@ -71,7 +71,7 @@ class ProjectsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15.0, top: 8),
 
                     child: Text(
-                      'DEV ${AppConstant.appVersion}',
+                      'DEV ${AppVersions.appVersion}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
