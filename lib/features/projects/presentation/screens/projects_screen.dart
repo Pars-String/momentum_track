@@ -9,7 +9,6 @@ import 'package:momentum_track/features/projects/presentation/widgets/add_projec
 import 'package:momentum_track/features/recovery_method/presentation/widgets/recovery_buttons.dart';
 
 class ProjectsScreen extends StatelessWidget {
-  static const String routeName = '/';
   const ProjectsScreen({super.key});
 
   @override
