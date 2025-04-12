@@ -1,3 +1,6 @@
+#include <filesystem> 
+using namespace std;
+using namespace std::filesystem;
 #include "my_application.h"
 
 #include <flutter_linux/flutter_linux.h>
@@ -19,6 +22,11 @@ static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
+
+  const string iconFilename = "assets/icons/luncher/os.png";
+  path execDir = canonical(read_symlink("/proc/self/exe")).parent_path();
+  path iconPath = execDir / "data/flutter_assets" / iconFilename;
+  gtk_window_set_icon_from_file(GTK_WINDOW(window), iconPath.c_str(), NULL);
 
   // Use a header bar when running in GNOME as this is the common style used
   // by applications and is the setup most users will be using (e.g. Ubuntu
@@ -48,7 +56,7 @@ static void my_application_activate(GApplication* application) {
   }
 
   gtk_window_set_default_size(window, 1280, 720);
-  gtk_widget_show(GTK_WIDGET(window));
+  gtk_widget_realize(GTK_WIDGET(window));
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
   fl_dart_project_set_dart_entrypoint_arguments(project, self->dart_entrypoint_arguments);
