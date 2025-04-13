@@ -53,6 +53,17 @@ class _SideMenuState extends State<SideMenu> {
           ),
           Gap(35),
           MenuItem(
+            title: 'Overview',
+            icon: HugeIcons.strokeRoundedCalendar01,
+            showTitle: isCompletedOpen,
+            page: AppPages.overview,
+            onTap: () {
+              context.read<MenuCubit>().changePage(AppPages.overview);
+            },
+          ),
+
+          Gap(14),
+          MenuItem(
             title: 'Projects',
             icon: HugeIcons.strokeRoundedLeftToRightListNumber,
             showTitle: isCompletedOpen,
