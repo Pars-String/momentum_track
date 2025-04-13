@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -80,6 +81,23 @@ class DatabaseService {
     return (db.select(db.timeEntries)
           ..where((tbl) => tbl.projectId.equals(projectId))
           ..where((tbl) => tbl.startTime.isBetweenValues(sDate, eDate))
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+        .get();
+  }
+
+  Future<List<TimeEntry>> getTimeEntriesForOneMonth({
+    required DateTime date,
+  }) async {
+    final DateTime eDate =
+        CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
+
+    return (db.select(db.timeEntries)
+          ..where(
+            (tbl) => tbl.startTime.isBetweenValues(
+              date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+              eDate.copyWith(hour: 23, minute: 59, second: 59),
+            ),
+          )
           ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
         .get();
   }
