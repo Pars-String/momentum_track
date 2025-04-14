@@ -1,6 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/services/database_service.dart';
+import 'package:momentum_track/features/date_details/data/date_details_local_provider.dart';
+import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
+import 'package:momentum_track/features/month_overview/data/overview_local_provider.dart';
+import 'package:momentum_track/features/month_overview/repository/overview_repository.dart';
 import 'package:momentum_track/features/project_details/data/details_local_provider.dart';
 import 'package:momentum_track/features/project_details/repository/details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
@@ -13,13 +17,23 @@ Future<void> locatorSetup() async {
 
   locator.registerSingleton<DatabaseService>(DatabaseService(database));
 
+  locator.registerSingleton<OverviewLocalProvider>(
+    OverviewLocalProvider(locator()),
+  );
   locator.registerSingleton<ProjectsLocalProvider>(
     ProjectsLocalProvider(locator()),
   );
   locator.registerSingleton<DetailsLocalProvider>(
     DetailsLocalProvider(locator()),
   );
+  locator.registerSingleton<DateDetailsLocalProvider>(
+    DateDetailsLocalProvider(locator()),
+  );
 
+  locator.registerSingleton<OverviewRepository>(OverviewRepository(locator()));
   locator.registerSingleton<ProjectsRepository>(ProjectsRepository(locator()));
   locator.registerSingleton<DetailsRepository>(DetailsRepository(locator()));
+  locator.registerSingleton<DateDetailsRepository>(
+    DateDetailsRepository(locator()),
+  );
 }

@@ -1,1 +1,1 @@
-enum AppPages { projects, settings, archives }
+enum AppPages { projects, settings, archives, overview }
