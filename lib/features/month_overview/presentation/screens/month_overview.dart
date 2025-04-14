@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
+import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/features/month_overview/presentation/bloc/overview_bloc.dart';
 
@@ -92,7 +94,12 @@ class MonthOverviewScreen extends StatelessWidget {
                           .toList();
 
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(
+                        AppRoutes.dateDetailsScreen,
+                        extra: date,
+                      );
+                    },
                     borderRadius: BorderRadius.circular(12),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
