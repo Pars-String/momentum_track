@@ -85,6 +85,25 @@ class DatabaseService {
         .get();
   }
 
+  Future<List<TimeEntry>> getAllProjectsTimeEntriesForOneDay({
+    required DateTime date,
+  }) async {
+    final DateTime sDate = DateTime(date.year, date.month, date.day, 0, 0, 0);
+    final DateTime eDate = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      23,
+      59,
+      59,
+    );
+
+    return (db.select(db.timeEntries)
+          ..where((tbl) => tbl.startTime.isBetweenValues(sDate, eDate))
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+        .get();
+  }
+
   Future<List<TimeEntry>> getTimeEntriesForOneMonth({
     required DateTime date,
   }) async {
