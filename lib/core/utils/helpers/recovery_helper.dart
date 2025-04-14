@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:momentum_track/core/constant/app_constant.dart';
+import 'package:momentum_track/core/constant/app_versions.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/locator.dart';
 import 'package:path/path.dart';
@@ -19,7 +19,7 @@ class RecoveryHelper {
     if (chosenDirectory == null) return;
 
     final String fileName =
-        'momentum_${DateTime.now().toIso8601String()}_${AppConstant.dbSchemaVersion}.sqlite';
+        'momentum_${DateTime.now().toIso8601String()}_${AppVersions.dbSchemaVersion}.sqlite';
     final parent = Directory(chosenDirectory);
     final file = File(join(chosenDirectory, fileName));
 

@@ -1,0 +1,20 @@
+# flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path_android: "assets/icons/luncher/android.png"
+  image_path_ios: "assets/icons/luncher/ios.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icons/luncher/web.png"
+  windows:
+    generate: true
+    image_path: "assets/icons/luncher/os.png"
+    icon_size: 256 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icons/luncher/os.png"
+  linux:
+    generate: true
+    image_path: "assets/icons/luncher/os.png"
