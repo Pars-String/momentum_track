@@ -3,9 +3,9 @@ import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/services/database_service.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 
-class DetailsLocalProvider {
+class ProjectDetailsLocalProvider {
   final DatabaseService dbService;
-  DetailsLocalProvider(this.dbService);
+  ProjectDetailsLocalProvider(this.dbService);
 
   Future<void> updateProject({
     required int projectId,
@@ -97,11 +97,11 @@ class DetailsLocalProvider {
     return await dbService.getProject(projectId);
   }
 
-  Future<List<TimeEntry>> getTimeEntriesForOneDay({
+  Future<List<TimeEntry>> getTimeEntriesForOneMonth({
     required int projectId,
     required DateTime selectedDate,
   }) async {
-    return await dbService.getTimeEntriesForOneDay(
+    return await dbService.getTimeEntriesForOneMonthByProjectID(
       projectId: projectId,
       date: selectedDate,
     );
