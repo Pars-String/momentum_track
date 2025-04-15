@@ -34,4 +34,8 @@ class ProjectsRepository {
   Future<Project> getProject(int projectId) async {
     return await dbProvider.getProject(projectId);
   }
+
+  Future<List<TimeEntry>> getThisMonthTimeEntry(DateTime? date) async {
+    return await dbProvider.getThisMonthTimeEntry(date);
+  }
 }

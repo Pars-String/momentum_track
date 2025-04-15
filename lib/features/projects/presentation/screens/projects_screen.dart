@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
+import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_modal_view.dart';
@@ -37,8 +38,18 @@ class ProjectsScreen extends StatelessWidget {
                     Divider(color: Theme.of(context).colorScheme.primary),
             itemBuilder: (context, index) {
               final project = state.projects[index];
+              final timeEntries =
+                  state.timeEntries
+                      .where((timeEntry) => timeEntry.projectId == project.id)
+                      .toList();
+              final Duration thisMonthDuration =
+                  CalculatingHelper.calculateDurationFrom(timeEntries);
+
               return ListTile(
                 title: Text(project.name),
+                trailing: Text(
+                  '${thisMonthDuration.inHours}h ${thisMonthDuration.inMinutes.remainder(60)}m',
+                ),
                 subtitle: Text(project.description ?? '-'),
                 onTap: () {
                   context.pushNamed(
