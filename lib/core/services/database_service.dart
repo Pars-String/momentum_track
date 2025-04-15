@@ -121,6 +121,25 @@ class DatabaseService {
         .get();
   }
 
+  Future<List<TimeEntry>> getTimeEntriesForOneMonthByProjectID({
+    required int projectId,
+    required DateTime date,
+  }) async {
+    final DateTime eDate =
+        CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
+
+    return (db.select(db.timeEntries)
+          ..where((tbl) => tbl.projectId.equals(projectId))
+          ..where(
+            (tbl) => tbl.startTime.isBetweenValues(
+              date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+              eDate.copyWith(hour: 23, minute: 59, second: 59),
+            ),
+          )
+          ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+        .get();
+  }
+
   Future<List<TimeEntry>> getAllTimeEntriesByProjectID({
     required int projectId,
   }) async {
