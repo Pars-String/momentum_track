@@ -42,4 +42,10 @@ class ProjectsLocalProvider {
   Future<Project> getProject(int projectId) async {
     return await dbService.getProject(projectId);
   }
+
+  Future<List<TimeEntry>> getThisMonthTimeEntry(DateTime? date) async {
+    return await dbService.getTimeEntriesForOneMonth(
+      date: date ?? DateTime.now(),
+    );
+  }
 }

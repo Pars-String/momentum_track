@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
-import 'package:momentum_track/features/project_details/repository/details_repository.dart';
+import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 
 part 'details_event.dart';
 part 'details_state.dart';
@@ -10,7 +10,7 @@ part 'status/details_date_status.dart';
 part 'status/project_time_entry_status.dart';
 
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
-  final DetailsRepository repository;
+  final ProjectDetailsRepository repository;
   DetailsBloc(this.repository)
     : super(
         DetailsState(
@@ -22,14 +22,13 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     on<InitDateList>((event, emit) async {
       emit(state.copyWith(detailsDateStatus: DetailsDateLoading()));
       try {
-        final List<DateTime> dateList = await repository.getDateList(
-          event.date,
-        );
+        final List<DateTime> thisMonth =
+            CalculatingHelper.calculateMonthDates(event.date).gregorianDates;
 
-        if (dateList.isNotEmpty) {
+        if (thisMonth.isNotEmpty) {
           emit(
             state.copyWith(
-              detailsDateStatus: DetailsDateSuccess(dateList: dateList),
+              detailsDateStatus: DetailsDateSuccess(dateList: thisMonth),
             ),
           );
         } else {

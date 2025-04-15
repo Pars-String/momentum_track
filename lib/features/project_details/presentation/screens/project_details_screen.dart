@@ -8,7 +8,6 @@ import 'package:momentum_track/features/project_details/presentation/bloc/detail
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/change_date_button.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/this_week.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   static const String routeName = '/project-details';
@@ -50,10 +49,10 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
               icon: const Icon(Icons.edit_note_sharp),
             ),
           ],
-          bottom: PreferredSize(
-            preferredSize: Size(MediaQuery.sizeOf(context).width, 100),
-            child: ThisWeek(project.id),
-          ),
+          // bottom: PreferredSize(
+          //   preferredSize: Size(MediaQuery.sizeOf(context).width, 100),
+          //   child: ThisWeek(project.id),
+          // ),
         ),
         body: BlocBuilder<DetailsBloc, DetailsState>(
           buildWhen:
