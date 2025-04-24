@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/theme/app_theme.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
@@ -21,7 +22,17 @@ void main() async {
     await windowManager.focus();
   });
 
-  runApp(BlocProvider(create: (context) => MenuCubit(), child: const MyApp()));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GlobalDateCubit()..setThisMonthDates(),
+        ),
+        BlocProvider(create: (context) => MenuCubit()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
