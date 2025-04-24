@@ -42,7 +42,7 @@ class ThisWeek extends StatelessWidget {
                     dateList.map((e) {
                       return DateTile(
                         selectedDate: state.selectedDate,
-                        projectID: projectID,
+                        // projectID: projectID,
                         date: e,
                       );
                     }).toList(),
