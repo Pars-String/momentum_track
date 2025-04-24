@@ -8,6 +8,7 @@ import 'package:momentum_track/features/project_details/presentation/bloc/detail
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/change_date_button.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   static const String routeName = '/project-details';
@@ -102,74 +103,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                         ? 'In progress'
                         : '${timeEntry.endTime!.difference(timeEntry.startTime).inHours}h ${timeEntry.endTime!.difference(timeEntry.startTime).inMinutes.remainder(60)}m';
 
-                return ListTile(
-                  title: Text(note, style: TextStyle(fontSize: 14)),
-                  subtitle: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6.0,
-                        vertical: 3,
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: 'Start at  ',
-                                    style: TextStyle(fontSize: 13),
-                                  ),
-                                  TextSpan(
-                                    text: startTime,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  if (timeEntry.endTime != null) ...[
-                                    TextSpan(
-                                      text: '\nEnd at    ',
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                    TextSpan(
-                                      text: '$endTime  ',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: DateFormat(
-                                        'dd, MMMM',
-                                      ).format(timeEntry.endTime!),
-                                      style: TextStyle(fontSize: 9),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ),
-                          ),
-                          Text(
-                            duration,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
+                return InkWell(
                   onTap: () {
                     AppModalBottomSheet.show(
                       context,
@@ -183,6 +117,91 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       ],
                     );
                   },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      DateTile(
+                        date: timeEntry.startTime,
+                        selectedDate: DateTime.now(),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(note, style: TextStyle(fontSize: 14)),
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6.0,
+                                  vertical: 3,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: 'Start at  ',
+                                              style: TextStyle(fontSize: 13),
+                                            ),
+                                            TextSpan(
+                                              text: startTime,
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            if (timeEntry.endTime != null) ...[
+                                              TextSpan(
+                                                text: '\nEnd at    ',
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                              TextSpan(
+                                                text: '$endTime  ',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: DateFormat(
+                                                  'dd, MMMM',
+                                                ).format(timeEntry.endTime!),
+                                                style: TextStyle(fontSize: 9),
+                                              ),
+                                            ],
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      duration,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimaryContainer,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );

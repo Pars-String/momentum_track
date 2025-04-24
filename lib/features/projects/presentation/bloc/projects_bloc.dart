@@ -12,7 +12,7 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<LoadProjects>((event, emit) async {
       emit(state.copyWith(status: ProjectsStatus.loading));
       try {
-        final timeEntries = await repository.getThisMonthTimeEntry(null);
+        final timeEntries = await repository.getThisMonthTimeEntry(event.date);
         final projects = await repository.getProjects();
         emit(
           state.copyWith(
