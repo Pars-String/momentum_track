@@ -113,25 +113,33 @@ class _AddDetailsDialogBoxState extends State<AddDetailsDialogBox> {
                 title: const Text('Add Time Entry'),
                 contentPadding: const EdgeInsets.all(16),
                 children: [
-                  DropdownButton<int>(
-                    hint: const Text('Choose your Project'),
-                    borderRadius: BorderRadius.circular(16),
-                    isExpanded: true,
-                    elevation: 1,
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    underline: SizedBox.shrink(),
-                    value: projectID,
-                    items:
-                        projects.map((e) {
-                          return DropdownMenuItem<int>(
-                            value: e.id,
-                            child: Text(e.name),
-                          );
-                        }).toList(),
-                    onChanged: (value) {
-                      projectID = value;
-                      setState(() {});
-                    },
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    child: DropdownButton<int>(
+                      hint: const Text('Choose your Project'),
+                      borderRadius: BorderRadius.circular(16),
+                      isExpanded: true,
+                      elevation: 1,
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      underline: SizedBox.shrink(),
+                      value: projectID,
+                      items:
+                          projects.map((e) {
+                            return DropdownMenuItem<int>(
+                              value: e.id,
+                              child: Text(e.name),
+                            );
+                          }).toList(),
+                      onChanged: (value) {
+                        projectID = value;
+                        setState(() {});
+                      },
+                    ),
                   ),
                   Gap(16),
                   Form(
@@ -190,10 +198,12 @@ class _AddDetailsDialogBoxState extends State<AddDetailsDialogBox> {
                                     onTap: (focusNode) {
                                       showTimePicker(
                                         context: context,
-                                        initialTime: TimeOfDay.fromDateTime(
-                                          selectedStartDateTime ??
-                                              widget.selectedDate,
-                                        ),
+                                        initialTime:
+                                            selectedStartDateTime != null
+                                                ? TimeOfDay.fromDateTime(
+                                                  selectedStartDateTime!,
+                                                )
+                                                : TimeOfDay.now(),
                                         initialEntryMode:
                                             TimePickerEntryMode.inputOnly,
                                       ).then((pickedTime) async {
