@@ -99,7 +99,7 @@ class _SideMenuState extends State<SideMenu> {
 
           Spacer(),
           Text(
-            'DEV ${AppVersions.appVersion}',
+            'V ${AppVersions.appVersion}',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.surface,
