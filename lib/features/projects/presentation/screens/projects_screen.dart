@@ -40,69 +40,81 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           }
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              AppChangeDate(state),
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(title: AppChangeDate(state), pinned: true),
 
-              Gap(25),
+              SliverGap(25),
+
               BlocBuilder<ProjectsBloc, ProjectsState>(
                 builder: (context, state) {
                   if (state.status == ProjectsStatus.loading ||
                       state.status == ProjectsStatus.initial) {
-                    return const Center(child: CircularProgressIndicator());
+                    return SliverToBoxAdapter(
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
                   }
                   if (state.status == ProjectsStatus.failure) {
-                    return const Center(child: Text('Failed to load projects'));
+                    return SliverToBoxAdapter(
+                      child: const Center(
+                        child: Text('Failed to load projects'),
+                      ),
+                    );
                   }
 
                   if (state.projects.isEmpty &&
                       state.status == ProjectsStatus.success) {
-                    return const Center(child: Text('No projects found'));
+                    return SliverToBoxAdapter(
+                      child: const Center(child: Text('No projects found')),
+                    );
                   }
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 480,
-                      mainAxisExtent: 150,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemCount: state.projects.length,
+                  return SliverPadding(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    itemBuilder: (context, index) {
-                      final project = state.projects[index];
-                      final timeEntries =
-                          state.timeEntries
-                              .where(
-                                (timeEntry) =>
-                                    timeEntry.projectId == project.id,
-                              )
-                              .toList();
-                      final Duration thisMonthDuration =
-                          CalculatingHelper.calculateDurationFrom(timeEntries);
+                    sliver: SliverGrid.builder(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 480,
+                        mainAxisExtent: 150,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: state.projects.length,
+                      itemBuilder: (context, index) {
+                        final project = state.projects[index];
+                        final timeEntries =
+                            state.timeEntries
+                                .where(
+                                  (timeEntry) =>
+                                      timeEntry.projectId == project.id,
+                                )
+                                .toList();
+                        final Duration thisMonthDuration =
+                            CalculatingHelper.calculateDurationFrom(
+                              timeEntries,
+                            );
 
-                      return ListTile(
-                        title: Text(project.name),
-                        trailing: Text(
-                          '${thisMonthDuration.inHours}h ${thisMonthDuration.inMinutes.remainder(60)}m',
-                        ),
-                        subtitle: Text(project.description ?? '-'),
-                        onTap: () {
-                          context.pushNamed(
-                            AppRoutes.projectDetailsScreen,
-                            extra: project,
-                          );
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.primary.withAlpha(100),
+                        return ListTile(
+                          title: Text(project.name),
+                          trailing: Text(
+                            '${thisMonthDuration.inHours}h ${thisMonthDuration.inMinutes.remainder(60)}m',
                           ),
-                        ),
-                      );
-                    },
+                          subtitle: Text(project.description ?? '-'),
+                          onTap: () {
+                            context.pushNamed(
+                              AppRoutes.projectDetailsScreen,
+                              extra: project,
+                            );
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withAlpha(100),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
