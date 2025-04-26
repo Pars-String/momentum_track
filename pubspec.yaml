@@ -26,6 +26,7 @@ dependencies:
   window_manager: ^0.4.3
   hugeicons: ^0.0.10
   shamsi_date: ^1.0.4
+  excel: ^4.0.6
 
 dev_dependencies:
   flutter_test:

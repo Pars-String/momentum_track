@@ -4,6 +4,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/recovery_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
+import 'package:momentum_track/features/reports/presentation/widgets/export_report.dart';
 import 'package:momentum_track/features/settings/presentation/widgets/setting_box.dart';
 import 'package:momentum_track/locator.dart';
 
@@ -45,6 +46,12 @@ class SettingsScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+
+        Gap(12),
+        SettingBox(
+          title: 'Generate Report',
+          child: Row(children: [ExportReport()]),
         ),
 
         Gap(12),
