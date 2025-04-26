@@ -9,6 +9,8 @@ import 'package:momentum_track/features/project_details/data/project_details_loc
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
 import 'package:momentum_track/features/projects/repository/projects_repository.dart';
+import 'package:momentum_track/features/reports/data/reports_local_provider.dart';
+import 'package:momentum_track/features/reports/repository/reports_repository.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -29,9 +31,13 @@ Future<void> locatorSetup() async {
   locator.registerSingleton<DateDetailsLocalProvider>(
     DateDetailsLocalProvider(locator()),
   );
+  locator.registerSingleton<ReportsLocalProvider>(
+    ReportsLocalProvider(locator()),
+  );
 
   locator.registerSingleton<OverviewRepository>(OverviewRepository(locator()));
   locator.registerSingleton<ProjectsRepository>(ProjectsRepository(locator()));
+  locator.registerSingleton<ReportsRepository>(ReportsRepository(locator()));
   locator.registerSingleton<ProjectDetailsRepository>(
     ProjectDetailsRepository(locator()),
   );

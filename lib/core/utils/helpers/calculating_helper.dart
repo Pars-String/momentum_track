@@ -19,11 +19,16 @@ class CalculatingHelper {
     for (var timeEntry in timeEntries) {
       totalDuration +=
           timeEntry.duration != null
-              ? _convertDoubleToDuration(timeEntry.duration!)
+              ? convertDoubleToDuration(timeEntry.duration!)
               : Duration.zero;
     }
 
     return totalDuration;
+  }
+
+  static Duration convertDoubleToDuration(double hours) {
+    // Convert hours back to seconds and create a Duration
+    return Duration(seconds: (hours * 3600).round());
   }
 
   static DateTime today() {
@@ -120,9 +125,4 @@ List<Jalali> _getJalaliMonthDates(Jalali date) {
     daysInMonth,
     (i) => Jalali(date.year, date.month, i + 1),
   );
-}
-
-Duration _convertDoubleToDuration(double hours) {
-  // Convert hours back to seconds and create a Duration
-  return Duration(seconds: (hours * 3600).round());
 }

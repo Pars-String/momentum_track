@@ -106,10 +106,24 @@ class DatabaseService {
 
   Future<List<TimeEntry>> getTimeEntriesForOneMonth({
     required DateTime date,
+    int? projectId,
   }) async {
     final DateTime eDate =
         CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
 
+    if (projectId != null) {
+      return (db.select(db.timeEntries)
+            ..where(
+              (tbl) =>
+                  tbl.startTime.isBetweenValues(
+                    date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+                    eDate.copyWith(hour: 23, minute: 59, second: 59),
+                  ) &
+                  tbl.projectId.equals(projectId),
+            )
+            ..orderBy([(tbl) => OrderingTerm.desc(tbl.startTime)]))
+          .get();
+    }
     return (db.select(db.timeEntries)
           ..where(
             (tbl) => tbl.startTime.isBetweenValues(
