@@ -36,7 +36,7 @@ class _MenuItemState extends State<MenuItem> {
             borderRadius: BorderRadius.circular(12),
             color:
                 isHovered || widget.page == state.selectedPage
-                    ? Colors.white10
+                    ? Colors.white30
                     : Theme.of(context).colorScheme.primaryContainer,
           ),
           child: Padding(
@@ -56,7 +56,13 @@ class _MenuItemState extends State<MenuItem> {
                   ),
                   if (widget.showTitle) ...[
                     Gap(8),
-                    Text(widget.title, style: TextStyle(fontSize: 16)),
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
                   ],
                 ],
               ),
