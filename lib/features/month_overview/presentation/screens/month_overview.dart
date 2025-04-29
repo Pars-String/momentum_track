@@ -99,22 +99,36 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                             children: [
                               Text(
                                 DateFormat('EEEE').format(date),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                               Text(
                                 '${date.day < 10 ? "0${date.day}" : date.day}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimaryContainer,
                                 ),
                               ),
                               if (CalculatingHelper.today() == date)
                                 Text(
                                   'Today',
-                                  style: const TextStyle(fontSize: 9),
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                  ),
                                 ),
                             ],
                           ),
