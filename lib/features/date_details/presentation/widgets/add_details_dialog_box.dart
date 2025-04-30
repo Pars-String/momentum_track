@@ -329,6 +329,7 @@ class _AddDetailsDialogBoxState extends State<AddDetailsDialogBox> {
                                                   .add(
                                                     EditTimeEntry(
                                                       id: widget.timeEntry!.id,
+                                                      projectID: projectID!,
                                                       note:
                                                           descriptionController
                                                               .text,

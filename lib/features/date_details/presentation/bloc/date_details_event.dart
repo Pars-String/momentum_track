@@ -37,12 +37,14 @@ class AddNewTimeEntry extends DateDetailsEvent {
 
 class EditTimeEntry extends DateDetailsEvent {
   final int id;
+  final int projectID;
   final String? note;
   final DateTime startTime;
   final DateTime? endTime;
 
   const EditTimeEntry({
     required this.id,
+    required this.projectID,
     this.note,
     required this.startTime,
     this.endTime,
