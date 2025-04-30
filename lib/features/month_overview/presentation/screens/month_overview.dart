@@ -17,6 +17,7 @@ class MonthOverviewScreen extends StatefulWidget {
 }
 
 class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
+  final DateTime now = CalculatingHelper.today();
   @override
   void initState() {
     super.initState();
@@ -87,11 +88,13 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color:
-                              CalculatingHelper.today() == date
+                              now == date
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
+                                  : null,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: .8,
+                          ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -103,9 +106,13 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
+                                      now == date
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                 ),
                               ),
                               Text(
@@ -114,9 +121,13 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                   color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
+                                      now == date
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                 ),
                               ),
                               if (CalculatingHelper.today() == date)
