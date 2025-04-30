@@ -98,7 +98,9 @@ class _ExportDialogBoxState extends State<ExportDialogBox> {
 
     sheet.appendRow([
       TextCellValue('Total Duration'),
-      TimeCellValue.fromDuration(totalDuration),
+      TextCellValue(
+        '${totalDuration.inHours}h ${totalDuration.inMinutes.remainder(60)}m',
+      ),
       TextCellValue(''),
       TextCellValue(''),
       TextCellValue(''),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
@@ -120,10 +121,12 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      Gap(16),
                       DateTile(
                         date: timeEntry.startTime,
                         selectedDate: DateTime.now(),
                       ),
+                      Gap(8),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,32 +154,58 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                           children: [
                                             TextSpan(
                                               text: 'Start at  ',
-                                              style: TextStyle(fontSize: 13),
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .onPrimaryContainer,
+                                              ),
                                             ),
                                             TextSpan(
                                               text: startTime,
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimaryContainer
+                                                    .withAlpha(120),
                                               ),
                                             ),
                                             if (timeEntry.endTime != null) ...[
                                               TextSpan(
                                                 text: '\nEnd at    ',
-                                                style: TextStyle(fontSize: 13),
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimaryContainer,
+                                                ),
                                               ),
                                               TextSpan(
                                                 text: '$endTime  ',
                                                 style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimaryContainer
+                                                      .withAlpha(120),
                                                 ),
                                               ),
                                               TextSpan(
                                                 text: DateFormat(
                                                   'dd, MMMM',
                                                 ).format(timeEntry.endTime!),
-                                                style: TextStyle(fontSize: 9),
+                                                style: TextStyle(
+                                                  fontSize: 9,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimaryContainer
+                                                      .withAlpha(120),
+                                                ),
                                               ),
                                             ],
                                           ],
@@ -200,6 +229,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                           ],
                         ),
                       ),
+                      Gap(16),
                     ],
                   ),
                 );

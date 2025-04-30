@@ -22,12 +22,14 @@ class DateDetailsRepository {
 
   Future<TimeEntry> updateTimeEntry({
     required TimeEntry timeEntry,
+    required int projectId,
     String? note,
     required DateTime startTime,
     DateTime? endTime,
   }) async {
     return await dbProvider.updateTimeEntry(
       timeEntry: timeEntry,
+      projectId: projectId,
       note: note,
       startTime: startTime,
       endTime: endTime,
