@@ -18,7 +18,7 @@ class DateTile extends StatelessWidget {
               date == CalculatingHelper.today()
                   ? Theme.of(context).colorScheme.primaryContainer
                   : Colors.transparent,
-          width: 2,
+          width: 1,
         ),
         color:
             selectedDate == date

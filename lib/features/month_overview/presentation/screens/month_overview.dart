@@ -17,6 +17,7 @@ class MonthOverviewScreen extends StatefulWidget {
 }
 
 class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
+  final DateTime now = CalculatingHelper.today();
   @override
   void initState() {
     super.initState();
@@ -87,11 +88,13 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color:
-                              CalculatingHelper.today() == date
+                              now == date
                                   ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(
-                                    context,
-                                  ).colorScheme.primaryContainer,
+                                  : null,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: .8,
+                          ),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -99,22 +102,44 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                             children: [
                               Text(
                                 DateFormat('EEEE').format(date),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
+                                  color:
+                                      now == date
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                 ),
                               ),
                               Text(
                                 '${date.day < 10 ? "0${date.day}" : date.day}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
+                                  color:
+                                      now == date
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                 ),
                               ),
                               if (CalculatingHelper.today() == date)
                                 Text(
                                   'Today',
-                                  style: const TextStyle(fontSize: 9),
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
+                                  ),
                                 ),
                             ],
                           ),

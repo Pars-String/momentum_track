@@ -65,6 +65,7 @@ class DateDetailsBloc extends Bloc<DateDetailsEvent, DateDetailsState> {
 
     on<EditTimeEntry>((event, emit) async {
       final List<TimeEntry> timeEntries = state.timeEntries;
+
       emit(state.copyWith(dateDetailsStatus: DateDetailsStatus.loading));
       final TimeEntry timeEntry = timeEntries.firstWhere(
         (element) => element.id == event.id,
@@ -73,6 +74,7 @@ class DateDetailsBloc extends Bloc<DateDetailsEvent, DateDetailsState> {
       try {
         final TimeEntry item = await repository.updateTimeEntry(
           timeEntry: timeEntry,
+          projectId: event.projectID,
           note: event.note,
           startTime: event.startTime,
           endTime: event.endTime,

@@ -1,75 +1,111 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final ThemeData appTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xFF2A5C8A), // Professional blue
-    brightness: Brightness.light,
-    primary: const Color(0xFF2A5C8A),
-    secondary: const Color(0xFF4CAF50), // Productivity green
-    tertiary: const Color(0xFFFFC107), // Accent yellow
-    error: const Color(0xFFD32F2F),
-  ),
-  fontFamily: 'Roboto',
-  cupertinoOverrideTheme: const CupertinoThemeData(
-    primaryColor: Color(0xFF2A5C8A),
-    barBackgroundColor: Color(0xFFF5F5F5),
-    scaffoldBackgroundColor: Color(0xFFF5F5F5),
-  ),
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-    displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-    bodyLarge: TextStyle(fontSize: 16, height: 1.5),
-    bodyMedium: TextStyle(fontSize: 14),
-    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-    ),
-  ),
-);
+class AppTheme {
+  static const Color primaryColor = Color(0xFFA2E5F5);
+  static const Color backgroundColor = Color(0xFF1E1E1E);
+  static const Color surfaceColor = Color(0xFF2C2C2C);
+  static const Color textColor = primaryColor;
+  static const Color secondaryColor = Color(0xFF000000);
+  static const Color infoColor = Color(0xFF62C6E6);
+  static const Color warningColor = Color(0xFFF5A623);
+  static const Color errorColor = Color(0xFFFF5C5C);
+  static const Color successColor = Color(0xFF28C76F);
 
-// Dark Theme Variant
-final ThemeData darkTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xFF3B82F6),
-    brightness: Brightness.dark,
-    primary: const Color(0xFF3B82F6),
-    secondary: const Color(0xFF10B981),
-  ),
-  cupertinoOverrideTheme: const CupertinoThemeData(
-    primaryColor: Color(0xFF3B82F6),
-    barBackgroundColor: Color(0xFF1F2933),
-    scaffoldBackgroundColor: Color(0xFF1F2933),
-  ),
-  // Rest of dark theme configurations...
-);
-
-// App-specific Text Styles Extension
-extension CustomTextStyles on TextTheme {
-  TextStyle get projectTitle => const TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: Color(0xFF1A2E35),
-  );
-
-  TextStyle get timeEntry =>
-      const TextStyle(fontSize: 14, color: Color(0xFF4B5563));
-
-  TextStyle get reportHeader => const TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: Color(0xFF2A5C8A),
-  );
-}
-
-// Spacing Extension
-extension AppSpacing on ThemeData {
-  EdgeInsets get sectionPadding => const EdgeInsets.all(24);
-  EdgeInsets get itemPadding => const EdgeInsets.symmetric(vertical: 8);
-  double get gridSpacing => 16;
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: backgroundColor,
+      primaryColor: primaryColor,
+      fontFamily: 'Roboto', // You can change to match your app style
+      colorScheme: const ColorScheme.dark(
+        primary: primaryColor,
+        secondary: secondaryColor,
+        surface: surfaceColor,
+        onPrimary: secondaryColor,
+        onSecondary: primaryColor,
+        onSurface: primaryColor,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: backgroundColor,
+        iconTheme: IconThemeData(color: primaryColor),
+        titleTextStyle: TextStyle(
+          color: primaryColor,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(color: textColor),
+        headlineMedium: TextStyle(color: textColor),
+        bodyLarge: TextStyle(color: textColor),
+        bodyMedium: TextStyle(color: textColor),
+        bodySmall: TextStyle(color: textColor),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: secondaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: primaryColor),
+          foregroundColor: primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: primaryColor),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: surfaceColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: primaryColor),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: primaryColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: primaryColor, width: 2),
+        ),
+        hintStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: primaryColor),
+      ),
+      cardTheme: CardTheme(
+        color: surfaceColor,
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith(
+          (states) =>
+              states.contains(WidgetState.selected)
+                  ? primaryColor
+                  : Colors.grey,
+        ),
+        trackColor: WidgetStateProperty.resolveWith(
+          (states) =>
+              states.contains(WidgetState.selected)
+                  ? primaryColor.withOpacity(0.5)
+                  : Colors.grey.withOpacity(0.5),
+        ),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+        foregroundColor: secondaryColor,
+      ),
+      iconTheme: const IconThemeData(color: primaryColor),
+    );
+  }
 }

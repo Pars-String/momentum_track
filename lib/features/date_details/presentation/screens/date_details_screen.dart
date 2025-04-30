@@ -118,32 +118,58 @@ class DateDetailsScreen extends StatelessWidget {
                                     children: [
                                       TextSpan(
                                         text: 'Start at  ',
-                                        style: TextStyle(fontSize: 13),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.secondary,
+                                        ),
                                       ),
                                       TextSpan(
                                         text: startTime,
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimaryContainer
+                                              .withAlpha(120),
                                         ),
                                       ),
                                       if (timeEntry.endTime != null) ...[
                                         TextSpan(
                                           text: '\nEnd at    ',
-                                          style: TextStyle(fontSize: 13),
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.secondary,
+                                          ),
                                         ),
                                         TextSpan(
                                           text: '$endTime  ',
                                           style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer
+                                                .withAlpha(120),
                                           ),
                                         ),
                                         TextSpan(
                                           text: DateFormat(
                                             'dd, MMMM',
                                           ).format(timeEntry.endTime!),
-                                          style: TextStyle(fontSize: 9),
+                                          style: TextStyle(
+                                            fontSize: 9,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer
+                                                .withAlpha(120),
+                                          ),
                                         ),
                                       ],
                                     ],
@@ -164,7 +190,16 @@ class DateDetailsScreen extends StatelessWidget {
                           ),
                           Gap(12),
                           Expanded(
-                            child: Text(note, style: TextStyle(fontSize: 15)),
+                            child: Text(
+                              note,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                              ),
+                            ),
                           ),
                         ],
                       ),

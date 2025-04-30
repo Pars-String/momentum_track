@@ -44,8 +44,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: AppRoutes.router,
       title: 'Momentum Track',
-      theme: appTheme,
-      darkTheme: darkTheme,
+      theme: AppTheme.darkTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
     );
   }
 }

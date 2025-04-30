@@ -45,6 +45,7 @@ class DateDetailsLocalProvider {
 
   Future<TimeEntry> updateTimeEntry({
     required TimeEntry timeEntry,
+    required int projectId,
     String? note,
     required DateTime startTime,
     DateTime? endTime,
@@ -61,6 +62,7 @@ class DateDetailsLocalProvider {
       timeEntry.copyWith(
         note: Value(note),
         startTime: startTime,
+        projectId: projectId,
         endTime: Value(endTime),
         duration: Value(duration),
       ),
@@ -68,7 +70,7 @@ class DateDetailsLocalProvider {
 
     return TimeEntry(
       id: timeEntry.id,
-      projectId: timeEntry.projectId,
+      projectId: projectId,
       note: note,
       startTime: startTime,
       endTime: endTime,
