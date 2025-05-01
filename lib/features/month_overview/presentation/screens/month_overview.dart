@@ -39,114 +39,120 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
       builder: (context, state) {
         final List<DateTime> thisMonthDates = state.thisMonthDates;
 
-        return Column(
-          children: [
-            AppChangeDate(state),
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar(title: AppChangeDate(state), pinned: true),
 
-            Gap(25),
+            SliverGap(25),
+
             BlocBuilder<OverviewBloc, OverviewState>(
               builder: (context, state) {
                 if (state.overviewStatus == OverviewStatus.loading ||
                     state.overviewStatus == OverviewStatus.initial) {
-                  return const Center(child: CircularProgressIndicator());
+                  return SliverToBoxAdapter(
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
                 }
                 if (state.overviewStatus == OverviewStatus.failure) {
-                  return const Center(child: Text('Failed to load overview'));
+                  return SliverToBoxAdapter(
+                    child: const Center(child: Text('Failed to load overview')),
+                  );
                 }
 
-                return GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 100,
-                    mainAxisExtent: 75,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: thisMonthDates.length,
+                return SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  itemBuilder: (context, index) {
-                    final date = thisMonthDates[index];
-                    // final timeEntries =
-                    //     state.timeEntries
-                    //         .where(
-                    //           (element) =>
-                    //               element.startTime.year == date.year &&
-                    //               element.startTime.month == date.month &&
-                    //               element.startTime.day == date.day,
-                    //         )
-                    //         .toList();
+                  sliver: SliverGrid.builder(
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 100,
+                      mainAxisExtent: 75,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: thisMonthDates.length,
+                    itemBuilder: (context, index) {
+                      final date = thisMonthDates[index];
+                      // final timeEntries =
+                      //     state.timeEntries
+                      //         .where(
+                      //           (element) =>
+                      //               element.startTime.year == date.year &&
+                      //               element.startTime.month == date.month &&
+                      //               element.startTime.day == date.day,
+                      //         )
+                      //         .toList();
 
-                    return InkWell(
-                      onTap: () {
-                        context.pushNamed(
-                          AppRoutes.dateDetailsScreen,
-                          extra: date,
-                        );
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color:
-                              now == date
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
-                          border: Border.all(
-                            color: Theme.of(context).colorScheme.primary,
-                            width: .8,
+                      return InkWell(
+                        onTap: () {
+                          context.pushNamed(
+                            AppRoutes.dateDetailsScreen,
+                            extra: date,
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color:
+                                now == date
+                                    ? Theme.of(context).colorScheme.primary
+                                    : null,
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: .8,
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                DateFormat('EEEE').format(date),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      now == date
-                                          ? Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimaryContainer
-                                          : Theme.of(
-                                            context,
-                                          ).colorScheme.primaryContainer,
-                                ),
-                              ),
-                              Text(
-                                '${date.day < 10 ? "0${date.day}" : date.day}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color:
-                                      now == date
-                                          ? Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimaryContainer
-                                          : Theme.of(
-                                            context,
-                                          ).colorScheme.primaryContainer,
-                                ),
-                              ),
-                              if (CalculatingHelper.today() == date)
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
                                 Text(
-                                  'Today',
+                                  DateFormat('EEEE').format(date),
                                   style: TextStyle(
-                                    fontSize: 9,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
                                     color:
-                                        Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer,
+                                        now == date
+                                            ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimaryContainer
+                                            : Theme.of(
+                                              context,
+                                            ).colorScheme.primaryContainer,
                                   ),
                                 ),
-                            ],
+                                Text(
+                                  '${date.day < 10 ? "0${date.day}" : date.day}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        now == date
+                                            ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimaryContainer
+                                            : Theme.of(
+                                              context,
+                                            ).colorScheme.primaryContainer,
+                                  ),
+                                ),
+                                if (CalculatingHelper.today() == date)
+                                  Text(
+                                    'Today',
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer,
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),

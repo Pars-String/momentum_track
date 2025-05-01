@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/change_date_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
@@ -21,6 +21,7 @@ class ProjectDetailsScreen extends StatefulWidget {
 
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
   bool hasInitDate = false;
+  final List<DateTime> dateList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,19 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
     if (!hasInitDate) {
       hasInitDate = true;
-      context.read<DetailsBloc>().add(InitDateList());
+      dateList.addAll(context.read<GlobalDateCubit>().state.thisMonthDates);
+      context.read<DetailsBloc>().add(InitDateList(dateList));
     }
 
     return BlocListener<DetailsBloc, DetailsState>(
       listenWhen: (p, c) => p.detailsDateStatus != c.detailsDateStatus,
       listener: (context, state) {
         if (state.detailsDateStatus is DetailsDateSuccess) {
+          final List<DateTime> thisMonth =
+              (state.detailsDateStatus as DetailsDateSuccess).dateList;
+
           context.read<DetailsBloc>().add(
-            InitTimeEntriesList(projectID: project.id),
+            InitTimeEntriesList(projectID: project.id, dateList: thisMonth),
           );
         }
       },
@@ -44,12 +49,12 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
         appBar: AppBar(
           title: Text(project.name),
           actions: [
-            ChangeDateButton(projectID: project.id),
+            // ChangeDateButton(projectID: project.id),
             AddTimeEntryButton(projectID: project.id),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.edit_note_sharp),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(Icons.edit_note_sharp),
+            // ),
           ],
           // bottom: PreferredSize(
           //   preferredSize: Size(MediaQuery.sizeOf(context).width, 100),

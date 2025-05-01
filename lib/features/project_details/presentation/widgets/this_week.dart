@@ -56,10 +56,10 @@ class ThisWeek extends StatelessWidget {
                         Duration(days: 4),
                       );
 
-                      context.read<DetailsBloc>().add(InitDateList(date: date));
-                      context.read<DetailsBloc>().add(
-                        SelectNewDate(date: date, projectID: projectID),
-                      );
+                      // context.read<DetailsBloc>().add(InitDateList(date: date));
+                      // context.read<DetailsBloc>().add(
+                      //   SelectNewDate(date: date, projectID: projectID),
+                      // );
                     },
                     child: Text('Previous Week'),
                   ),
@@ -70,10 +70,10 @@ class ThisWeek extends StatelessWidget {
                         Duration(days: 4),
                       );
 
-                      context.read<DetailsBloc>().add(InitDateList(date: date));
-                      context.read<DetailsBloc>().add(
-                        SelectNewDate(date: date, projectID: projectID),
-                      );
+                      // context.read<DetailsBloc>().add(InitDateList(date: date));
+                      // context.read<DetailsBloc>().add(
+                      //   SelectNewDate(date: date, projectID: projectID),
+                      // );
                     },
                     child: Text('Next Week'),
                   ),
