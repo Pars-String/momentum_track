@@ -24,17 +24,36 @@ class ReportCubit extends Cubit<ReportState> {
     });
   }
 
-  void getAllTimeEntries({
-    required int projectId,
-    required DateTime date,
-  }) async {
+  void getThisMonthTimeEntries({required int projectId}) async {
     emit(state.copyWith(reportingStatus: ReportingLoading()));
 
-    await repository.getThisMonthTimeEntry(projectId, date).then((value) {
+    await repository.getThisMonthTimeEntry(projectId).then((value) {
       emit(
         state.copyWith(reportingStatus: ReportingSuccess(timeEntries: value)),
       );
     });
+  }
+
+  void getCustomRangeTimeEntries({
+    required int projectId,
+    required DateTime eDate,
+    required DateTime sDate,
+  }) async {
+    emit(state.copyWith(reportingStatus: ReportingLoading()));
+
+    await repository
+        .getCustomDateTimeEntry(
+          projectId: projectId,
+          eDate: eDate,
+          sDate: sDate,
+        )
+        .then((value) {
+          emit(
+            state.copyWith(
+              reportingStatus: ReportingSuccess(timeEntries: value),
+            ),
+          );
+        });
   }
 
   void changeExportingStatus(ExportingStatus status) {

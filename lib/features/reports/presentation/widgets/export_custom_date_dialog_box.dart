@@ -14,23 +14,28 @@ import 'package:momentum_track/core/widgets/app_text_form_field.dart';
 import 'package:momentum_track/features/reports/presentation/cubit/report_cubit.dart';
 import 'package:path/path.dart';
 
-class ExportDialogBox extends StatefulWidget {
+class ExportCustomDateDialogBox extends StatefulWidget {
   final BuildContext innerContext;
-  const ExportDialogBox({required this.innerContext, super.key});
+  const ExportCustomDateDialogBox({required this.innerContext, super.key});
 
   @override
-  State<ExportDialogBox> createState() => _ExportDialogBoxState();
+  State<ExportCustomDateDialogBox> createState() =>
+      _ExportCustomDateDialogBoxState();
 }
 
-class _ExportDialogBoxState extends State<ExportDialogBox> {
-  final TextEditingController dateController = TextEditingController();
+class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
+  final TextEditingController sDateController = TextEditingController();
+  final TextEditingController eDateController = TextEditingController();
   final allFormKey = GlobalKey<FormState>();
+  final startDateFormKey = GlobalKey<FormState>();
   int? projectID;
-  DateTime? pickedDate;
+  DateTime? pickedStartDate;
+  DateTime? pickedEndDate;
 
   @override
   void dispose() {
-    dateController.dispose();
+    sDateController.dispose();
+    eDateController.dispose();
     super.dispose();
   }
 
@@ -53,21 +58,27 @@ class _ExportDialogBoxState extends State<ExportDialogBox> {
     }
 
     final String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final String selectedDate = DateFormat(
-      'MMMM',
+    final String selectedStartDate = DateFormat(
+      'dd MMMM',
     ).format(timeEntries.first.startTime);
+    final String selectedEndDate = DateFormat(
+      'dd MMMM',
+    ).format(timeEntries.last.startTime);
     Duration totalDuration = Duration.zero;
 
     final excel = Excel.createExcel();
     final sheetsMap = excel.sheets;
-    excel.rename(sheetsMap.keys.first, '$selectedDate Report');
-    final sheet = excel['$selectedDate Report'];
+    excel.rename(
+      sheetsMap.keys.first,
+      '$selectedStartDate/$selectedEndDate Report',
+    );
+    final sheet = excel['$selectedStartDate/$selectedEndDate Report'];
 
     sheet.merge(
       CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
       CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0),
       customValue: TextCellValue(
-        'Momentum Track Report  -( $projectName / $selectedDate )-',
+        'Momentum Track Report  -( $projectName / from $selectedStartDate to $selectedEndDate )-',
       ),
     );
 
@@ -109,7 +120,7 @@ class _ExportDialogBoxState extends State<ExportDialogBox> {
     var fileBytes = excel.save();
 
     final String fileName =
-        '${projectName}_report_on_${selectedDate}_generated_$now.xlsx';
+        '${projectName}_report_from_${selectedStartDate}_to_${selectedEndDate}_generated_$now.xlsx';
     final parent = Directory(chosenDirectory);
     final file = File(join(chosenDirectory, fileName));
 
@@ -221,25 +232,73 @@ class _ExportDialogBoxState extends State<ExportDialogBox> {
                       key: allFormKey,
                       child: Column(
                         children: [
+                          Form(
+                            key: startDateFormKey,
+                            child: AppTextFormField(
+                              label: 'Select start date',
+                              controller: sDateController,
+                              readOnly: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select a start date';
+                                }
+                                return null;
+                              },
+                              onTap:
+                                  isLoading
+                                      ? null
+                                      : (focusNode) {
+                                        showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2100),
+                                        ).then((thisDate) async {
+                                          if (thisDate != null) {
+                                            sDateController
+                                                .text = DateFormat.MMMMEEEEd()
+                                                .format(thisDate);
+                                            pickedStartDate = thisDate;
+                                            eDateController.text = '';
+                                            pickedEndDate = null;
+                                            setState(() {});
+                                          }
+                                        });
+                                      },
+                            ),
+                          ),
+
+                          Gap(16),
                           AppTextFormField(
-                            label: 'Select a date',
-                            controller: dateController,
+                            label: 'Select end date',
+                            controller: eDateController,
                             readOnly: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select an end date';
+                              }
+
+                              return null;
+                            },
                             onTap:
-                                isLoading
-                                    ? null
+                                isLoading || pickedStartDate == null
+                                    ? (focusNode) {
+                                      FocusScope.of(context).unfocus();
+                                      startDateFormKey.currentState!.validate();
+                                      return;
+                                    }
                                     : (focusNode) {
                                       showDatePicker(
                                         context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
+                                        initialDate: pickedStartDate!,
+                                        firstDate: pickedStartDate!,
                                         lastDate: DateTime(2100),
                                       ).then((thisDate) async {
                                         if (thisDate != null) {
-                                          dateController
+                                          eDateController
                                               .text = DateFormat.MMMMEEEEd()
                                               .format(thisDate);
-                                          pickedDate = thisDate;
+                                          pickedEndDate = thisDate;
                                         }
                                       });
                                     },
@@ -262,9 +321,10 @@ class _ExportDialogBoxState extends State<ExportDialogBox> {
                                     if (allFormKey.currentState!.validate()) {
                                       context
                                           .read<ReportCubit>()
-                                          .getAllTimeEntries(
+                                          .getCustomRangeTimeEntries(
                                             projectId: projectID!,
-                                            date: pickedDate!,
+                                            sDate: pickedStartDate!,
+                                            eDate: pickedEndDate!,
                                           );
                                     }
                                   },

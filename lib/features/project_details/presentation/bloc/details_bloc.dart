@@ -22,13 +22,10 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     on<InitDateList>((event, emit) async {
       emit(state.copyWith(detailsDateStatus: DetailsDateLoading()));
       try {
-        final List<DateTime> thisMonth =
-            CalculatingHelper.calculateMonthDates(event.date).gregorianDates;
-
-        if (thisMonth.isNotEmpty) {
+        if (event.dateList.isNotEmpty) {
           emit(
             state.copyWith(
-              detailsDateStatus: DetailsDateSuccess(dateList: thisMonth),
+              detailsDateStatus: DetailsDateSuccess(dateList: event.dateList),
             ),
           );
         } else {
@@ -53,7 +50,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       try {
         final List<TimeEntry> timeEntries = await repository.getTimeEntries(
           projectId: event.projectID,
-          selectedDate: state.selectedDate,
+          eDate: event.dateList.last,
+          sDate: event.dateList.first,
         );
 
         emit(
@@ -70,36 +68,36 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       }
     });
 
-    on<SelectNewDate>((event, emit) async {
-      final DateTime cache = state.selectedDate;
+    // on<SelectNewDate>((event, emit) async {
+    //   final DateTime cache = state.selectedDate;
 
-      emit(
-        state.copyWith(
-          selectedDate: event.date,
-          projectTimeEntryStatus: TimeEntryLoading(),
-        ),
-      );
+    //   emit(
+    //     state.copyWith(
+    //       selectedDate: event.date,
+    //       projectTimeEntryStatus: TimeEntryLoading(),
+    //     ),
+    //   );
 
-      try {
-        final List<TimeEntry> timeEntries = await repository.getTimeEntries(
-          projectId: event.projectID,
-          selectedDate: event.date,
-        );
+    //   try {
+    //     final List<TimeEntry> timeEntries = await repository.getTimeEntries(
+    //       projectId: event.projectID,
+    //       selectedDate: event.date,
+    //     );
 
-        emit(
-          state.copyWith(
-            projectTimeEntryStatus: TimeEntrySuccess(timeEntries: timeEntries),
-          ),
-        );
-      } catch (e) {
-        emit(
-          state.copyWith(
-            selectedDate: cache,
-            projectTimeEntryStatus: TimeEntryFailure(error: e.toString()),
-          ),
-        );
-      }
-    });
+    //     emit(
+    //       state.copyWith(
+    //         projectTimeEntryStatus: TimeEntrySuccess(timeEntries: timeEntries),
+    //       ),
+    //     );
+    //   } catch (e) {
+    //     emit(
+    //       state.copyWith(
+    //         selectedDate: cache,
+    //         projectTimeEntryStatus: TimeEntryFailure(error: e.toString()),
+    //       ),
+    //     );
+    //   }
+    // });
 
     on<AddNewTimeEntry>((event, emit) async {
       final List<TimeEntry> timeEntries =

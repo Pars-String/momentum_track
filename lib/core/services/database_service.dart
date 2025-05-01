@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -104,19 +103,17 @@ class DatabaseService {
         .get();
   }
 
-  Future<List<TimeEntry>> getTimeEntriesForOneMonth({
-    required DateTime date,
+  Future<List<TimeEntry>> getTimeEntriesForSpecificDate({
+    required DateTime eDate,
+    required DateTime sDate,
     int? projectId,
   }) async {
-    final DateTime eDate =
-        CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
-
     if (projectId != null) {
       return (db.select(db.timeEntries)
             ..where(
               (tbl) =>
                   tbl.startTime.isBetweenValues(
-                    date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+                    sDate.copyWith(hour: 0, minute: 0, second: 0),
                     eDate.copyWith(hour: 23, minute: 59, second: 59),
                   ) &
                   tbl.projectId.equals(projectId),
@@ -127,7 +124,7 @@ class DatabaseService {
     return (db.select(db.timeEntries)
           ..where(
             (tbl) => tbl.startTime.isBetweenValues(
-              date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+              sDate.copyWith(hour: 0, minute: 0, second: 0),
               eDate.copyWith(hour: 23, minute: 59, second: 59),
             ),
           )
@@ -137,16 +134,14 @@ class DatabaseService {
 
   Future<List<TimeEntry>> getTimeEntriesForOneMonthByProjectID({
     required int projectId,
-    required DateTime date,
+    required DateTime sDate,
+    required DateTime eDate,
   }) async {
-    final DateTime eDate =
-        CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
-
     return (db.select(db.timeEntries)
           ..where((tbl) => tbl.projectId.equals(projectId))
           ..where(
             (tbl) => tbl.startTime.isBetweenValues(
-              date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+              sDate.copyWith(day: 1, hour: 0, minute: 0, second: 0),
               eDate.copyWith(hour: 23, minute: 59, second: 59),
             ),
           )

@@ -5,12 +5,14 @@ class ReportsLocalProvider {
   final DatabaseService dbService;
   ReportsLocalProvider(this.dbService);
 
-  Future<List<TimeEntry>> getThisMonthTimeEntry(
-    int projectId,
-    DateTime date,
-  ) async {
-    return await dbService.getTimeEntriesForOneMonth(
-      date: date,
+  Future<List<TimeEntry>> getTimeEntryInfo({
+    required int projectId,
+    required DateTime sDate,
+    required DateTime eDate,
+  }) async {
+    return await dbService.getTimeEntriesForSpecificDate(
+      eDate: eDate,
+      sDate: sDate,
       projectId: projectId,
     );
   }

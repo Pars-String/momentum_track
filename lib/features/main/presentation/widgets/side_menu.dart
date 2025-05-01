@@ -73,19 +73,18 @@ class _SideMenuState extends State<SideMenu> {
             },
           ),
 
-          Gap(14),
-          MenuItem(
-            title: 'Archives',
-            icon: HugeIcons.strokeRoundedArchive02,
-            showTitle: isCompletedOpen,
-            page: AppPages.archives,
-            onTap: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text('Coming soon...')));
-            },
-          ),
-
+          // Gap(14),
+          // MenuItem(
+          //   title: 'Archives',
+          //   icon: HugeIcons.strokeRoundedArchive02,
+          //   showTitle: isCompletedOpen,
+          //   page: AppPages.archives,
+          //   onTap: () {
+          //     ScaffoldMessenger.of(
+          //       context,
+          //     ).showSnackBar(const SnackBar(content: Text('Coming soon...')));
+          //   },
+          // ),
           Gap(14),
           MenuItem(
             title: 'Settings',

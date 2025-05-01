@@ -4,7 +4,8 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/recovery_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
-import 'package:momentum_track/features/reports/presentation/widgets/export_report.dart';
+import 'package:momentum_track/features/reports/presentation/widgets/export_custom_date_report.dart';
+import 'package:momentum_track/features/reports/presentation/widgets/export_this_month_report.dart';
 import 'package:momentum_track/features/settings/presentation/widgets/setting_box.dart';
 import 'package:momentum_track/locator.dart';
 
@@ -37,13 +38,13 @@ class SettingsScreen extends StatelessWidget {
                 title: 'Create Backup',
                 icon: HugeIcons.strokeRoundedDatabaseExport,
               ),
-              Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                backgroundColor: Theme.of(context).colorScheme.error,
-                title: 'Delete All Data',
-                icon: HugeIcons.strokeRoundedFolderRemove,
-              ),
+              // Gap(8),
+              // AppElevatedButton(
+              //   onPressed: () {},
+              //   backgroundColor: Theme.of(context).colorScheme.error,
+              //   title: 'Delete All Data',
+              //   icon: HugeIcons.strokeRoundedFolderRemove,
+              // ),
             ],
           ),
         ),
@@ -51,48 +52,54 @@ class SettingsScreen extends StatelessWidget {
         Gap(12),
         SettingBox(
           title: 'Generate Report',
-          child: Row(children: [ExportReport()]),
-        ),
-
-        Gap(12),
-        SettingBox(
-          title: 'Appearance Settings',
           child: Row(
             children: [
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Change Language',
-                icon: HugeIcons.strokeRoundedLanguageSkill,
-              ),
+              ExportThisMonthReport(),
               Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Change Theme',
-                icon: HugeIcons.strokeRoundedDarkMode,
-              ),
+              ExportCustomDateReport(),
             ],
           ),
         ),
 
-        Gap(12),
-        SettingBox(
-          title: 'Contact Me',
-          child: Row(
-            children: [
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Source Code',
-                icon: HugeIcons.strokeRoundedGithub01,
-              ),
-              Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'My LinkedIn',
-                icon: HugeIcons.strokeRoundedLinkedin01,
-              ),
-            ],
-          ),
-        ),
+        // Gap(12),
+        // SettingBox(
+        //   title: 'Appearance Settings',
+        //   child: Row(
+        //     children: [
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Change Language',
+        //         icon: HugeIcons.strokeRoundedLanguageSkill,
+        //       ),
+        //       Gap(8),
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Change Theme',
+        //         icon: HugeIcons.strokeRoundedDarkMode,
+        //       ),
+        //     ],
+        //   ),
+        // ),
+
+        // Gap(12),
+        // SettingBox(
+        //   title: 'Contact Me',
+        //   child: Row(
+        //     children: [
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Source Code',
+        //         icon: HugeIcons.strokeRoundedGithub01,
+        //       ),
+        //       Gap(8),
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'My LinkedIn',
+        //         icon: HugeIcons.strokeRoundedLinkedin01,
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
