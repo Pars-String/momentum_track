@@ -37,13 +37,13 @@ class SettingsScreen extends StatelessWidget {
                 title: 'Create Backup',
                 icon: HugeIcons.strokeRoundedDatabaseExport,
               ),
-              Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                backgroundColor: Theme.of(context).colorScheme.error,
-                title: 'Delete All Data',
-                icon: HugeIcons.strokeRoundedFolderRemove,
-              ),
+              // Gap(8),
+              // AppElevatedButton(
+              //   onPressed: () {},
+              //   backgroundColor: Theme.of(context).colorScheme.error,
+              //   title: 'Delete All Data',
+              //   icon: HugeIcons.strokeRoundedFolderRemove,
+              // ),
             ],
           ),
         ),
@@ -54,45 +54,45 @@ class SettingsScreen extends StatelessWidget {
           child: Row(children: [ExportReport()]),
         ),
 
-        Gap(12),
-        SettingBox(
-          title: 'Appearance Settings',
-          child: Row(
-            children: [
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Change Language',
-                icon: HugeIcons.strokeRoundedLanguageSkill,
-              ),
-              Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Change Theme',
-                icon: HugeIcons.strokeRoundedDarkMode,
-              ),
-            ],
-          ),
-        ),
+        // Gap(12),
+        // SettingBox(
+        //   title: 'Appearance Settings',
+        //   child: Row(
+        //     children: [
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Change Language',
+        //         icon: HugeIcons.strokeRoundedLanguageSkill,
+        //       ),
+        //       Gap(8),
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Change Theme',
+        //         icon: HugeIcons.strokeRoundedDarkMode,
+        //       ),
+        //     ],
+        //   ),
+        // ),
 
-        Gap(12),
-        SettingBox(
-          title: 'Contact Me',
-          child: Row(
-            children: [
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'Source Code',
-                icon: HugeIcons.strokeRoundedGithub01,
-              ),
-              Gap(8),
-              AppElevatedButton(
-                onPressed: () {},
-                title: 'My LinkedIn',
-                icon: HugeIcons.strokeRoundedLinkedin01,
-              ),
-            ],
-          ),
-        ),
+        // Gap(12),
+        // SettingBox(
+        //   title: 'Contact Me',
+        //   child: Row(
+        //     children: [
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'Source Code',
+        //         icon: HugeIcons.strokeRoundedGithub01,
+        //       ),
+        //       Gap(8),
+        //       AppElevatedButton(
+        //         onPressed: () {},
+        //         title: 'My LinkedIn',
+        //         icon: HugeIcons.strokeRoundedLinkedin01,
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
