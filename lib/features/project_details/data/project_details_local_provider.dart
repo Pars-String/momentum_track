@@ -99,11 +99,13 @@ class ProjectDetailsLocalProvider {
 
   Future<List<TimeEntry>> getTimeEntriesForOneMonth({
     required int projectId,
-    required DateTime selectedDate,
+    required DateTime sDate,
+    required DateTime eDate,
   }) async {
     return await dbService.getTimeEntriesForOneMonthByProjectID(
       projectId: projectId,
-      date: selectedDate,
+      sDate: sDate,
+      eDate: eDate,
     );
   }
 }

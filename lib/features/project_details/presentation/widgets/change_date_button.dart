@@ -19,10 +19,10 @@ class ChangeDateButton extends StatelessWidget {
               lastDate: DateTime(2100),
             ).then((value) async {
               if (value != null && context.mounted) {
-                context.read<DetailsBloc>().add(InitDateList(date: value));
-                context.read<DetailsBloc>().add(
-                  SelectNewDate(date: value, projectID: projectID),
-                );
+                // context.read<DetailsBloc>().add(InitDateList(date: value));
+                // context.read<DetailsBloc>().add(
+                //   SelectNewDate(date: value, projectID: projectID),
+                // );
               }
             });
           },

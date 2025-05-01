@@ -25,11 +25,13 @@ class ProjectDetailsRepository {
 
   Future<List<TimeEntry>> getTimeEntries({
     required int projectId,
-    required DateTime selectedDate,
+    required DateTime sDate,
+    required DateTime eDate,
   }) async {
     return await localProvider.getTimeEntriesForOneMonth(
       projectId: projectId,
-      selectedDate: selectedDate,
+      sDate: sDate,
+      eDate: eDate,
     );
   }
 

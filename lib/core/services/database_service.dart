@@ -137,16 +137,14 @@ class DatabaseService {
 
   Future<List<TimeEntry>> getTimeEntriesForOneMonthByProjectID({
     required int projectId,
-    required DateTime date,
+    required DateTime sDate,
+    required DateTime eDate,
   }) async {
-    final DateTime eDate =
-        CalculatingHelper.calculateLastDayOfMonth(date).gregorianLastDay;
-
     return (db.select(db.timeEntries)
           ..where((tbl) => tbl.projectId.equals(projectId))
           ..where(
             (tbl) => tbl.startTime.isBetweenValues(
-              date.copyWith(day: 1, hour: 0, minute: 0, second: 0),
+              sDate.copyWith(day: 1, hour: 0, minute: 0, second: 0),
               eDate.copyWith(hour: 23, minute: 59, second: 59),
             ),
           )

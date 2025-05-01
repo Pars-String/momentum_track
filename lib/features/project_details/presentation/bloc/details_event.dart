@@ -8,19 +8,20 @@ sealed class DetailsEvent extends Equatable {
 }
 
 class InitDateList extends DetailsEvent {
-  final DateTime? date;
-  const InitDateList({this.date});
+  final List<DateTime> dateList;
+  const InitDateList(this.dateList);
 
   @override
-  List<Object> get props => [date ?? CalculatingHelper.today()];
+  List<Object> get props => [dateList];
 }
 
 class InitTimeEntriesList extends DetailsEvent {
   final int projectID;
-  const InitTimeEntriesList({required this.projectID});
+  final List<DateTime> dateList;
+  const InitTimeEntriesList({required this.projectID, required this.dateList});
 
   @override
-  List<Object> get props => [projectID];
+  List<Object> get props => [projectID, dateList];
 }
 
 class SelectNewDate extends DetailsEvent {
