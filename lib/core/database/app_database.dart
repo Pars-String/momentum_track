@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:momentum_track/core/constant/app_versions.dart';
+import 'package:momentum_track/core/database/schema_versions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -13,7 +13,29 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => AppVersions.dbSchemaVersion;
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: stepByStep(
+        // from1To2: (m, schema) async {
+        //   await m.addColumn(publicInfos, publicInfos.first_launch);
+        // },
+        // from2To3: (m, schema) async {
+        //   await m.addColumn(publicInfos, publicInfos.other);
+        // },
+      ),
+      beforeOpen: (openingDetails) async {
+        await customStatement(
+          'PRAGMA foreign_keys = ON',
+        ); // Enable foreign key references in sqlite3.
+      },
+    );
+  }
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
