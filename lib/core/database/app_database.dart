@@ -69,3 +69,17 @@ class TimeEntries extends Table {
   RealColumn get duration => real().nullable()();
   IntColumn get projectId => integer().references(Projects, #id)();
 }
+
+/// how to generate migration steps
+/// 
+/// at first please change anything you want to change in the database then
+/// increase the app version, add migration strategy and run the following code
+/// 
+/// to update all tables run:
+/// `dart run build_runner build`
+/// 
+/// after that to generate a new schemas run:
+/// `dart run drift_dev schema dump lib/core/database/app_database.dart lib/core/database/drift_schemas/`
+/// 
+/// at the end run this code to create a new steps:
+/// `dart run drift_dev schema steps lib/core/database/drift_schemas/ lib/core/database/schema_versions.dart`
