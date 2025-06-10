@@ -29,7 +29,47 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
     on<AddNewProject>((event, emit) async {
       emit(state.copyWith(status: ProjectsStatus.loading));
       try {
-        await repository.addProject(event.projectName);
+        await repository.addProject(
+          projectName: event.projectName,
+          description: event.description,
+          startDate: event.startDate,
+        );
+        final projects = await repository.getProjects();
+        emit(
+          state.copyWith(status: ProjectsStatus.success, projects: projects),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            status: ProjectsStatus.success,
+            projects: state.projects,
+          ),
+        );
+      }
+    });
+
+    on<EditProject>((event, emit) async {
+      emit(state.copyWith(status: ProjectsStatus.loading));
+      try {
+        await repository.updateProject(project: event.projectInfo);
+        final projects = await repository.getProjects();
+        emit(
+          state.copyWith(status: ProjectsStatus.success, projects: projects),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            status: ProjectsStatus.success,
+            projects: state.projects,
+          ),
+        );
+      }
+    });
+
+    on<DeleteProject>((event, emit) async {
+      emit(state.copyWith(status: ProjectsStatus.loading));
+      try {
+        await repository.deleteProject(event.projectID);
         final projects = await repository.getProjects();
         emit(
           state.copyWith(status: ProjectsStatus.success, projects: projects),

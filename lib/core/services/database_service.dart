@@ -27,6 +27,8 @@ class DatabaseService {
   }
 
   Future<void> deleteProject(int id) async {
+    await (db.delete(db.timeEntries)
+      ..where((tbl) => tbl.projectId.equals(id))).go();
     await (db.delete(db.projects)..where((tbl) => tbl.id.equals(id))).go();
   }
 
