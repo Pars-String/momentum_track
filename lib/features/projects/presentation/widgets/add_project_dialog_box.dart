@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
@@ -92,6 +93,11 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
                             label: 'Start at',
                             controller: _startDateController,
                             readOnly: true,
+                            suffixIcon: HugeIcons.strokeRoundedCalendarRemove01,
+                            onTapSuffixIcon: () {
+                              _startDateController.clear();
+                              pickedStartDate = null;
+                            },
                             onTap: (focusNode) {
                               showDatePicker(
                                 context: context,
@@ -118,6 +124,7 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
                             controller: _descriptionController,
                             hint: 'Enter description (optional)',
                             minLines: 3,
+                            maxLines: 7,
                           ),
                           Gap(16),
 
