@@ -25,6 +25,7 @@ class AppTheme {
         onPrimary: secondaryColor,
         onSecondary: primaryColor,
         onSurface: primaryColor,
+        error: errorColor,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: backgroundColor,
@@ -42,16 +43,6 @@ class AppTheme {
         bodyMedium: TextStyle(color: textColor),
         bodySmall: TextStyle(color: textColor),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: secondaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-      ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: primaryColor),
@@ -64,24 +55,6 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(foregroundColor: primaryColor),
       ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: surfaceColor,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primaryColor),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primaryColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: primaryColor, width: 2),
-        ),
-        hintStyle: const TextStyle(color: Colors.grey),
-        labelStyle: const TextStyle(color: primaryColor),
-      ),
       cardTheme: CardThemeData(
         color: surfaceColor,
         elevation: 4,
@@ -89,16 +62,14 @@ class AppTheme {
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith(
-          (states) =>
-              states.contains(WidgetState.selected)
-                  ? primaryColor
-                  : Colors.grey,
+          (states) => states.contains(WidgetState.selected)
+              ? primaryColor
+              : Colors.grey,
         ),
         trackColor: WidgetStateProperty.resolveWith(
-          (states) =>
-              states.contains(WidgetState.selected)
-                  ? primaryColor.withOpacity(0.5)
-                  : Colors.grey.withOpacity(0.5),
+          (states) => states.contains(WidgetState.selected)
+              ? primaryColor.withOpacity(0.5)
+              : Colors.grey.withOpacity(0.5),
         ),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
