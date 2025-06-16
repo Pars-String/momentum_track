@@ -12,6 +12,7 @@ import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/project_info_dialog_box.dart';
 
 class TileInfo extends StatefulWidget {
   final Project project;
@@ -197,7 +198,18 @@ class _TileInfoState extends State<TileInfo> {
                       ),
                       Gap(8),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return ProjectInfoDialogBox(
+                                projectInfo: widget.project,
+                                thisMonthDuration:
+                                    widget.duration ?? Duration.zero,
+                              );
+                            },
+                          );
+                        },
                         icon: HugeIcon(
                           icon: HugeIcons.strokeRoundedFolderDetails,
                           color: context.colorScheme.primary,
