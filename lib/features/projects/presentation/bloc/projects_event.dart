@@ -10,6 +10,24 @@ class LoadProjects extends ProjectsEvent {
 
 class AddNewProject extends ProjectsEvent {
   final String projectName;
+  final String? description;
+  final DateTime? startDate;
 
-  AddNewProject(this.projectName);
+  AddNewProject({
+    required this.projectName,
+    required this.description,
+    required this.startDate,
+  });
+}
+
+class EditProject extends ProjectsEvent {
+  final Project projectInfo;
+
+  EditProject({required this.projectInfo});
+}
+
+class DeleteProject extends ProjectsEvent {
+  final int projectID;
+
+  DeleteProject(this.projectID);
 }

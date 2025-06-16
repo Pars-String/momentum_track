@@ -5,22 +5,20 @@ class ProjectsRepository {
   final ProjectsLocalProvider dbProvider;
   ProjectsRepository(this.dbProvider);
 
-  Future<void> addProject(String projectName) async {
-    await dbProvider.addProject(projectName);
+  Future<void> addProject({
+    required String projectName,
+    required String? description,
+    required DateTime? startDate,
+  }) async {
+    await dbProvider.addProject(
+      projectName: projectName,
+      description: description,
+      startDate: startDate,
+    );
   }
 
-  Future<void> updateProject({
-    required int projectId,
-    required String newProjectName,
-    required DateTime newStartDate,
-    required String? newDescription,
-  }) async {
-    await dbProvider.updateProject(
-      projectId: projectId,
-      newProjectName: newProjectName,
-      newStartDate: newStartDate,
-      newDescription: newDescription,
-    );
+  Future<void> updateProject({required Project project}) async {
+    await dbProvider.updateProject(project: project);
   }
 
   Future<void> deleteProject(int projectId) async {

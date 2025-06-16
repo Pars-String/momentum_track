@@ -7,27 +7,29 @@ class ProjectsLocalProvider {
   final DatabaseService dbService;
   ProjectsLocalProvider(this.dbService);
 
-  Future<void> addProject(String projectName) async {
+  Future<void> addProject({
+    required String projectName,
+    required String? description,
+    required DateTime? startDate,
+  }) async {
     await dbService.insertProject(
       ProjectsCompanion(
         name: Value(projectName),
+        description: Value(description),
+        startDate: Value(startDate),
         createAt: Value(DateTime.now()),
       ),
     );
   }
 
-  Future<void> updateProject({
-    required int projectId,
-    required String newProjectName,
-    required DateTime newStartDate,
-    required String? newDescription,
-  }) async {
+  Future<void> updateProject({required Project project}) async {
     await dbService.updateProject(
       ProjectsCompanion(
-        id: Value(projectId),
-        name: Value(newProjectName),
-        startDate: Value(newStartDate),
-        description: Value(newDescription),
+        id: Value(project.id),
+        name: Value(project.name),
+        createAt: Value(project.createAt),
+        description: Value(project.description),
+        startDate: Value(project.startDate),
       ),
     );
   }

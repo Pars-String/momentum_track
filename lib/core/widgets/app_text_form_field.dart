@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:momentum_track/core/utils/extensions/context_extension.dart';
 
 class AppTextFormField extends StatefulWidget {
   final String? label;
@@ -11,7 +12,9 @@ class AppTextFormField extends StatefulWidget {
   final String? Function(String? value)? validator;
   final String? validatorText;
   final bool? autoFocus;
-  final IconData? icon;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
+  final VoidCallback? onTapSuffixIcon;
   final Function(String value)? onChange;
   final Function(String value)? onFieldSubmitted;
   final FocusNode? nextFocusNode;
@@ -25,6 +28,7 @@ class AppTextFormField extends StatefulWidget {
   final int? minLines;
 
   const AppTextFormField({
+    super.key,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -35,7 +39,9 @@ class AppTextFormField extends StatefulWidget {
     this.validatorText,
     this.validator,
     this.autoFocus = false,
-    this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.onTapSuffixIcon,
     this.onChange,
     this.onEditingComplete,
     this.nextFocusNode,
@@ -46,7 +52,6 @@ class AppTextFormField extends StatefulWidget {
     this.customLines,
     this.maxLines,
     this.minLines,
-    super.key,
   });
 
   @override
@@ -54,25 +59,25 @@ class AppTextFormField extends StatefulWidget {
 }
 
 class _AppTextFormFieldState extends State<AppTextFormField> {
-  bool _hasFocus = false;
+  // bool _hasFocus = false;
 
-  @override
-  void initState() {
-    super.initState();
-    widget.focusNode?.addListener(_handleFocusChange);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   widget.focusNode?.addListener(_handleFocusChange);
+  // }
 
-  @override
-  void dispose() {
-    widget.focusNode?.removeListener(_handleFocusChange);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.focusNode?.removeListener(_handleFocusChange);
+  //   super.dispose();
+  // }
 
-  void _handleFocusChange() {
-    setState(() {
-      _hasFocus = widget.focusNode?.hasFocus ?? false;
-    });
-  }
+  // void _handleFocusChange() {
+  //   setState(() {
+  //     _hasFocus = widget.focusNode?.hasFocus ?? false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +88,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           Text(
             widget.label!,
             style: TextStyle(
-              // color: _hasFocus ? AppColors.white : AppColors.lightGray,
+              // color: _hasFocus ? Colors.white : Colors.green,
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -107,8 +112,9 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   TextFormField _customTextFormField(BuildContext ctx) {
     return TextFormField(
       focusNode: widget.focusNode,
-      onTap:
-          widget.onTap == null ? null : () => widget.onTap!(widget.focusNode),
+      onTap: widget.onTap == null
+          ? null
+          : () => widget.onTap!(widget.focusNode),
       onFieldSubmitted:
           widget.onFieldSubmitted ??
           (s) {
@@ -130,15 +136,14 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       obscureText: widget.keyboardType == TextInputType.visiblePassword,
       maxLines: widget.maxLines,
       minLines: widget.minLines,
-      validator:
-          widget.validatorText == null
-              ? widget.validator
-              : (value) {
-                if (value!.isEmpty) {
-                  return widget.validatorText;
-                }
-                return null;
-              },
+      validator: widget.validatorText == null
+          ? widget.validator
+          : (value) {
+              if (value!.isEmpty) {
+                return widget.validatorText;
+              }
+              return null;
+            },
       autofocus: widget.autoFocus!,
       // cursorColor: AppColors.mediumGray,
       mouseCursor: MouseCursor.defer,
@@ -172,7 +177,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         errorBorder: OutlineInputBorder(
-          // borderSide: BorderSide(color: AppColors.accentWarning900),
+          borderSide: BorderSide(color: context.colorScheme.error),
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         focusedErrorBorder: OutlineInputBorder(
@@ -182,18 +187,26 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           borderRadius: const BorderRadius.all(Radius.circular(8)),
         ),
         hintText: widget.hint,
-        prefixIcon:
-            widget.icon == null
-                ? null
-                : Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Icon(widget.icon),
-                ),
+        prefixIcon: widget.prefixIcon == null
+            ? null
+            : Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(widget.prefixIcon),
+              ),
         // prefixIconColor: AppColors.mediumGray,
         prefixIconConstraints: const BoxConstraints(
           minHeight: 24,
           minWidth: 24,
         ),
+        suffixIcon: widget.suffixIcon == null
+            ? null
+            : Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: InkWell(
+                  onTap: widget.onTapSuffixIcon,
+                  child: Icon(widget.suffixIcon),
+                ),
+              ),
         counterText: '',
         // fillColor: AppColors.deepBlueGray,
         filled: true,

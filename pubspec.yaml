@@ -1,9 +1,9 @@
 name: momentum_track
 description: "Manage your momentum with this app. Track your progress and stay motivated."
-version: 1.6.0
+version: 1.6.1
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.1
 
 dependencies:
   flutter:

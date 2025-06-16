@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
-import 'package:momentum_track/core/resources/app_routes.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_change_date.dart';
-import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
-import 'package:momentum_track/features/projects/presentation/widgets/add_project_modal_view.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/project_tile.dart';
 
 class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({super.key});
@@ -80,38 +77,10 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                       itemCount: state.projects.length,
                       itemBuilder: (context, index) {
                         final project = state.projects[index];
-                        final timeEntries =
-                            state.timeEntries
-                                .where(
-                                  (timeEntry) =>
-                                      timeEntry.projectId == project.id,
-                                )
-                                .toList();
-                        final Duration thisMonthDuration =
-                            CalculatingHelper.calculateDurationFrom(
-                              timeEntries,
-                            );
 
-                        return ListTile(
-                          title: Text(project.name),
-                          trailing: Text(
-                            '${thisMonthDuration.inHours}h ${thisMonthDuration.inMinutes.remainder(60)}m',
-                          ),
-                          subtitle: Text(project.description ?? '-'),
-                          onTap: () {
-                            context.pushNamed(
-                              AppRoutes.projectDetailsScreen,
-                              extra: project,
-                            );
-                          },
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.primary.withAlpha(100),
-                            ),
-                          ),
+                        return ProjectTile(
+                          project: project,
+                          timeEntries: state.timeEntries,
                         );
                       },
                     ),
@@ -125,10 +94,14 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Add Project',
         onPressed: () {
-          AppModalBottomSheet.show(
-            context,
-            title: 'Add Project',
-            children: [AddProjectModalView(innerContext: context)],
+          showDialog(
+            context: context,
+            builder: (_) {
+              return AddProjectDialogBox(
+                innerContext: context,
+                projectInfo: null,
+              );
+            },
           );
         },
         child: const Icon(Icons.add),
