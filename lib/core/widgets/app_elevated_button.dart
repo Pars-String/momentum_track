@@ -26,6 +26,8 @@ class AppElevatedButton extends StatelessWidget {
             backgroundColor ?? Theme.of(context).colorScheme.primary,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (icon != null) ...[
             HugeIcon(
@@ -36,6 +38,7 @@ class AppElevatedButton extends StatelessWidget {
           ],
           Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: textColor ?? Theme.of(context).colorScheme.onPrimary,
               fontSize: 16,
