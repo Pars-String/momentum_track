@@ -12,6 +12,8 @@ part 'app_database.g.dart';
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
+  /// when you change the schema version, please update the schema version in
+  /// `lib/core/constant/app_versions.dart` file too
   @override
   int get schemaVersion => 1;
 
