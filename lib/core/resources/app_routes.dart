@@ -9,6 +9,7 @@ import 'package:momentum_track/features/project_details/presentation/bloc/detail
 import 'package:momentum_track/features/project_details/presentation/screens/project_details_screen.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/locator.dart';
+import 'package:momentum_track/main.dart';
 
 class AppRoutes {
   static const String mainScreen = 'mainScreen';
@@ -16,7 +17,7 @@ class AppRoutes {
   static const String dateDetailsScreen = 'dateDetailsScreen';
 
   static GoRouter router = GoRouter(
-    // navigatorKey: navigatorKey,
+    navigatorKey: navigatorKey,
     debugLogDiagnostics: kDebugMode,
     initialLocation: MainScreen.routeName,
     // observers: [NavigatorObserverService()],
@@ -24,32 +25,29 @@ class AppRoutes {
       GoRoute(
         name: mainScreen,
         path: MainScreen.routeName,
-        builder:
-            (context, state) => MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (context) => ProjectsBloc(locator())),
-                BlocProvider(create: (context) => OverviewBloc(locator())),
-              ],
-              child: const MainScreen(),
-            ),
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => ProjectsBloc(locator())),
+            BlocProvider(create: (context) => OverviewBloc(locator())),
+          ],
+          child: const MainScreen(),
+        ),
       ),
       GoRoute(
         name: projectDetailsScreen,
         path: ProjectDetailsScreen.routeName,
-        builder:
-            (context, state) => BlocProvider(
-              create: (context) => DetailsBloc(locator()),
-              child: const ProjectDetailsScreen(),
-            ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => DetailsBloc(locator()),
+          child: const ProjectDetailsScreen(),
+        ),
       ),
       GoRoute(
         name: dateDetailsScreen,
         path: DateDetailsScreen.routeName,
-        builder:
-            (context, state) => BlocProvider(
-              create: (context) => DateDetailsBloc(locator()),
-              child: const DateDetailsScreen(),
-            ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => DateDetailsBloc(locator()),
+          child: const DateDetailsScreen(),
+        ),
       ),
     ],
     // errorBuilder: (context, state) => const PageNotFoundScreen(),

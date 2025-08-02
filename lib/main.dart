@@ -7,6 +7,8 @@ import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart'
 import 'package:momentum_track/locator.dart';
 import 'package:window_manager/window_manager.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
