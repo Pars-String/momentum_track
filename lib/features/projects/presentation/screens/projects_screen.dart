@@ -6,6 +6,7 @@ import 'package:momentum_track/core/widgets/app_change_date.dart';
 import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/project_tile.dart';
+import 'package:momentum_track/features/streak_tracker/presentation/screens/streak_tracker.dart';
 
 class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({super.key});
@@ -19,8 +20,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   void initState() {
     super.initState();
 
-    final DateTime thisMonthDate =
-        context.read<GlobalDateCubit>().state.thisMonthDates.first;
+    final DateTime thisMonthDate = context
+        .read<GlobalDateCubit>()
+        .state
+        .thisMonthDates
+        .first;
     context.read<ProjectsBloc>().add(LoadProjects(date: thisMonthDate));
   }
 
@@ -42,6 +46,10 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               SliverAppBar(title: AppChangeDate(state), pinned: true),
 
               SliverGap(25),
+
+              StreakTracker(),
+
+              SliverGap(12),
 
               BlocBuilder<ProjectsBloc, ProjectsState>(
                 builder: (context, state) {
