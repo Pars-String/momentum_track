@@ -19,23 +19,15 @@ class _StreakTrackerState extends State<StreakTracker> {
   final ScrollController _scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-
-    // monthDates.addAll(CalculatingHelper.buildActivityWeeks());
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _scrollToEnd();
-    // });
-  }
-
-  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
   }
 
   void _scrollToEnd() {
-    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
   }
 
   @override
@@ -57,7 +49,7 @@ class _StreakTrackerState extends State<StreakTracker> {
                   child: Row(
                     children: [
                       WeekDays(),
-                      Gap(18),
+                      Gap(3.5),
                       Expanded(
                         child: BlocBuilder<StreakCubit, StreakState>(
                           builder: (context, state) {
@@ -70,9 +62,7 @@ class _StreakTrackerState extends State<StreakTracker> {
                               return Center(child: Text(state.message));
                             } else if (state is StreakLoaded) {
                               monthDates.addAll(state.monthDates);
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                _scrollToEnd();
-                              });
+                              _scrollToEnd();
                             }
 
                             return Scrollbar(

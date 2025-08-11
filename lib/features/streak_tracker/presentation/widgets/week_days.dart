@@ -7,45 +7,42 @@ class WeekDays extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Gap(5),
         Text(
-          'Mon',
+          'Mo',
           style: TextStyle(
             color: Theme.of(context).colorScheme.primaryContainer,
+            fontSize: 9.5,
           ),
         ),
-        Gap(24),
-        SizedBox(
-          height: 20,
-          child: Text(
-            'Wed',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
+        Gap(28),
+        Text(
+          'We',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            fontSize: 9.5,
           ),
         ),
-        Gap(24),
-        SizedBox(
-          height: 20,
-          child: Text(
-            'Fri',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
+        Gap(30),
+        Text(
+          'Fr',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            fontSize: 9.5,
           ),
         ),
-        Gap(24),
-        SizedBox(
-          height: 20,
-          child: Text(
-            'Sun',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
+        Gap(29),
+        Text(
+          'Su',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            fontSize: 9.5,
           ),
         ),
+        // Gap(5),
       ],
     );
   }
