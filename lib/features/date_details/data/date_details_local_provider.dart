@@ -15,7 +15,7 @@ class DateDetailsLocalProvider {
   }) async {
     double? duration;
     if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
+      duration = CalculatingHelper.convertDurationToHours(
         startAt: startTime,
         endAt: endTime,
       );
@@ -52,7 +52,7 @@ class DateDetailsLocalProvider {
   }) async {
     double? duration;
     if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
+      duration = CalculatingHelper.convertDurationToHours(
         startAt: startTime,
         endAt: endTime,
       );

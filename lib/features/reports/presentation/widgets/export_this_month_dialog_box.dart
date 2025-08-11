@@ -79,7 +79,7 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
     ]);
 
     for (final entry in timeEntries) {
-      final duration = CalculatingHelper.convertDoubleToDuration(
+      final duration = CalculatingHelper.convertHoursToDuration(
         entry.duration ?? 0,
       );
       totalDuration += duration;
@@ -143,10 +143,9 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                   ExportingLoading(),
                 );
 
-                final String projectName =
-                    state.projects
-                        .firstWhere((element) => element.id == projectID)
-                        .name;
+                final String projectName = state.projects
+                    .firstWhere((element) => element.id == projectID)
+                    .name;
 
                 exportProjectMonthlyReport(
                   context,
@@ -200,13 +199,12 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         underline: SizedBox.shrink(),
                         value: projectID,
-                        items:
-                            projects.map((e) {
-                              return DropdownMenuItem<int>(
-                                value: e.id,
-                                child: Text(e.name),
-                              );
-                            }).toList(),
+                        items: projects.map((e) {
+                          return DropdownMenuItem<int>(
+                            value: e.id,
+                            child: Text(e.name),
+                          );
+                        }).toList(),
                         onChanged: (value) {
                           if (!isLoading) {
                             projectID = value;
@@ -254,16 +252,15 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                     children: [
                       Expanded(
                         child: AppElevatedButton(
-                          onPressed:
-                              projectID == null || isLoading
-                                  ? null
-                                  : () async {
-                                    context
-                                        .read<ReportCubit>()
-                                        .getThisMonthTimeEntries(
-                                          projectId: projectID!,
-                                        );
-                                  },
+                          onPressed: projectID == null || isLoading
+                              ? null
+                              : () async {
+                                  context
+                                      .read<ReportCubit>()
+                                      .getThisMonthTimeEntries(
+                                        projectId: projectID!,
+                                      );
+                                },
                           title: isLoading ? 'Please Wait...' : 'Generate',
                         ),
                       ),

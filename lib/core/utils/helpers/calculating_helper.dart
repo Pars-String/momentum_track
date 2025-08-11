@@ -4,18 +4,15 @@ import 'package:shamsi_date/shamsi_date.dart';
 class CalculatingHelper {
   CalculatingHelper._();
 
-  static double calculateDuration({
+  static double convertDurationToHours({
     required DateTime startAt,
     required DateTime endAt,
   }) {
     Duration diff = endAt.difference(startAt);
-
-    // Convert duration to double (hours)
     return diff.inMinutes / 60.0;
   }
 
-  static Duration convertDoubleToDuration(double hours) {
-    // Convert hours back to seconds and create a Duration
+  static Duration convertHoursToDuration(double hours) {
     return Duration(seconds: (hours * 3600).round());
   }
 
