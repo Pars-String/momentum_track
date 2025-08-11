@@ -27,7 +27,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => GlobalDateCubit()..setThisMonthDates(),
+          create: (context) => GlobalDateCubit(locator())..setThisMonthDates(),
         ),
         BlocProvider(create: (context) => MenuCubit()),
       ],
