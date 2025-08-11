@@ -11,14 +11,19 @@ import 'package:momentum_track/features/projects/data/projects_local_provider.da
 import 'package:momentum_track/features/projects/repository/projects_repository.dart';
 import 'package:momentum_track/features/reports/data/reports_local_provider.dart';
 import 'package:momentum_track/features/reports/repository/reports_repository.dart';
+import 'package:momentum_track/features/streak_tracker/data/providers/streak_local_provider.dart';
+import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
+import 'package:momentum_track/features/streak_tracker/repository/streak_repository.dart';
 
 GetIt locator = GetIt.instance;
 
 Future<void> locatorSetup() async {
-  final database = locator.registerSingleton<AppDatabase>(AppDatabase());
+  _callServices();
+  _callProviders();
+  _callRepositories();
+}
 
-  locator.registerSingleton<DatabaseService>(DatabaseService(database));
-
+void _callProviders() {
   locator.registerSingleton<OverviewLocalProvider>(
     OverviewLocalProvider(locator()),
   );
@@ -34,10 +39,25 @@ Future<void> locatorSetup() async {
   locator.registerSingleton<ReportsLocalProvider>(
     ReportsLocalProvider(locator()),
   );
+  locator.registerSingleton<StreakLocalProvider>(
+    StreakLocalProvider(locator()),
+  );
+}
 
+void _callServices() {
+  final database = locator.registerSingleton<AppDatabase>(AppDatabase());
+
+  locator.registerSingleton<DatabaseService>(DatabaseService(database));
+  locator.registerSingleton<StreakDateService>(StreakDateService());
+}
+
+void _callRepositories() {
   locator.registerSingleton<OverviewRepository>(OverviewRepository(locator()));
   locator.registerSingleton<ProjectsRepository>(ProjectsRepository(locator()));
   locator.registerSingleton<ReportsRepository>(ReportsRepository(locator()));
+  locator.registerSingleton<StreakRepository>(
+    StreakRepository(locator(), locator()),
+  );
   locator.registerSingleton<ProjectDetailsRepository>(
     ProjectDetailsRepository(locator()),
   );
