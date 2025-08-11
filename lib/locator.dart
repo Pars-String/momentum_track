@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:momentum_track/core/data/services/database_service.dart';
+import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/services/database_service.dart';
+import 'package:momentum_track/core/repositories/global_repository.dart';
 import 'package:momentum_track/features/date_details/data/date_details_local_provider.dart';
 import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
 import 'package:momentum_track/features/month_overview/data/overview_local_provider.dart';
@@ -51,6 +53,7 @@ void _callServices() {
   locator.registerSingleton<DatabaseService>(DatabaseService(database));
   locator.registerSingleton<StreakDateService>(StreakDateService());
   locator.registerSingleton<ProjectsService>(ProjectsService());
+  locator.registerSingleton<GlobalDateService>(GlobalDateService());
 }
 
 void _callRepositories() {
@@ -68,4 +71,5 @@ void _callRepositories() {
   locator.registerSingleton<DateDetailsRepository>(
     DateDetailsRepository(locator()),
   );
+  locator.registerSingleton<GlobalRepository>(GlobalRepository(locator()));
 }

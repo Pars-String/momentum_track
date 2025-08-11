@@ -1,4 +1,4 @@
-import 'package:momentum_track/core/services/database_service.dart';
+import 'package:momentum_track/core/data/services/database_service.dart';
 
 class StreakLocalProvider {
   final DatabaseService dbService;
