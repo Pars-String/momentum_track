@@ -8,6 +8,7 @@ import 'package:momentum_track/features/month_overview/repository/overview_repos
 import 'package:momentum_track/features/project_details/data/project_details_local_provider.dart';
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
+import 'package:momentum_track/features/projects/data/projects_service.dart';
 import 'package:momentum_track/features/projects/repository/projects_repository.dart';
 import 'package:momentum_track/features/reports/data/reports_local_provider.dart';
 import 'package:momentum_track/features/reports/repository/reports_repository.dart';
@@ -49,11 +50,14 @@ void _callServices() {
 
   locator.registerSingleton<DatabaseService>(DatabaseService(database));
   locator.registerSingleton<StreakDateService>(StreakDateService());
+  locator.registerSingleton<ProjectsService>(ProjectsService());
 }
 
 void _callRepositories() {
   locator.registerSingleton<OverviewRepository>(OverviewRepository(locator()));
-  locator.registerSingleton<ProjectsRepository>(ProjectsRepository(locator()));
+  locator.registerSingleton<ProjectsRepository>(
+    ProjectsRepository(locator(), locator()),
+  );
   locator.registerSingleton<ReportsRepository>(ReportsRepository(locator()));
   locator.registerSingleton<StreakRepository>(
     StreakRepository(locator(), locator()),

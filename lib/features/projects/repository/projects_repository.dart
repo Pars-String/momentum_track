@@ -1,9 +1,11 @@
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
+import 'package:momentum_track/features/projects/data/projects_service.dart';
 
 class ProjectsRepository {
   final ProjectsLocalProvider dbProvider;
-  ProjectsRepository(this.dbProvider);
+  final ProjectsService service;
+  ProjectsRepository(this.dbProvider, this.service);
 
   Future<void> addProject({
     required String projectName,
@@ -35,5 +37,12 @@ class ProjectsRepository {
 
   Future<List<TimeEntry>> getThisMonthTimeEntry(DateTime? date) async {
     return await dbProvider.getThisMonthTimeEntry(date);
+  }
+
+  Future<Duration> calculateDurationFrom(
+    List<TimeEntry> timeEntries,
+    int projectID,
+  ) async {
+    return await service.calculateDurationFrom(timeEntries, projectID);
   }
 }
