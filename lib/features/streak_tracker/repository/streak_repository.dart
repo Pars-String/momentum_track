@@ -19,4 +19,21 @@ class StreakRepository {
 
     return weeksMap;
   }
+
+  Future<Map<DateTime, double>> buildStreakHeatMap(DateTime now) async {
+    final heatMap = <DateTime, double>{};
+    final timeEntries = await provider.updateStreakHeatMap(now);
+
+    for (final entry in timeEntries) {
+      if (entry.duration != null) continue;
+
+      if (heatMap.containsKey(entry.startTime)) {
+        heatMap[entry.startTime] = heatMap[entry.startTime]! + entry.duration!;
+      } else {
+        heatMap[entry.startTime] = entry.duration!;
+      }
+    }
+
+    return heatMap;
+  }
 }
