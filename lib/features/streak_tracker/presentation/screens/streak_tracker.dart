@@ -33,7 +33,7 @@ class _StreakTrackerState extends State<StreakTracker> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => StreakCubit(locator())..loadStreakData(),
+      create: (context) => StreakCubit(locator())..loadStreakCalendar(),
       child: Builder(
         builder: (context) {
           return SliverPadding(
@@ -53,15 +53,20 @@ class _StreakTrackerState extends State<StreakTracker> {
                       Expanded(
                         child: BlocBuilder<StreakCubit, StreakState>(
                           builder: (context, state) {
-                            if (state is StreakInitial ||
-                                state is StreakLoading) {
+                            if (state.calendarStatus is CalendarInitial ||
+                                state.calendarStatus is CalendarLoading) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
-                            } else if (state is StreakError) {
-                              return Center(child: Text(state.message));
-                            } else if (state is StreakLoaded) {
-                              monthDates.addAll(state.monthDates);
+                            } else if (state.calendarStatus is CalendarError) {
+                              final String message =
+                                  (state.calendarStatus as CalendarError)
+                                      .message;
+                              return Center(child: Text(message));
+                            } else if (state.calendarStatus is CalendarLoaded) {
+                              final loadedState =
+                                  state.calendarStatus as CalendarLoaded;
+                              monthDates.addAll(loadedState.monthDates);
                               _scrollToEnd();
                             }
 

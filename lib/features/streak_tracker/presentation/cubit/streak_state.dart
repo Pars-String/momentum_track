@@ -1,28 +1,23 @@
 part of 'streak_cubit.dart';
 
-sealed class StreakState extends Equatable {
-  const StreakState();
+class StreakState extends Equatable {
+  final CalendarStatus calendarStatus;
+  final DurationStatus durationStatus;
+  const StreakState({
+    required this.calendarStatus,
+    required this.durationStatus,
+  });
 
   @override
-  List<Object> get props => [];
-}
+  List<Object> get props => [calendarStatus, durationStatus];
 
-final class StreakInitial extends StreakState {}
-
-final class StreakLoading extends StreakState {}
-
-class StreakLoaded extends StreakState {
-  final Map<int, List<DateTime>> monthDates;
-  const StreakLoaded({required this.monthDates});
-
-  @override
-  List<Object> get props => [monthDates];
-}
-
-final class StreakError extends StreakState {
-  final String message;
-  const StreakError({required this.message});
-
-  @override
-  List<Object> get props => [message];
+  StreakState copyWith({
+    CalendarStatus? calendarStatus,
+    DurationStatus? durationStatus,
+  }) {
+    return StreakState(
+      calendarStatus: calendarStatus ?? this.calendarStatus,
+      durationStatus: durationStatus ?? this.durationStatus,
+    );
+  }
 }
