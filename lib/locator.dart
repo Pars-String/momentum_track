@@ -57,11 +57,15 @@ void _callServices() {
 }
 
 void _callRepositories() {
-  locator.registerSingleton<OverviewRepository>(OverviewRepository(locator()));
-  locator.registerSingleton<ProjectsRepository>(
-    ProjectsRepository(locator(), locator()),
+  locator.registerSingleton<OverviewRepository>(
+    OverviewRepository(locator(), locator()),
   );
-  locator.registerSingleton<ReportsRepository>(ReportsRepository(locator()));
+  locator.registerSingleton<ProjectsRepository>(
+    ProjectsRepository(locator(), locator(), locator()),
+  );
+  locator.registerSingleton<ReportsRepository>(
+    ReportsRepository(locator(), locator()),
+  );
   locator.registerSingleton<StreakRepository>(
     StreakRepository(locator(), locator()),
   );

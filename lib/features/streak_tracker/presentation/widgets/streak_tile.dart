@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/main.dart';
 
 class StreakTile extends StatelessWidget {
@@ -60,7 +60,7 @@ class StreakTile extends StatelessWidget {
           ),
           child: SizedBox.square(
             dimension: 20,
-            child: dateTime != CalculatingHelper.today()
+            child: dateTime != DateHelper.today()
                 ? null
                 : Padding(
                     padding: const EdgeInsets.all(3.0),

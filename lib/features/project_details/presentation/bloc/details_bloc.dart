@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 
 part 'details_event.dart';
@@ -16,7 +16,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         DetailsState(
           detailsDateStatus: DetailsDateInitial(),
           projectTimeEntryStatus: TimeEntryInitial(),
-          selectedDate: CalculatingHelper.today(),
+          selectedDate: DateHelper.today(),
         ),
       ) {
     on<InitDateList>((event, emit) async {
@@ -102,8 +102,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     on<AddNewTimeEntry>((event, emit) async {
       final List<TimeEntry> timeEntries =
           state.projectTimeEntryStatus is TimeEntrySuccess
-              ? (state.projectTimeEntryStatus as TimeEntrySuccess).timeEntries
-              : [];
+          ? (state.projectTimeEntryStatus as TimeEntrySuccess).timeEntries
+          : [];
       emit(state.copyWith(projectTimeEntryStatus: TimeEntryLoading()));
 
       try {
@@ -132,8 +132,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     on<EditTimeEntry>((event, emit) async {
       final List<TimeEntry> timeEntries =
           state.projectTimeEntryStatus is TimeEntrySuccess
-              ? (state.projectTimeEntryStatus as TimeEntrySuccess).timeEntries
-              : [];
+          ? (state.projectTimeEntryStatus as TimeEntrySuccess).timeEntries
+          : [];
       emit(state.copyWith(projectTimeEntryStatus: TimeEntryLoading()));
       final TimeEntry timeEntry = timeEntries.firstWhere(
         (element) => element.id == event.id,
