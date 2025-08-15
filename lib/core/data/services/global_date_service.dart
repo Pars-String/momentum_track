@@ -1,3 +1,4 @@
+import 'package:momentum_track/core/data/models/last_month_day.dart';
 import 'package:momentum_track/core/data/models/month_dates.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -16,6 +17,29 @@ class GlobalDateService {
     return MonthDates(
       gregorianDates: gregorianDays.map((d) => d.toDateTime()).toList(),
       jalaliDates: jalaliDays.map((d) => d.toDateTime()).toList(),
+    );
+  }
+
+  LastMonthDay calculateLastDayOfMonth(DateTime? selectedDate) {
+    final DateTime now = selectedDate ?? DateTime.now();
+
+    final Gregorian currentGregorian = Gregorian.fromDateTime(now);
+    final int daysInGregorianMonth = currentGregorian.monthLength;
+
+    final Jalali currentJalali = currentGregorian.toJalali();
+    final int daysInJalaliMonth = currentJalali.monthLength;
+
+    return LastMonthDay(
+      gregorianLastDay: Gregorian(
+        currentGregorian.year,
+        currentGregorian.month,
+        daysInGregorianMonth,
+      ).toDateTime(),
+      jalaliLastDay: Jalali(
+        currentJalali.year,
+        currentJalali.month,
+        daysInJalaliMonth,
+      ).toDateTime(),
     );
   }
 }
