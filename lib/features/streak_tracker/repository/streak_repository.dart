@@ -1,3 +1,4 @@
+import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';
 import 'package:momentum_track/features/streak_tracker/data/providers/streak_local_provider.dart';
 import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
 
@@ -27,10 +28,12 @@ class StreakRepository {
     for (final entry in timeEntries) {
       if (entry.duration == null) continue;
 
-      if (heatMap.containsKey(entry.startTime)) {
-        heatMap[entry.startTime] = heatMap[entry.startTime]! + entry.duration!;
+      final DateTime date = entry.startTime.resetTime;
+
+      if (heatMap.containsKey(date)) {
+        heatMap[date] = heatMap[date]! + entry.duration!;
       } else {
-        heatMap[entry.startTime] = entry.duration!;
+        heatMap[date] = entry.duration!;
       }
     }
 
