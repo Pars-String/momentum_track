@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/constant/app_pages.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 import 'package:momentum_track/features/main/presentation/widgets/side_menu.dart';
@@ -36,6 +37,9 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   void initState() {
     windowManager.addListener(this);
     windowManager.setPreventClose(true);
+
+    context.read<GlobalDateCubit>().setThisMonthDates();
+
     super.initState();
   }
 

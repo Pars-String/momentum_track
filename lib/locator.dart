@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/repositories/global_repository.dart';
 import 'package:momentum_track/features/date_details/data/date_details_local_provider.dart';
 import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
+import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 import 'package:momentum_track/features/month_overview/data/overview_local_provider.dart';
 import 'package:momentum_track/features/month_overview/repository/overview_repository.dart';
 import 'package:momentum_track/features/project_details/data/project_details_local_provider.dart';
@@ -81,5 +83,7 @@ void _callRepositories() {
 }
 
 void _callBlocs() {
+  locator.registerSingleton<GlobalDateCubit>(GlobalDateCubit(locator()));
+  locator.registerSingleton<MenuCubit>(MenuCubit());
   locator.registerSingleton<StreakCubit>(StreakCubit(locator()));
 }

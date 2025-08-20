@@ -27,10 +27,8 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => GlobalDateCubit(locator())..setThisMonthDates(),
-        ),
-        BlocProvider(create: (context) => MenuCubit()),
+        BlocProvider(create: (context) => locator<GlobalDateCubit>()),
+        BlocProvider(create: (context) => locator<MenuCubit>()),
         BlocProvider(create: (context) => locator<StreakCubit>()),
       ],
       child: const MyApp(),
