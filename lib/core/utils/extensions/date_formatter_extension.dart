@@ -11,6 +11,11 @@ extension DateFormatterExtension on DateTime? {
     return DateFormat('MMMM').format(this!);
   }
 
+  String? get shortMonthTitle {
+    if (this == null) return null;
+    return DateFormat('MMM').format(this!);
+  }
+
   String? get yearMonthDay {
     if (this == null) return null;
     return DateFormat('yyyy-MM-dd').format(this!);
