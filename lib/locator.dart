@@ -16,6 +16,7 @@ import 'package:momentum_track/features/reports/data/reports_local_provider.dart
 import 'package:momentum_track/features/reports/repository/reports_repository.dart';
 import 'package:momentum_track/features/streak_tracker/data/providers/streak_local_provider.dart';
 import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
+import 'package:momentum_track/features/streak_tracker/presentation/cubit/streak_cubit.dart';
 import 'package:momentum_track/features/streak_tracker/repository/streak_repository.dart';
 
 GetIt locator = GetIt.instance;
@@ -24,6 +25,7 @@ Future<void> locatorSetup() async {
   _callServices();
   _callProviders();
   _callRepositories();
+  _callBlocs();
 }
 
 void _callProviders() {
@@ -76,4 +78,8 @@ void _callRepositories() {
     DateDetailsRepository(locator()),
   );
   locator.registerSingleton<GlobalRepository>(GlobalRepository(locator()));
+}
+
+void _callBlocs() {
+  locator.registerSingleton<StreakCubit>(StreakCubit(locator()));
 }
