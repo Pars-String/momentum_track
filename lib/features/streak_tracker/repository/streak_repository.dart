@@ -25,7 +25,7 @@ class StreakRepository {
     final timeEntries = await provider.updateStreakHeatMap(now);
 
     for (final entry in timeEntries) {
-      if (entry.duration != null) continue;
+      if (entry.duration == null) continue;
 
       if (heatMap.containsKey(entry.startTime)) {
         heatMap[entry.startTime] = heatMap[entry.startTime]! + entry.duration!;
