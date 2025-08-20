@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/cubit/streak_cubit.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/widgets/streak_tile.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/widgets/week_days.dart';
@@ -132,16 +131,9 @@ class _StreakTrackerState extends State<StreakTracker> {
                                       final duration =
                                           dailyDurations[date] ?? 0.0;
 
-                                      return InkWell(
-                                        onTapDown: (value) {
-                                          debugPrint(
-                                            'date is ${date.toIso8601String()} and week is ${date.weekday} - ${date.weekdayTitle}',
-                                          );
-                                        },
-                                        child: StreakTile(
-                                          repeat: duration,
-                                          dateTime: date,
-                                        ),
+                                      return StreakTile(
+                                        repeat: duration,
+                                        dateTime: date,
                                       );
                                     }),
                                   ],
