@@ -1,17 +1,29 @@
 part of '../streak_cubit.dart';
 
-sealed class DurationStatus {}
+sealed class DurationStatus extends Equatable {}
 
-class DurationInitial extends DurationStatus {}
+class DurationInitial extends DurationStatus {
+  @override
+  List<Object?> get props => [];
+}
 
-class DurationLoading extends DurationStatus {}
+class DurationLoading extends DurationStatus {
+  @override
+  List<Object?> get props => [];
+}
 
-class DurationLoaded extends DurationStatus {
+class DurationFetched extends DurationStatus {
   final Map<DateTime, double> timelineDurations;
-  DurationLoaded({required this.timelineDurations});
+  DurationFetched(this.timelineDurations);
+
+  @override
+  List<Object?> get props => [timelineDurations];
 }
 
 class DurationError extends DurationStatus {
   final String message;
-  DurationError({required this.message});
+  DurationError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

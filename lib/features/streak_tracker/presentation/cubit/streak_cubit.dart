@@ -13,27 +13,52 @@ class StreakCubit extends Cubit<StreakState> {
         StreakState(
           calendarStatus: CalendarInitial(),
           durationStatus: DurationInitial(),
+          generalStatus: StreakStatus.initial,
         ),
       );
 
   void loadStreakCalendar() {
-    emit(state.copyWith(calendarStatus: CalendarLoading()));
+    emit(
+      state.copyWith(
+        calendarStatus: CalendarLoading(),
+        generalStatus: StreakStatus.calculating,
+      ),
+    );
 
     final monthDates = _streakRepository.buildActivityWeeks();
     emit(
-      state.copyWith(calendarStatus: CalendarLoaded(monthDates: monthDates)),
+      state.copyWith(
+        calendarStatus: CalendarGenerated(monthDates),
+        generalStatus: StreakStatus.completedFirstStep,
+      ),
     );
   }
 
   void loadStreakDurations() async {
-    emit(state.copyWith(durationStatus: DurationLoading()));
+    emit(
+      state.copyWith(
+        durationStatus: DurationLoading(),
+        generalStatus: StreakStatus.calculating,
+      ),
+    );
 
     final durations = await _streakRepository.buildStreakHeatMap(
       DateTime.now(),
     );
     emit(
       state.copyWith(
-        durationStatus: DurationLoaded(timelineDurations: durations),
+        durationStatus: DurationFetched(durations),
+        generalStatus: StreakStatus.completedSecondStep,
+      ),
+    );
+  }
+
+  void resetStreakHeatMap() {
+    emit(
+      state.copyWith(
+        generalStatus: StreakStatus.initial,
+        calendarStatus: CalendarInitial(),
+        durationStatus: DurationInitial(),
       ),
     );
   }
