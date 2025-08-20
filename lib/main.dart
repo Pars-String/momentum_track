@@ -4,8 +4,11 @@ import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dar
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/theme/app_theme.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
+import 'package:momentum_track/features/streak_tracker/presentation/cubit/streak_cubit.dart';
 import 'package:momentum_track/locator.dart';
 import 'package:window_manager/window_manager.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,10 +27,9 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => GlobalDateCubit()..setThisMonthDates(),
-        ),
-        BlocProvider(create: (context) => MenuCubit()),
+        BlocProvider(create: (context) => locator<GlobalDateCubit>()),
+        BlocProvider(create: (context) => locator<MenuCubit>()),
+        BlocProvider(create: (context) => locator<StreakCubit>()),
       ],
       child: const MyApp(),
     ),

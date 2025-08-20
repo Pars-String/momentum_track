@@ -1,17 +1,14 @@
 import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 
-class OverviewLocalProvider {
+class StreakLocalProvider {
   final DatabaseService dbService;
-  OverviewLocalProvider(this.dbService);
+  StreakLocalProvider(this.dbService);
 
-  Future<List<TimeEntry>> getThisMonthTimeEntry(
-    DateTime startDate,
-    DateTime endDate,
-  ) async {
+  Future<List<TimeEntry>> updateStreakHeatMap(DateTime now) async {
     return await dbService.getTimeEntriesForSpecificDate(
-      eDate: endDate,
-      sDate: startDate.copyWith(day: 1),
+      eDate: now,
+      sDate: now.copyWith(year: now.year - 1),
     );
   }
 }

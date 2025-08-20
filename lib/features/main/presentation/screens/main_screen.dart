@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/constant/app_pages.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 import 'package:momentum_track/features/main/presentation/widgets/side_menu.dart';
@@ -17,6 +18,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> with WindowListener {
+  int? get _selectedIndex {
+    final state = context.read<MenuCubit>().state.selectedPage;
+    if (state == AppPages.overview) return 0;
+    if (state == AppPages.projects) return 1;
+    if (state == AppPages.settings) return 2;
+    return null;
+  }
+
   @override
   void onWindowClose() async {
     bool isPreventClose = await windowManager.isPreventClose();
@@ -28,6 +37,9 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
   void initState() {
     windowManager.addListener(this);
     windowManager.setPreventClose(true);
+
+    context.read<GlobalDateCubit>().setThisMonthDates();
+
     super.initState();
   }
 
@@ -46,16 +58,14 @@ class _MainScreenState extends State<MainScreen> with WindowListener {
           Expanded(
             child: BlocBuilder<MenuCubit, MenuState>(
               builder: (context, state) {
-                if (state.selectedPage == AppPages.projects) {
-                  return ProjectsScreen();
-                }
-                if (state.selectedPage == AppPages.settings) {
-                  return SettingsScreen();
-                }
-                if (state.selectedPage == AppPages.overview) {
-                  return MonthOverviewScreen();
-                }
-                return SizedBox.shrink();
+                return IndexedStack(
+                  index: _selectedIndex,
+                  children: [
+                    MonthOverviewScreen(),
+                    ProjectsScreen(),
+                    SettingsScreen(),
+                  ],
+                );
               },
             ),
           ),

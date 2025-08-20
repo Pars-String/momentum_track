@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/core/widgets/app_change_date.dart';
 import 'package:momentum_track/features/month_overview/presentation/bloc/overview_bloc.dart';
 
@@ -17,7 +17,7 @@ class MonthOverviewScreen extends StatefulWidget {
 }
 
 class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
-  final DateTime now = CalculatingHelper.today();
+  final DateTime now = DateHelper.today();
   @override
   void initState() {
     super.initState();
@@ -92,10 +92,9 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                         child: DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color:
-                                now == date
-                                    ? Theme.of(context).colorScheme.primary
-                                    : null,
+                            color: now == date
+                                ? Theme.of(context).colorScheme.primary
+                                : null,
                             border: Border.all(
                               color: Theme.of(context).colorScheme.primary,
                               width: .8,
@@ -110,14 +109,13 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color:
-                                        now == date
-                                            ? Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer
-                                            : Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
+                                    color: now == date
+                                        ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                        : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                   ),
                                 ),
                                 Text(
@@ -125,25 +123,23 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color:
-                                        now == date
-                                            ? Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer
-                                            : Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
+                                    color: now == date
+                                        ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimaryContainer
+                                        : Theme.of(
+                                            context,
+                                          ).colorScheme.primaryContainer,
                                   ),
                                 ),
-                                if (CalculatingHelper.today() == date)
+                                if (DateHelper.isToday(date))
                                   Text(
                                     'Today',
                                     style: TextStyle(
                                       fontSize: 9,
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimaryContainer,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimaryContainer,
                                     ),
                                   ),
                               ],

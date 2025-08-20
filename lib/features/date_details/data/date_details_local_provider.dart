@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/services/database_service.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 
 class DateDetailsLocalProvider {
@@ -15,7 +15,7 @@ class DateDetailsLocalProvider {
   }) async {
     double? duration;
     if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
+      duration = CalculatingHelper.convertDurationToHours(
         startAt: startTime,
         endAt: endTime,
       );
@@ -52,7 +52,7 @@ class DateDetailsLocalProvider {
   }) async {
     double? duration;
     if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
+      duration = CalculatingHelper.convertDurationToHours(
         startAt: startTime,
         endAt: endTime,
       );

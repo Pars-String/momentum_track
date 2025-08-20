@@ -91,7 +91,7 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
     ]);
 
     for (final entry in timeEntries) {
-      final duration = CalculatingHelper.convertDoubleToDuration(
+      final duration = CalculatingHelper.convertHoursToDuration(
         entry.duration ?? 0,
       );
       totalDuration += duration;
@@ -155,10 +155,9 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                   ExportingLoading(),
                 );
 
-                final String projectName =
-                    state.projects
-                        .firstWhere((element) => element.id == projectID)
-                        .name;
+                final String projectName = state.projects
+                    .firstWhere((element) => element.id == projectID)
+                    .name;
 
                 exportProjectMonthlyReport(
                   context,
@@ -212,13 +211,12 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         underline: SizedBox.shrink(),
                         value: projectID,
-                        items:
-                            projects.map((e) {
-                              return DropdownMenuItem<int>(
-                                value: e.id,
-                                child: Text(e.name),
-                              );
-                            }).toList(),
+                        items: projects.map((e) {
+                          return DropdownMenuItem<int>(
+                            value: e.id,
+                            child: Text(e.name),
+                          );
+                        }).toList(),
                         onChanged: (value) {
                           if (!isLoading) {
                             projectID = value;
@@ -244,27 +242,27 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                                 }
                                 return null;
                               },
-                              onTap:
-                                  isLoading
-                                      ? null
-                                      : (focusNode) {
-                                        showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(2100),
-                                        ).then((thisDate) async {
-                                          if (thisDate != null) {
-                                            sDateController
-                                                .text = DateFormat.MMMMEEEEd()
-                                                .format(thisDate);
-                                            pickedStartDate = thisDate;
-                                            eDateController.text = '';
-                                            pickedEndDate = null;
-                                            setState(() {});
-                                          }
-                                        });
-                                      },
+                              onTap: isLoading
+                                  ? null
+                                  : (focusNode) {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      ).then((thisDate) async {
+                                        if (thisDate != null) {
+                                          sDateController.text =
+                                              DateFormat.MMMMEEEEd().format(
+                                                thisDate,
+                                              );
+                                          pickedStartDate = thisDate;
+                                          eDateController.text = '';
+                                          pickedEndDate = null;
+                                          setState(() {});
+                                        }
+                                      });
+                                    },
                             ),
                           ),
 
@@ -280,28 +278,28 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
 
                               return null;
                             },
-                            onTap:
-                                isLoading || pickedStartDate == null
-                                    ? (focusNode) {
-                                      FocusScope.of(context).unfocus();
-                                      startDateFormKey.currentState!.validate();
-                                      return;
-                                    }
-                                    : (focusNode) {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: pickedStartDate!,
-                                        firstDate: pickedStartDate!,
-                                        lastDate: DateTime(2100),
-                                      ).then((thisDate) async {
-                                        if (thisDate != null) {
-                                          eDateController
-                                              .text = DateFormat.MMMMEEEEd()
-                                              .format(thisDate);
-                                          pickedEndDate = thisDate;
-                                        }
-                                      });
-                                    },
+                            onTap: isLoading || pickedStartDate == null
+                                ? (focusNode) {
+                                    FocusScope.of(context).unfocus();
+                                    startDateFormKey.currentState!.validate();
+                                    return;
+                                  }
+                                : (focusNode) {
+                                    showDatePicker(
+                                      context: context,
+                                      initialDate: pickedStartDate!,
+                                      firstDate: pickedStartDate!,
+                                      lastDate: DateTime(2100),
+                                    ).then((thisDate) async {
+                                      if (thisDate != null) {
+                                        eDateController.text =
+                                            DateFormat.MMMMEEEEd().format(
+                                              thisDate,
+                                            );
+                                        pickedEndDate = thisDate;
+                                      }
+                                    });
+                                  },
                           ),
 
                           Gap(16),
@@ -314,20 +312,19 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                     children: [
                       Expanded(
                         child: AppElevatedButton(
-                          onPressed:
-                              projectID == null || isLoading
-                                  ? null
-                                  : () async {
-                                    if (allFormKey.currentState!.validate()) {
-                                      context
-                                          .read<ReportCubit>()
-                                          .getCustomRangeTimeEntries(
-                                            projectId: projectID!,
-                                            sDate: pickedStartDate!,
-                                            eDate: pickedEndDate!,
-                                          );
-                                    }
-                                  },
+                          onPressed: projectID == null || isLoading
+                              ? null
+                              : () async {
+                                  if (allFormKey.currentState!.validate()) {
+                                    context
+                                        .read<ReportCubit>()
+                                        .getCustomRangeTimeEntries(
+                                          projectId: projectID!,
+                                          sDate: pickedStartDate!,
+                                          eDate: pickedEndDate!,
+                                        );
+                                  }
+                                },
                           title: isLoading ? 'Please Wait...' : 'Generate',
                         ),
                       ),

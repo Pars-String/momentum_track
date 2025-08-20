@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 
 class AppChangeDate extends StatelessWidget {
   final GlobalDateState state;
@@ -13,7 +13,7 @@ class AppChangeDate extends StatelessWidget {
   Widget build(BuildContext context) {
     final String monthTitle =
         '${DateFormat('MMMM').format(state.thisMonthDates.first)} ${state.thisMonthDates.first.year}';
-    final DateTime now = CalculatingHelper.today();
+    final DateTime now = DateHelper.today();
 
     return Row(
       children: [
