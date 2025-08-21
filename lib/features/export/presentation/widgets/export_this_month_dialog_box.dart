@@ -10,32 +10,26 @@ import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
-import 'package:momentum_track/core/widgets/app_text_form_field.dart';
-import 'package:momentum_track/features/reports/presentation/cubit/report_cubit.dart';
+import 'package:momentum_track/features/export/presentation/cubit/report_cubit.dart';
 import 'package:path/path.dart';
 
-class ExportCustomDateDialogBox extends StatefulWidget {
+class ExportThisMonthDialogBox extends StatefulWidget {
   final BuildContext innerContext;
-  const ExportCustomDateDialogBox({required this.innerContext, super.key});
+  const ExportThisMonthDialogBox({required this.innerContext, super.key});
 
   @override
-  State<ExportCustomDateDialogBox> createState() =>
-      _ExportCustomDateDialogBoxState();
+  State<ExportThisMonthDialogBox> createState() =>
+      _ExportThisMonthDialogBoxState();
 }
 
-class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
-  final TextEditingController sDateController = TextEditingController();
-  final TextEditingController eDateController = TextEditingController();
+class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
+  final TextEditingController dateController = TextEditingController();
   final allFormKey = GlobalKey<FormState>();
-  final startDateFormKey = GlobalKey<FormState>();
   int? projectID;
-  DateTime? pickedStartDate;
-  DateTime? pickedEndDate;
 
   @override
   void dispose() {
-    sDateController.dispose();
-    eDateController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -58,27 +52,21 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
     }
 
     final String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    final String selectedStartDate = DateFormat(
-      'dd MMMM',
+    final String selectedDate = DateFormat(
+      'MMMM',
     ).format(timeEntries.first.startTime);
-    final String selectedEndDate = DateFormat(
-      'dd MMMM',
-    ).format(timeEntries.last.startTime);
     Duration totalDuration = Duration.zero;
 
     final excel = Excel.createExcel();
     final sheetsMap = excel.sheets;
-    excel.rename(
-      sheetsMap.keys.first,
-      '$selectedStartDate/$selectedEndDate Report',
-    );
-    final sheet = excel['$selectedStartDate/$selectedEndDate Report'];
+    excel.rename(sheetsMap.keys.first, '$selectedDate Report');
+    final sheet = excel['$selectedDate Report'];
 
     sheet.merge(
       CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
       CellIndex.indexByColumnRow(columnIndex: 4, rowIndex: 0),
       customValue: TextCellValue(
-        'Momentum Track Report  -( $projectName / from $selectedStartDate to $selectedEndDate )-',
+        'Momentum Track Report  -( $projectName / $selectedDate )-',
       ),
     );
 
@@ -120,7 +108,7 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
     var fileBytes = excel.save();
 
     final String fileName =
-        '${projectName}_report_from_${selectedStartDate}_to_${selectedEndDate}_generated_$now.xlsx';
+        '${projectName}_report_on_${selectedDate}_generated_$now.xlsx';
     final parent = Directory(chosenDirectory);
     final file = File(join(chosenDirectory, fileName));
 
@@ -226,86 +214,38 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                       ),
                     ),
                     Gap(16),
-                    Form(
-                      key: allFormKey,
-                      child: Column(
-                        children: [
-                          Form(
-                            key: startDateFormKey,
-                            child: AppTextFormField(
-                              label: 'Select start date',
-                              controller: sDateController,
-                              readOnly: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please select a start date';
-                                }
-                                return null;
-                              },
-                              onTap: isLoading
-                                  ? null
-                                  : (focusNode) {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2100),
-                                      ).then((thisDate) async {
-                                        if (thisDate != null) {
-                                          sDateController.text =
-                                              DateFormat.MMMMEEEEd().format(
-                                                thisDate,
-                                              );
-                                          pickedStartDate = thisDate;
-                                          eDateController.text = '';
-                                          pickedEndDate = null;
-                                          setState(() {});
-                                        }
-                                      });
-                                    },
-                            ),
-                          ),
+                    // Form(
+                    //   key: allFormKey,
+                    //   child: Column(
+                    //     children: [
+                    //       AppTextFormField(
+                    //         label: 'Select a date',
+                    //         controller: dateController,
+                    //         readOnly: true,
+                    //         onTap:
+                    //             isLoading
+                    //                 ? null
+                    //                 : (focusNode) {
+                    //                   showDatePicker(
+                    //                     context: context,
+                    //                     initialDate: DateTime.now(),
+                    //                     firstDate: DateTime(2000),
+                    //                     lastDate: DateTime(2100),
+                    //                   ).then((thisDate) async {
+                    //                     if (thisDate != null) {
+                    //                       dateController
+                    //                           .text = DateFormat.MMMMEEEEd()
+                    //                           .format(thisDate);
+                    //                       pickedDate = thisDate;
+                    //                     }
+                    //                   });
+                    //                 },
+                    //       ),
 
-                          Gap(16),
-                          AppTextFormField(
-                            label: 'Select end date',
-                            controller: eDateController,
-                            readOnly: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select an end date';
-                              }
-
-                              return null;
-                            },
-                            onTap: isLoading || pickedStartDate == null
-                                ? (focusNode) {
-                                    FocusScope.of(context).unfocus();
-                                    startDateFormKey.currentState!.validate();
-                                    return;
-                                  }
-                                : (focusNode) {
-                                    showDatePicker(
-                                      context: context,
-                                      initialDate: pickedStartDate!,
-                                      firstDate: pickedStartDate!,
-                                      lastDate: DateTime(2100),
-                                    ).then((thisDate) async {
-                                      if (thisDate != null) {
-                                        eDateController.text =
-                                            DateFormat.MMMMEEEEd().format(
-                                              thisDate,
-                                            );
-                                        pickedEndDate = thisDate;
-                                      }
-                                    });
-                                  },
-                          ),
-
-                          Gap(16),
-                        ],
-                      ),
-                    ),
+                    //       Gap(16),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
 
                   Row(
@@ -315,15 +255,11 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                           onPressed: projectID == null || isLoading
                               ? null
                               : () async {
-                                  if (allFormKey.currentState!.validate()) {
-                                    context
-                                        .read<ReportCubit>()
-                                        .getCustomRangeTimeEntries(
-                                          projectId: projectID!,
-                                          sDate: pickedStartDate!,
-                                          eDate: pickedEndDate!,
-                                        );
-                                  }
+                                  context
+                                      .read<ReportCubit>()
+                                      .getThisMonthTimeEntries(
+                                        projectId: projectID!,
+                                      );
                                 },
                           title: isLoading ? 'Please Wait...' : 'Generate',
                         ),

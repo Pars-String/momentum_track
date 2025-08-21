@@ -1,7 +1,7 @@
 import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
-import 'package:momentum_track/features/reports/data/reports_local_provider.dart';
+import 'package:momentum_track/features/export/data/reports_local_provider.dart';
 
 class ReportsRepository {
   final ReportsLocalProvider dbProvider;
