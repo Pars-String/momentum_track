@@ -4,13 +4,13 @@ import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/repositories/global_repository.dart';
+import 'package:momentum_track/features/calendar/data/calendar_local_provider.dart';
+import 'package:momentum_track/features/calendar/repository/calendar_repository.dart';
 import 'package:momentum_track/features/date_details/data/date_details_local_provider.dart';
 import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
 import 'package:momentum_track/features/export/data/reports_local_provider.dart';
 import 'package:momentum_track/features/export/repository/reports_repository.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
-import 'package:momentum_track/features/month_overview/data/overview_local_provider.dart';
-import 'package:momentum_track/features/month_overview/repository/overview_repository.dart';
 import 'package:momentum_track/features/project_details/data/project_details_local_provider.dart';
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
@@ -31,8 +31,8 @@ Future<void> locatorSetup() async {
 }
 
 void _callProviders() {
-  locator.registerSingleton<OverviewLocalProvider>(
-    OverviewLocalProvider(locator()),
+  locator.registerSingleton<CalendarLocalProvider>(
+    CalendarLocalProvider(locator()),
   );
   locator.registerSingleton<ProjectsLocalProvider>(
     ProjectsLocalProvider(locator()),
@@ -61,8 +61,8 @@ void _callServices() {
 }
 
 void _callRepositories() {
-  locator.registerSingleton<OverviewRepository>(
-    OverviewRepository(locator(), locator()),
+  locator.registerSingleton<CalendarRepository>(
+    CalendarRepository(locator(), locator()),
   );
   locator.registerSingleton<ProjectsRepository>(
     ProjectsRepository(locator(), locator(), locator()),

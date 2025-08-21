@@ -7,22 +7,22 @@ import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dar
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/core/widgets/app_change_date.dart';
-import 'package:momentum_track/features/month_overview/presentation/bloc/overview_bloc.dart';
+import 'package:momentum_track/features/calendar/presentation/bloc/calendar_bloc.dart';
 
-class MonthOverviewScreen extends StatefulWidget {
-  const MonthOverviewScreen({super.key});
+class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
 
   @override
-  State<MonthOverviewScreen> createState() => _MonthOverviewScreenState();
+  State<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
+class _CalendarScreenState extends State<CalendarScreen> {
   final DateTime now = DateHelper.today();
   @override
   void initState() {
     super.initState();
 
-    context.read<OverviewBloc>().add(InitThisMonth());
+    context.read<CalendarBloc>().add(InitThisMonth());
   }
 
   @override
@@ -31,7 +31,7 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
       listenWhen: (p, c) => p.dateListStatus != c.dateListStatus,
       listener: (context, state) {
         if (state.dateListStatus == DateListStatus.success) {
-          context.read<OverviewBloc>().add(
+          context.read<CalendarBloc>().add(
             InitThisMonth(date: state.thisMonthDates.first),
           );
         }
@@ -45,15 +45,15 @@ class _MonthOverviewScreenState extends State<MonthOverviewScreen> {
 
             SliverGap(25),
 
-            BlocBuilder<OverviewBloc, OverviewState>(
+            BlocBuilder<CalendarBloc, CalendarState>(
               builder: (context, state) {
-                if (state.overviewStatus == OverviewStatus.loading ||
-                    state.overviewStatus == OverviewStatus.initial) {
+                if (state.overviewStatus == CalendarStatus.loading ||
+                    state.overviewStatus == CalendarStatus.initial) {
                   return SliverToBoxAdapter(
                     child: const Center(child: CircularProgressIndicator()),
                   );
                 }
-                if (state.overviewStatus == OverviewStatus.failure) {
+                if (state.overviewStatus == CalendarStatus.failure) {
                   return SliverToBoxAdapter(
                     child: const Center(child: Text('Failed to load overview')),
                   );
