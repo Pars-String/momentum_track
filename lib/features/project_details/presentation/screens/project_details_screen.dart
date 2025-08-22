@@ -20,18 +20,19 @@ class ProjectDetailsScreen extends StatefulWidget {
 }
 
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
-  bool hasInitDate = false;
   final List<DateTime> dateList = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    dateList.addAll(context.read<GlobalDateCubit>().state.thisMonthDates);
+    context.read<DetailsBloc>().add(InitDateList(dateList));
+  }
 
   @override
   Widget build(BuildContext context) {
     final Project project = GoRouterState.of(context).extra as Project;
-
-    if (!hasInitDate) {
-      hasInitDate = true;
-      dateList.addAll(context.read<GlobalDateCubit>().state.thisMonthDates);
-      context.read<DetailsBloc>().add(InitDateList(dateList));
-    }
 
     return BlocListener<DetailsBloc, DetailsState>(
       listenWhen: (p, c) => p.detailsDateStatus != c.detailsDateStatus,
@@ -62,8 +63,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
           // ),
         ),
         body: BlocBuilder<DetailsBloc, DetailsState>(
-          buildWhen:
-              (p, c) => p.projectTimeEntryStatus != c.projectTimeEntryStatus,
+          buildWhen: (p, c) =>
+              p.projectTimeEntryStatus != c.projectTimeEntryStatus,
           builder: (context, state) {
             final bool isLoading =
                 state.projectTimeEntryStatus is TimeEntryLoading ||
@@ -91,23 +92,21 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
 
             return ListView.separated(
               itemCount: timeEntries.length,
-              separatorBuilder:
-                  (context, index) =>
-                      Divider(color: Theme.of(context).colorScheme.primary),
+              separatorBuilder: (context, index) =>
+                  Divider(color: Theme.of(context).colorScheme.primary),
               itemBuilder: (context, index) {
                 final TimeEntry timeEntry = timeEntries[index];
                 final String note =
                     timeEntry.note != null && timeEntry.note?.isNotEmpty == true
-                        ? timeEntry.note!
-                        : 'No description';
+                    ? timeEntry.note!
+                    : 'No description';
                 final String startTime =
                     '${timeEntry.startTime.hour.toString().padLeft(2, '0')}:${timeEntry.startTime.minute.toString().padLeft(2, '0')}';
                 final String endTime =
                     '${timeEntry.endTime?.hour.toString().padLeft(2, '0')}:${timeEntry.endTime?.minute.toString().padLeft(2, '0')}';
-                final String duration =
-                    timeEntry.endTime == null
-                        ? 'In progress'
-                        : '${timeEntry.endTime!.difference(timeEntry.startTime).inHours}h ${timeEntry.endTime!.difference(timeEntry.startTime).inMinutes.remainder(60)}m';
+                final String duration = timeEntry.endTime == null
+                    ? 'In progress'
+                    : '${timeEntry.endTime!.difference(timeEntry.startTime).inHours}h ${timeEntry.endTime!.difference(timeEntry.startTime).inMinutes.remainder(60)}m';
 
                 return InkWell(
                   onTap: () {
@@ -139,10 +138,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                             Text(note, style: TextStyle(fontSize: 14)),
                             DecoratedBox(
                               decoration: BoxDecoration(
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).colorScheme.primaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Padding(
@@ -161,10 +159,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                               text: 'Start at  ',
                                               style: TextStyle(
                                                 fontSize: 13,
-                                                color:
-                                                    Theme.of(context)
-                                                        .colorScheme
-                                                        .onPrimaryContainer,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimaryContainer,
                                               ),
                                             ),
                                             TextSpan(
@@ -183,10 +180,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                                 text: '\nEnd at    ',
                                                 style: TextStyle(
                                                   fontSize: 13,
-                                                  color:
-                                                      Theme.of(context)
-                                                          .colorScheme
-                                                          .onPrimaryContainer,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimaryContainer,
                                                 ),
                                               ),
                                               TextSpan(
@@ -221,10 +217,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                                       duration,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer,
                                       ),
                                     ),
                                   ],
