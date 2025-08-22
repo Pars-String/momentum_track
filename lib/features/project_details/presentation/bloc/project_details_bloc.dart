@@ -4,16 +4,17 @@ import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 
-part 'details_event.dart';
-part 'details_state.dart';
+part 'project_details_event.dart';
+part 'project_details_state.dart';
 part 'status/details_date_status.dart';
 part 'status/project_time_entry_status.dart';
 
-class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
+class ProjectDetailsBloc
+    extends Bloc<ProjectDetailsEvent, ProjectDetailsState> {
   final ProjectDetailsRepository repository;
-  DetailsBloc(this.repository)
+  ProjectDetailsBloc(this.repository)
     : super(
-        DetailsState(
+        ProjectDetailsState(
           detailsDateStatus: DetailsDateInitial(),
           projectTimeEntryStatus: TimeEntryInitial(),
           selectedDate: DateHelper.today(),

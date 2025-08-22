@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
-import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 
 class AddTimeEntryModalView extends StatefulWidget {
   final int projectID;
@@ -97,10 +97,10 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: widget.innerContext.read<DetailsBloc>(),
+      value: widget.innerContext.read<ProjectDetailsBloc>(),
       child: Builder(
         builder: (context) {
-          return BlocBuilder<DetailsBloc, DetailsState>(
+          return BlocBuilder<ProjectDetailsBloc, ProjectDetailsState>(
             buildWhen: (p, c) => p.selectedDate != c.selectedDate,
             builder: (context, state) {
               if (widget.timeEntry == null && !hasInitialized) {
@@ -138,10 +138,10 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
                                       millisecond: 0,
                                       microsecond: 0,
                                     );
-                                    startDateController
-                                        .text = DateFormat.MMMMEEEEd().format(
-                                      pickedDate,
-                                    );
+                                    startDateController.text =
+                                        DateFormat.MMMMEEEEd().format(
+                                          pickedDate,
+                                        );
                                   }
                                 });
                               },
@@ -267,7 +267,7 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
                             onPressed: () {
                               if (widget.timeEntry != null) {
                                 if (startTimeFormKey.currentState!.validate()) {
-                                  context.read<DetailsBloc>().add(
+                                  context.read<ProjectDetailsBloc>().add(
                                     EditTimeEntry(
                                       id: widget.timeEntry!.id,
                                       note: descriptionController.text,
@@ -279,7 +279,7 @@ class _AddTimeEntryModalViewState extends State<AddTimeEntryModalView> {
                                 }
                               } else {
                                 if (startTimeFormKey.currentState!.validate()) {
-                                  context.read<DetailsBloc>().add(
+                                  context.read<ProjectDetailsBloc>().add(
                                     AddNewTimeEntry(
                                       projectID: widget.projectID,
                                       note: descriptionController.text,

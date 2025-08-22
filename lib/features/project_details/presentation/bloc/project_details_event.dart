@@ -1,13 +1,13 @@
-part of 'details_bloc.dart';
+part of 'project_details_bloc.dart';
 
-sealed class DetailsEvent extends Equatable {
-  const DetailsEvent();
+sealed class ProjectDetailsEvent extends Equatable {
+  const ProjectDetailsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class InitDateList extends DetailsEvent {
+class InitDateList extends ProjectDetailsEvent {
   final List<DateTime> dateList;
   const InitDateList(this.dateList);
 
@@ -15,7 +15,7 @@ class InitDateList extends DetailsEvent {
   List<Object> get props => [dateList];
 }
 
-class InitTimeEntriesList extends DetailsEvent {
+class InitTimeEntriesList extends ProjectDetailsEvent {
   final int projectID;
   final List<DateTime> dateList;
   const InitTimeEntriesList({required this.projectID, required this.dateList});
@@ -24,7 +24,7 @@ class InitTimeEntriesList extends DetailsEvent {
   List<Object> get props => [projectID, dateList];
 }
 
-class SelectNewDate extends DetailsEvent {
+class SelectNewDate extends ProjectDetailsEvent {
   final DateTime date;
   final int projectID;
   const SelectNewDate({required this.date, required this.projectID});
@@ -33,7 +33,7 @@ class SelectNewDate extends DetailsEvent {
   List<Object> get props => [date, projectID];
 }
 
-class AddNewTimeEntry extends DetailsEvent {
+class AddNewTimeEntry extends ProjectDetailsEvent {
   final int projectID;
   final String? note;
   final DateTime startTime;
@@ -55,7 +55,7 @@ class AddNewTimeEntry extends DetailsEvent {
   ];
 }
 
-class EditTimeEntry extends DetailsEvent {
+class EditTimeEntry extends ProjectDetailsEvent {
   final int id;
   final String? note;
   final DateTime startTime;

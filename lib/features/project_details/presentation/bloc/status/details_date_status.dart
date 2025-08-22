@@ -1,4 +1,4 @@
-part of '../details_bloc.dart';
+part of '../project_details_bloc.dart';
 
 sealed class DetailsDateStatus extends Equatable {}
 

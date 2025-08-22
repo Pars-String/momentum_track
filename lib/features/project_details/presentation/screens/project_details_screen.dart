@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
-import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/add_time_entry_modal_view.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
@@ -27,21 +27,21 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     super.initState();
 
     dateList.addAll(context.read<GlobalDateCubit>().state.thisMonthDates);
-    context.read<DetailsBloc>().add(InitDateList(dateList));
+    context.read<ProjectDetailsBloc>().add(InitDateList(dateList));
   }
 
   @override
   Widget build(BuildContext context) {
     final Project project = GoRouterState.of(context).extra as Project;
 
-    return BlocListener<DetailsBloc, DetailsState>(
+    return BlocListener<ProjectDetailsBloc, ProjectDetailsState>(
       listenWhen: (p, c) => p.detailsDateStatus != c.detailsDateStatus,
       listener: (context, state) {
         if (state.detailsDateStatus is DetailsDateSuccess) {
           final List<DateTime> thisMonth =
               (state.detailsDateStatus as DetailsDateSuccess).dateList;
 
-          context.read<DetailsBloc>().add(
+          context.read<ProjectDetailsBloc>().add(
             InitTimeEntriesList(projectID: project.id, dateList: thisMonth),
           );
         }
@@ -62,7 +62,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
           //   child: ThisWeek(project.id),
           // ),
         ),
-        body: BlocBuilder<DetailsBloc, DetailsState>(
+        body: BlocBuilder<ProjectDetailsBloc, ProjectDetailsState>(
           buildWhen: (p, c) =>
               p.projectTimeEntryStatus != c.projectTimeEntryStatus,
           builder: (context, state) {

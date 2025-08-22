@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'details_bloc.dart';
+part of 'project_details_bloc.dart';
 
-class DetailsState extends Equatable {
+class ProjectDetailsState extends Equatable {
   final DetailsDateStatus detailsDateStatus;
   final ProjectTimeEntryStatus projectTimeEntryStatus;
   final DateTime selectedDate;
-  const DetailsState({
+  const ProjectDetailsState({
     required this.detailsDateStatus,
     required this.projectTimeEntryStatus,
     required this.selectedDate,
@@ -18,12 +18,12 @@ class DetailsState extends Equatable {
     selectedDate,
   ];
 
-  DetailsState copyWith({
+  ProjectDetailsState copyWith({
     DetailsDateStatus? detailsDateStatus,
     ProjectTimeEntryStatus? projectTimeEntryStatus,
     DateTime? selectedDate,
   }) {
-    return DetailsState(
+    return ProjectDetailsState(
       detailsDateStatus: detailsDateStatus ?? this.detailsDateStatus,
       projectTimeEntryStatus:
           projectTimeEntryStatus ?? this.projectTimeEntryStatus,

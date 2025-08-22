@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 
 class ChangeDateButton extends StatelessWidget {
   final int projectID;
@@ -8,7 +8,7 @@ class ChangeDateButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsBloc, DetailsState>(
+    return BlocBuilder<ProjectDetailsBloc, ProjectDetailsState>(
       builder: (context, state) {
         return IconButton(
           onPressed: () {

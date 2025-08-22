@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:momentum_track/features/project_details/presentation/bloc/details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
 
 class ThisWeek extends StatelessWidget {
@@ -10,11 +10,10 @@ class ThisWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailsBloc, DetailsState>(
-      buildWhen:
-          (p, c) =>
-              p.detailsDateStatus != c.detailsDateStatus ||
-              p.selectedDate != c.selectedDate,
+    return BlocBuilder<ProjectDetailsBloc, ProjectDetailsState>(
+      buildWhen: (p, c) =>
+          p.detailsDateStatus != c.detailsDateStatus ||
+          p.selectedDate != c.selectedDate,
       builder: (context, state) {
         final List<DateTime> dateList = [];
 
@@ -38,14 +37,13 @@ class ThisWeek extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children:
-                    dateList.map((e) {
-                      return DateTile(
-                        selectedDate: state.selectedDate,
-                        // projectID: projectID,
-                        date: e,
-                      );
-                    }).toList(),
+                children: dateList.map((e) {
+                  return DateTile(
+                    selectedDate: state.selectedDate,
+                    // projectID: projectID,
+                    date: e,
+                  );
+                }).toList(),
               ),
               Row(
                 children: [
