@@ -28,6 +28,10 @@ class ProjectDetailsRepository {
     return await localProvider.getAllProjects();
   }
 
+  Future<void> deleteTimeEntry(int timeEntryId) async {
+    await localProvider.deleteTimeEntry(timeEntryId);
+  }
+
   Future<List<TimeEntry>> getTimeEntries({
     required int projectId,
     required DateTime sDate,

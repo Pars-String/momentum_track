@@ -85,6 +85,10 @@ class ProjectDetailsLocalProvider {
     return await dbService.getAllProjects();
   }
 
+  Future<void> deleteTimeEntry(int timeEntryId) async {
+    await dbService.deleteTimeEntry(timeEntryId);
+  }
+
   Future<List<TimeEntry>> getTimeEntriesForOneMonth({
     required int projectId,
     required DateTime sDate,

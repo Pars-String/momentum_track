@@ -23,6 +23,7 @@ class ProjectDetailsBloc
     on<InitProjectDetails>(_onInitProjectDetails);
     on<AddNewTimeEntry>(_addNewTimeEntry);
     on<EditTimeEntry>(_editTimeEntry);
+    on<DeleteTimeEntry>(_deleteTimeEntry);
 
     // on<SelectNewDate>((event, emit) async {
     //   final DateTime cache = state.selectedDate;
@@ -150,6 +151,41 @@ class ProjectDetailsBloc
       timeEntries
         ..removeAt(index)
         ..insert(index, item);
+
+      emit(
+        state.copyWith(
+          timeEntries: timeEntries,
+          addOrEditTimeEntryStatus: AddOrEditTimeEntryStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          addOrEditTimeEntryStatus: AddOrEditTimeEntryStatus.failure,
+        ),
+      );
+    }
+  }
+
+  void _deleteTimeEntry(
+    DeleteTimeEntry event,
+    Emitter<ProjectDetailsState> emit,
+  ) async {
+    final List<TimeEntry> timeEntries = state.timeEntries;
+    emit(
+      state.copyWith(
+        addOrEditTimeEntryStatus: AddOrEditTimeEntryStatus.loading,
+      ),
+    );
+
+    try {
+      await repository.deleteTimeEntry(event.timeEntryID);
+
+      final int index = timeEntries.indexWhere(
+        (element) => element.id == event.timeEntryID,
+      );
+
+      timeEntries.removeAt(index);
 
       emit(
         state.copyWith(

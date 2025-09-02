@@ -42,3 +42,12 @@ class EditTimeEntry extends ProjectDetailsEvent {
   @override
   List<Object> get props => [timeEntry];
 }
+
+class DeleteTimeEntry extends ProjectDetailsEvent {
+  final int timeEntryID;
+
+  const DeleteTimeEntry({required this.timeEntryID});
+
+  @override
+  List<Object> get props => [timeEntryID];
+}

@@ -76,7 +76,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                   TimeEntryInfo(timeEntry: timeEntry),
                   Gap(8),
                   EditTimeEntryButton(timeEntry: timeEntry),
-                  DeleteTimeEntryButton(),
+                  DeleteTimeEntryButton(timeEntryID: timeEntry.id),
                   Gap(16),
                 ],
               );
