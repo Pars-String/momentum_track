@@ -14,47 +14,18 @@ class InitialDetails extends DateDetailsEvent {
 }
 
 class AddNewTimeEntry extends DateDetailsEvent {
-  final int projectID;
-  final String? note;
-  final DateTime startTime;
-  final DateTime? endTime;
+  final TimeEntryForm timeEntryForm;
 
-  const AddNewTimeEntry({
-    required this.projectID,
-    this.note,
-    required this.startTime,
-    this.endTime,
-  });
+  const AddNewTimeEntry({required this.timeEntryForm});
 
   @override
-  List<Object> get props => [
-    projectID,
-    note ?? '',
-    startTime,
-    endTime ?? DateTime.now(),
-  ];
+  List<Object> get props => [timeEntryForm];
 }
 
 class EditTimeEntry extends DateDetailsEvent {
-  final int id;
-  final int projectID;
-  final String? note;
-  final DateTime startTime;
-  final DateTime? endTime;
-
-  const EditTimeEntry({
-    required this.id,
-    required this.projectID,
-    this.note,
-    required this.startTime,
-    this.endTime,
-  });
+  final TimeEntryForm timeEntryForm;
+  const EditTimeEntry({required this.timeEntryForm});
 
   @override
-  List<Object> get props => [
-    id,
-    note ?? '',
-    startTime,
-    endTime ?? DateTime.now(),
-  ];
+  List<Object> get props => [timeEntryForm];
 }

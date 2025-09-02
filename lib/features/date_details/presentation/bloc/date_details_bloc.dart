@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
 
@@ -40,10 +41,7 @@ class DateDetailsBloc extends Bloc<DateDetailsEvent, DateDetailsState> {
 
       try {
         final TimeEntry item = await repository.addNewTimeEntry(
-          projectId: event.projectID,
-          note: event.note,
-          startTime: event.startTime,
-          endTime: event.endTime,
+          timeEntryForm: event.timeEntryForm,
         );
         timeEntries.add(item);
 
@@ -64,24 +62,23 @@ class DateDetailsBloc extends Bloc<DateDetailsEvent, DateDetailsState> {
     });
 
     on<EditTimeEntry>((event, emit) async {
-      final List<TimeEntry> timeEntries = state.timeEntries;
-
       emit(state.copyWith(dateDetailsStatus: DateDetailsStatus.loading));
+
+      final List<TimeEntry> timeEntries = state.timeEntries;
       final TimeEntry timeEntry = timeEntries.firstWhere(
-        (element) => element.id == event.id,
+        (element) => element.id == event.timeEntryForm.id,
       );
+      final int index = timeEntries.indexOf(timeEntry);
 
       try {
-        final TimeEntry item = await repository.updateTimeEntry(
+        final TimeEntry updatedTimeEntry = await repository.updateTimeEntry(
           timeEntry: timeEntry,
-          projectId: event.projectID,
-          note: event.note,
-          startTime: event.startTime,
-          endTime: event.endTime,
+          timeEntryForm: event.timeEntryForm,
         );
+
         timeEntries
           ..remove(timeEntry)
-          ..insert(0, item);
+          ..insert(index, updatedTimeEntry);
 
         emit(
           state.copyWith(

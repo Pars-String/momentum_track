@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drift/drift.dart';
+import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,8 +19,9 @@ class DatabaseService {
   }
 
   Future<Project> getProject(int projectID) async {
-    return (db.select(db.projects)
-      ..where((tbl) => tbl.id.equals(projectID))).getSingle();
+    return (db.select(
+      db.projects,
+    )..where((tbl) => tbl.id.equals(projectID))).getSingle();
   }
 
   Future<void> updateProject(ProjectsCompanion project) async {
@@ -27,8 +29,9 @@ class DatabaseService {
   }
 
   Future<void> deleteProject(int id) async {
-    await (db.delete(db.timeEntries)
-      ..where((tbl) => tbl.projectId.equals(id))).go();
+    await (db.delete(
+      db.timeEntries,
+    )..where((tbl) => tbl.projectId.equals(id))).go();
     await (db.delete(db.projects)..where((tbl) => tbl.id.equals(id))).go();
   }
 
@@ -154,12 +157,26 @@ class DatabaseService {
   Future<List<TimeEntry>> getAllTimeEntriesByProjectID({
     required int projectId,
   }) async {
-    return (db.select(db.timeEntries)
-      ..where((tbl) => tbl.projectId.equals(projectId))).get();
+    return (db.select(
+      db.timeEntries,
+    )..where((tbl) => tbl.projectId.equals(projectId))).get();
   }
 
   Future<void> updateTimeEntry(Insertable<TimeEntry> timeEntry) async {
     await db.update(db.timeEntries).replace(timeEntry);
+  }
+
+  Future<void> updateTimeEntryNew(TimeEntryForm timeEntryForm) async {
+    await (db.update(
+      db.timeEntries,
+    )..where((tbl) => tbl.id.isValue(timeEntryForm.id!))).write(
+      TimeEntriesCompanion(
+        note: Value(timeEntryForm.description),
+        startTime: Value(timeEntryForm.startDate),
+        endTime: Value(timeEntryForm.endDate),
+        duration: Value(timeEntryForm.duration),
+      ),
+    );
   }
 
   Future<void> deleteTimeEntry(int id) async {
