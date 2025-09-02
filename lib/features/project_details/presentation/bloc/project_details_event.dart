@@ -7,72 +7,38 @@ sealed class ProjectDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitDateList extends ProjectDetailsEvent {
-  final List<DateTime> dateList;
-  const InitDateList(this.dateList);
-
-  @override
-  List<Object> get props => [dateList];
-}
-
-class InitTimeEntriesList extends ProjectDetailsEvent {
+class InitProjectDetails extends ProjectDetailsEvent {
+  final List<DateTime> thisMonthDates;
   final int projectID;
-  final List<DateTime> dateList;
-  const InitTimeEntriesList({required this.projectID, required this.dateList});
+  const InitProjectDetails(this.thisMonthDates, this.projectID);
 
   @override
-  List<Object> get props => [projectID, dateList];
+  List<Object> get props => [thisMonthDates, projectID];
 }
 
-class SelectNewDate extends ProjectDetailsEvent {
-  final DateTime date;
-  final int projectID;
-  const SelectNewDate({required this.date, required this.projectID});
+// class SelectNewDate extends ProjectDetailsEvent {
+//   final DateTime date;
+//   final int projectID;
+//   const SelectNewDate({required this.date, required this.projectID});
 
-  @override
-  List<Object> get props => [date, projectID];
-}
+//   @override
+//   List<Object> get props => [date, projectID];
+// }
 
 class AddNewTimeEntry extends ProjectDetailsEvent {
-  final int projectID;
-  final String? note;
-  final DateTime startTime;
-  final DateTime? endTime;
+  final TimeEntryForm timeEntry;
 
-  const AddNewTimeEntry({
-    required this.projectID,
-    this.note,
-    required this.startTime,
-    this.endTime,
-  });
+  const AddNewTimeEntry({required this.timeEntry});
 
   @override
-  List<Object> get props => [
-    projectID,
-    note ?? '',
-    startTime,
-    endTime ?? DateTime.now(),
-  ];
+  List<Object> get props => [timeEntry];
 }
 
 class EditTimeEntry extends ProjectDetailsEvent {
-  final int id;
-  final String? note;
-  final DateTime startTime;
-  final DateTime? endTime;
+  final TimeEntryForm timeEntry;
 
-  const EditTimeEntry({
-    required this.id,
-    this.note,
-    required this.startTime,
-    this.endTime,
-  });
+  const EditTimeEntry({required this.timeEntry});
 
   @override
-  List<Object> get props => [
-    id,
-    note ?? '',
-    startTime,
-    endTime ?? DateTime.now(),
-  ];
+  List<Object> get props => [timeEntry];
 }

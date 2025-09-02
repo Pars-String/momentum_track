@@ -1,3 +1,4 @@
+import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/features/project_details/data/project_details_local_provider.dart';
 
@@ -23,6 +24,10 @@ class ProjectDetailsRepository {
     return await localProvider.getProject(projectId);
   }
 
+  Future<List<Project>> getAllProjects() async {
+    return await localProvider.getAllProjects();
+  }
+
   Future<List<TimeEntry>> getTimeEntries({
     required int projectId,
     required DateTime sDate,
@@ -35,31 +40,11 @@ class ProjectDetailsRepository {
     );
   }
 
-  Future<TimeEntry> addNewTimeEntry({
-    required int projectId,
-    required String? note,
-    required DateTime startTime,
-    DateTime? endTime,
-  }) async {
-    return await localProvider.addNewTimeEntry(
-      projectId: projectId,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
-    );
+  Future<TimeEntry> addNewTimeEntry({required TimeEntryForm timeEntry}) async {
+    return await localProvider.addNewTimeEntry(timeEntry: timeEntry);
   }
 
-  Future<TimeEntry> updateTimeEntry({
-    required TimeEntry timeEntry,
-    required String? note,
-    required DateTime startTime,
-    DateTime? endTime,
-  }) async {
-    return await localProvider.updateTimeEntry(
-      timeEntry: timeEntry,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
-    );
+  Future<TimeEntry> updateTimeEntry({required TimeEntryForm timeEntry}) async {
+    return await localProvider.updateTimeEntry(timeEntry: timeEntry);
   }
 }

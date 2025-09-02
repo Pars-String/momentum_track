@@ -1,33 +1,39 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'project_details_bloc.dart';
 
+enum AddOrEditTimeEntryStatus { initial, loading, success, failure }
+
 class ProjectDetailsState extends Equatable {
-  final DetailsDateStatus detailsDateStatus;
-  final ProjectTimeEntryStatus projectTimeEntryStatus;
-  final DateTime selectedDate;
+  final ProjectDetailsStatus projectDetailsStatus;
+  final List<DateTime> dates;
+  final List<TimeEntry> timeEntries;
+  final AddOrEditTimeEntryStatus addOrEditTimeEntryStatus;
   const ProjectDetailsState({
-    required this.detailsDateStatus,
-    required this.projectTimeEntryStatus,
-    required this.selectedDate,
+    required this.projectDetailsStatus,
+    required this.dates,
+    required this.timeEntries,
+    required this.addOrEditTimeEntryStatus,
   });
 
   @override
   List<Object> get props => [
-    detailsDateStatus,
-    projectTimeEntryStatus,
-    selectedDate,
+    projectDetailsStatus,
+    dates,
+    timeEntries,
+    addOrEditTimeEntryStatus,
   ];
 
   ProjectDetailsState copyWith({
-    DetailsDateStatus? detailsDateStatus,
-    ProjectTimeEntryStatus? projectTimeEntryStatus,
-    DateTime? selectedDate,
+    ProjectDetailsStatus? projectDetailsStatus,
+    List<DateTime>? dates,
+    List<TimeEntry>? timeEntries,
+    AddOrEditTimeEntryStatus? addOrEditTimeEntryStatus,
   }) {
     return ProjectDetailsState(
-      detailsDateStatus: detailsDateStatus ?? this.detailsDateStatus,
-      projectTimeEntryStatus:
-          projectTimeEntryStatus ?? this.projectTimeEntryStatus,
-      selectedDate: selectedDate ?? this.selectedDate,
+      projectDetailsStatus: projectDetailsStatus ?? this.projectDetailsStatus,
+      dates: dates ?? this.dates,
+      timeEntries: timeEntries ?? this.timeEntries,
+      addOrEditTimeEntryStatus:
+          addOrEditTimeEntryStatus ?? this.addOrEditTimeEntryStatus,
     );
   }
 }

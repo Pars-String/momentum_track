@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
@@ -23,26 +24,21 @@ class ProjectDetailsLocalProvider {
     );
   }
 
-  Future<TimeEntry> addNewTimeEntry({
-    required int projectId,
-    String? note,
-    required DateTime startTime,
-    DateTime? endTime,
-  }) async {
+  Future<TimeEntry> addNewTimeEntry({required TimeEntryForm timeEntry}) async {
     double? duration;
-    if (endTime != null) {
+    if (timeEntry.endDate != null) {
       duration = CalculatingHelper.convertDurationToHours(
-        startAt: startTime,
-        endAt: endTime,
+        startAt: timeEntry.startDate,
+        endAt: timeEntry.endDate!,
       );
     }
 
     final int id = await dbService.insertTimeEntry(
       TimeEntriesCompanion(
-        projectId: Value(projectId),
-        note: Value(note),
-        startTime: Value(startTime),
-        endTime: Value(endTime),
+        projectId: Value(timeEntry.projectID!),
+        note: Value(timeEntry.description),
+        startTime: Value(timeEntry.startDate),
+        endTime: Value(timeEntry.endDate),
         duration: Value(duration),
         createAt: Value(DateTime.now()),
       ),
@@ -50,51 +46,43 @@ class ProjectDetailsLocalProvider {
 
     return TimeEntry(
       id: id,
-      projectId: projectId,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
+      projectId: timeEntry.projectID!,
+      note: timeEntry.description,
+      startTime: timeEntry.startDate,
+      endTime: timeEntry.endDate,
       duration: duration,
       createAt: DateTime.now(),
     );
   }
 
-  Future<TimeEntry> updateTimeEntry({
-    required TimeEntry timeEntry,
-    String? note,
-    required DateTime startTime,
-    DateTime? endTime,
-  }) async {
+  Future<TimeEntry> updateTimeEntry({required TimeEntryForm timeEntry}) async {
     double? duration;
-    if (endTime != null) {
+    if (timeEntry.endDate != null) {
       duration = CalculatingHelper.convertDurationToHours(
-        startAt: startTime,
-        endAt: endTime,
+        startAt: timeEntry.startDate,
+        endAt: timeEntry.endDate!,
       );
     }
 
-    await dbService.updateTimeEntry(
-      timeEntry.copyWith(
-        note: Value(note),
-        startTime: startTime,
-        endTime: Value(endTime),
-        duration: Value(duration),
-      ),
-    );
+    await dbService.updateTimeEntryNew(timeEntry.copyWith(duration: duration));
 
     return TimeEntry(
-      id: timeEntry.id,
-      projectId: timeEntry.projectId,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
+      id: timeEntry.id!,
+      projectId: timeEntry.projectID!,
+      note: timeEntry.description,
+      startTime: timeEntry.startDate,
+      endTime: timeEntry.endDate,
       duration: duration,
-      createAt: timeEntry.createAt,
+      createAt: timeEntry.createAt!,
     );
   }
 
   Future<Project> getProject(int projectId) async {
     return await dbService.getProject(projectId);
+  }
+
+  Future<List<Project>> getAllProjects() async {
+    return await dbService.getAllProjects();
   }
 
   Future<List<TimeEntry>> getTimeEntriesForOneMonth({
