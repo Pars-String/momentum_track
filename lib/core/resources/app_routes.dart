@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/date_details_bloc.dart';
 import 'package:momentum_track/features/date_details/presentation/screens/date_details_screen.dart';
@@ -38,7 +39,9 @@ class AppRoutes {
         path: ProjectDetailsScreen.routeName,
         builder: (context, state) => BlocProvider(
           create: (context) => ProjectDetailsBloc(locator()),
-          child: const ProjectDetailsScreen(),
+          child: ProjectDetailsScreen(
+            projectID: state.pathParameters[AppArguments.projectID]!,
+          ),
         ),
       ),
       GoRoute(

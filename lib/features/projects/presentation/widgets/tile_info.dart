@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
@@ -188,7 +189,10 @@ class _TileInfoState extends State<TileInfo> {
                         onPressed: () {
                           context.pushNamed(
                             AppRoutes.projectDetailsScreen,
-                            extra: widget.project,
+                            pathParameters: {
+                              AppArguments.projectID: widget.project.id
+                                  .toString(),
+                            },
                           );
                         },
                         icon: HugeIcon(
