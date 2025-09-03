@@ -44,12 +44,18 @@ class ProjectInfoDialogBox extends StatelessWidget {
                   TextSpan(
                     text: projectInfo.createAt.yearMonthDayShort,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: context.colorScheme.primary.withAlpha(150),
                     ),
                   )
                 else
-                  TextSpan(text: projectInfo.startDate.yearMonthDayShort),
+                  TextSpan(
+                    text: projectInfo.startDate.yearMonthDayShort,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: context.colorScheme.primary,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -58,12 +64,18 @@ class ProjectInfoDialogBox extends StatelessWidget {
       contentPadding: const EdgeInsets.all(18),
 
       children: [
-        Text(
-          projectInfo.description ?? '-',
+        SizedBox(
+          width: 530,
+          height: 350,
+          child: SingleChildScrollView(
+            child: Text(
+              projectInfo.description ?? '-',
 
-          style: TextStyle(
-            color: context.colorScheme.onSurface.withAlpha(150),
-            fontSize: 16,
+              style: TextStyle(
+                color: context.colorScheme.onSurface.withAlpha(150),
+                fontSize: 16,
+              ),
+            ),
           ),
         ),
       ],
