@@ -208,8 +208,6 @@ class _TileInfoState extends State<TileInfo> {
                             builder: (_) {
                               return ProjectInfoDialogBox(
                                 projectInfo: widget.project,
-                                thisMonthDuration:
-                                    widget.duration ?? Duration.zero,
                               );
                             },
                           );
