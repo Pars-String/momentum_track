@@ -72,7 +72,7 @@ class _TileInfoState extends State<TileInfo> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'This Month: ',
+                                  text: 'Total duration: ',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: context.colorScheme.primary
