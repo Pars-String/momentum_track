@@ -29,9 +29,9 @@ class DeleteProjectDialogBox extends StatelessWidget {
           onPressed: () {
             context.pop();
             innerContext.read<ProjectsBloc>().add(DeleteProject(project.id));
-            innerContext.read<GlobalDataFlowCubit>().updateHeatMapStatus(
-              HeatMapStatus.needUpdate,
-            );
+            innerContext.read<GlobalDataFlowCubit>()
+              ..updateHeatMapStatus(HeatMapStatus.needUpdate)
+              ..updateProjectOverviewStatus(OverviewStatus.needUpdate);
           },
           child: const Text('Delete'),
         ),
