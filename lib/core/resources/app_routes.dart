@@ -49,7 +49,9 @@ class AppRoutes {
         path: DateDetailsScreen.routeName,
         builder: (context, state) => BlocProvider(
           create: (context) => DateDetailsBloc(locator()),
-          child: const DateDetailsScreen(),
+          child: DateDetailsScreen(
+            selectedDate: state.pathParameters[AppArguments.selectedDate]!,
+          ),
         ),
       ),
     ],

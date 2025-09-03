@@ -1,25 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
+import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/utils/extensions/parse_data_extension.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/date_details_bloc.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/listeners/date_details_listener.dart';
 import 'package:momentum_track/features/date_details/presentation/widgets/date_details_app_bar.dart';
 import 'package:momentum_track/features/date_details/presentation/widgets/date_details_tile.dart';
 
-class DateDetailsScreen extends StatelessWidget {
-  static const String routeName = '/date-details';
-  const DateDetailsScreen({super.key});
+class DateDetailsScreen extends StatefulWidget {
+  static const String routeName =
+      '/date-details/date=:${AppArguments.selectedDate}';
+
+  final String selectedDate;
+  const DateDetailsScreen({required this.selectedDate, super.key});
+
+  @override
+  State<DateDetailsScreen> createState() => _DateDetailsScreenState();
+}
+
+class _DateDetailsScreenState extends State<DateDetailsScreen> {
+  late DateTime selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = widget.selectedDate.parseToDateTime;
+
+    context.read<DateDetailsBloc>().add(
+      InitialDetails(selectedDate: selectedDate),
+    );
+
+    context.read<GlobalDataFlowCubit>()
+      ..resetProjectOverviewStatus()
+      ..resetHeatMapStatus();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final DateTime selectedDateFromCalendar =
-        GoRouterState.of(context).extra as DateTime;
-
     return Scaffold(
-      appBar: DateDetailsAppBar(selectedDate: selectedDateFromCalendar),
+      appBar: DateDetailsAppBar(selectedDate: selectedDate),
       body: BlocConsumer<DateDetailsBloc, DateDetailsState>(
         listenWhen: (p, c) => p.dateDetailsStatus != c.dateDetailsStatus,
         listener: DateDetailsListener.call,
@@ -28,14 +50,6 @@ class DateDetailsScreen extends StatelessWidget {
           final List<TimeEntry> timeEntries = [];
           final List<Project> projects = [];
 
-          if (state.dateDetailsStatus == DateDetailsStatus.initial) {
-            context.read<DateDetailsBloc>().add(
-              InitialDetails(selectedDate: selectedDateFromCalendar),
-            );
-            context.read<GlobalDataFlowCubit>()
-              ..resetProjectOverviewStatus()
-              ..resetHeatMapStatus();
-          }
           if (state.dateDetailsStatus == DateDetailsStatus.loading ||
               state.dateDetailsStatus == DateDetailsStatus.initial) {
             return const Center(child: CircularProgressIndicator());
