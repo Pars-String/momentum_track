@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/date_details_bloc.dart';
+import 'package:momentum_track/features/date_details/presentation/bloc/listeners/date_details_listener.dart';
 import 'package:momentum_track/features/date_details/presentation/widgets/date_details_app_bar.dart';
 import 'package:momentum_track/features/date_details/presentation/widgets/date_details_tile.dart';
 
@@ -18,7 +20,9 @@ class DateDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: DateDetailsAppBar(selectedDate: selectedDateFromCalendar),
-      body: BlocBuilder<DateDetailsBloc, DateDetailsState>(
+      body: BlocConsumer<DateDetailsBloc, DateDetailsState>(
+        listenWhen: (p, c) => p.dateDetailsStatus != c.dateDetailsStatus,
+        listener: DateDetailsListener.call,
         buildWhen: (p, c) => p.dateDetailsStatus != c.dateDetailsStatus,
         builder: (context, state) {
           final List<TimeEntry> timeEntries = [];
@@ -28,6 +32,9 @@ class DateDetailsScreen extends StatelessWidget {
             context.read<DateDetailsBloc>().add(
               InitialDetails(selectedDate: selectedDateFromCalendar),
             );
+            context.read<GlobalDataFlowCubit>()
+              ..resetProjectOverviewStatus()
+              ..resetHeatMapStatus();
           }
           if (state.dateDetailsStatus == DateDetailsStatus.loading ||
               state.dateDetailsStatus == DateDetailsStatus.initial) {

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/data/services/global_date_service.dart';
@@ -15,6 +16,7 @@ import 'package:momentum_track/features/project_details/data/project_details_loc
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
 import 'package:momentum_track/features/projects/data/projects_service.dart';
+import 'package:momentum_track/features/projects/presentation/cubit/project_overview_cubit.dart';
 import 'package:momentum_track/features/projects/repository/projects_repository.dart';
 import 'package:momentum_track/features/streak_tracker/data/providers/streak_local_provider.dart';
 import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
@@ -85,5 +87,9 @@ void _callRepositories() {
 void _callBlocs() {
   locator.registerSingleton<GlobalDateCubit>(GlobalDateCubit(locator()));
   locator.registerSingleton<MenuCubit>(MenuCubit());
+  locator.registerSingleton<GlobalDataFlowCubit>(GlobalDataFlowCubit());
   locator.registerSingleton<StreakCubit>(StreakCubit(locator()));
+  locator.registerSingleton<ProjectOverviewCubit>(
+    ProjectOverviewCubit(locator()),
+  );
 }
