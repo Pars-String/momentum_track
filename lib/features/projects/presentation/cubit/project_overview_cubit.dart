@@ -25,4 +25,8 @@ class ProjectOverviewCubit extends Cubit<ProjectOverviewState> {
       emit(ProjectOverviewFailure());
     }
   }
+
+  void reset() {
+    emit(ProjectOverviewInitial());
+  }
 }
