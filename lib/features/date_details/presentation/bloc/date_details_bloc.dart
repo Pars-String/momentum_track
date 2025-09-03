@@ -95,5 +95,33 @@ class DateDetailsBloc extends Bloc<DateDetailsEvent, DateDetailsState> {
         );
       }
     });
+
+    on<DeleteTimeEntry>((event, emit) async {
+      emit(state.copyWith(dateDetailsStatus: DateDetailsStatus.loading));
+
+      final List<TimeEntry> timeEntries = state.timeEntries;
+      final int index = timeEntries.indexWhere(
+        (element) => element.id == event.timeEntryID,
+      );
+
+      try {
+        await repository.deleteTimeEntry(timeEntryID: event.timeEntryID);
+        timeEntries.removeAt(index);
+
+        emit(
+          state.copyWith(
+            dateDetailsStatus: DateDetailsStatus.success,
+            timeEntries: timeEntries,
+          ),
+        );
+      } catch (e) {
+        emit(
+          state.copyWith(
+            dateDetailsStatus: DateDetailsStatus.success,
+            timeEntries: timeEntries,
+          ),
+        );
+      }
+    });
   }
 }

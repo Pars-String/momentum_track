@@ -78,6 +78,10 @@ class DateDetailsLocalProvider {
     return await dbService.getAllProjects();
   }
 
+  Future<void> deleteTimeEntry(int timeEntryId) async {
+    await dbService.deleteTimeEntry(timeEntryId);
+  }
+
   Future<List<TimeEntry>> getTimeEntriesForOneDay({
     required DateTime selectedDate,
   }) async {

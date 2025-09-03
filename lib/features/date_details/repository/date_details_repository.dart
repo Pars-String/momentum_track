@@ -23,6 +23,10 @@ class DateDetailsRepository {
     );
   }
 
+  Future<void> deleteTimeEntry({required int timeEntryID}) async {
+    return await dbProvider.deleteTimeEntry(timeEntryID);
+  }
+
   Future<List<Project>> getAllProjects() async {
     return await dbProvider.getAllProjects();
   }

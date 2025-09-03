@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -9,10 +8,8 @@ import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/utils/extensions/duration_extension.dart';
-import 'package:momentum_track/core/widgets/app_elevated_button.dart';
-import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/delete_project_dialog_box.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/project_info_dialog_box.dart';
 
 class TileInfo extends StatefulWidget {
@@ -72,7 +69,7 @@ class _TileInfoState extends State<TileInfo> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'This Month: ',
+                                  text: 'Total duration: ',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: context.colorScheme.primary
@@ -208,8 +205,6 @@ class _TileInfoState extends State<TileInfo> {
                             builder: (_) {
                               return ProjectInfoDialogBox(
                                 projectInfo: widget.project,
-                                thisMonthDuration:
-                                    widget.duration ?? Duration.zero,
                               );
                             },
                           );
@@ -240,36 +235,14 @@ class _TileInfoState extends State<TileInfo> {
                       Gap(8),
                       IconButton(
                         onPressed: () {
-                          AppModalBottomSheet.show(
-                            context,
-                            title: 'Delete Project',
-                            children: [
-                              Text(
-                                'Do you really want to delete ${widget.project.name} project? This action cannot be undone and delete all time entries related with this project.',
-                              ),
-                              Gap(16),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: AppElevatedButton(
-                                      onPressed: () {
-                                        context
-                                          ..read<ProjectsBloc>().add(
-                                            DeleteProject(widget.project.id),
-                                          )
-                                          ..pop();
-                                      },
-                                      title: 'Delete',
-                                    ),
-                                  ),
-                                  Gap(8),
-                                  TextButton(
-                                    onPressed: () => context.pop(),
-                                    child: Text('Cancel'),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return DeleteProjectDialogBox(
+                                innerContext: context,
+                                project: widget.project,
+                              );
+                            },
                           );
                         },
                         icon: HugeIcon(

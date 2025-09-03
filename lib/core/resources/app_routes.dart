@@ -8,7 +8,7 @@ import 'package:momentum_track/features/date_details/presentation/screens/date_d
 import 'package:momentum_track/features/main/presentation/screens/main_screen.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 import 'package:momentum_track/features/project_details/presentation/screens/project_details_screen.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 import 'package:momentum_track/locator.dart';
 import 'package:momentum_track/main.dart';
 
@@ -49,7 +49,9 @@ class AppRoutes {
         path: DateDetailsScreen.routeName,
         builder: (context, state) => BlocProvider(
           create: (context) => DateDetailsBloc(locator()),
-          child: const DateDetailsScreen(),
+          child: DateDetailsScreen(
+            selectedDate: state.pathParameters[AppArguments.selectedDate]!,
+          ),
         ),
       ),
     ],

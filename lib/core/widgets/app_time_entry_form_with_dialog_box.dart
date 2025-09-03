@@ -7,15 +7,18 @@ import 'package:momentum_track/core/utils/extensions/date_formatter_extension.da
 import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
+import 'package:momentum_track/core/widgets/delete_event_button.dart';
 
 class AppTimeEntryFormWithDialogBox extends StatefulWidget {
   final TimeEntry? timeEntry;
   final DateTime selectedDate;
   final Function(TimeEntryForm timeEntry) onPressedSubmit;
+  final VoidCallback? onPressedDelete;
   final List<Project>? projects;
   const AppTimeEntryFormWithDialogBox({
     required this.selectedDate,
     required this.onPressedSubmit,
+    required this.onPressedDelete,
     this.projects,
     this.timeEntry,
     super.key,
@@ -292,6 +295,10 @@ class _AppTimeEntryFormWithDialogBoxState
                     onPressed: () => context.pop(),
                     child: Text('Cancel'),
                   ),
+                  if (widget.onPressedDelete != null) ...[
+                    Gap(28),
+                    DeleteEventButton(onPressedDelete: widget.onPressedDelete),
+                  ],
                 ],
               ),
             ],

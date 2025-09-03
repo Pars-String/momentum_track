@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
+import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/extensions/parse_data_extension.dart';
+import 'package:momentum_track/features/project_details/presentation/bloc/listeners/project_details_listener.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/delete_time_entry_button.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/edit_time_entry_button.dart';
 import 'package:momentum_track/features/project_details/presentation/widgets/project_details_app_bar.dart';
-import 'package:momentum_track/features/project_details/presentation/widgets/time_entry_info.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/project_detials_tile.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   static const String routeName =
@@ -32,13 +30,19 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
     context.read<ProjectDetailsBloc>().add(
       InitProjectDetails(dates, widget.projectID.parseToInt),
     );
+    context.read<GlobalDataFlowCubit>()
+      ..resetProjectOverviewStatus()
+      ..resetHeatMapStatus();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ProjectDetailsAppBar(),
-      body: BlocBuilder<ProjectDetailsBloc, ProjectDetailsState>(
+      body: BlocConsumer<ProjectDetailsBloc, ProjectDetailsState>(
+        listenWhen: (p, c) =>
+            p.addOrEditTimeEntryStatus != c.addOrEditTimeEntryStatus,
+        listener: ProjectDetailsListener.call,
         buildWhen: (p, c) =>
             p.projectDetailsStatus != c.projectDetailsStatus ||
             p.addOrEditTimeEntryStatus != c.addOrEditTimeEntryStatus,
@@ -64,22 +68,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
             itemBuilder: (context, index) {
               final TimeEntry timeEntry = state.timeEntries[index];
 
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Gap(16),
-                  DateTile(
-                    date: timeEntry.startTime,
-                    selectedDate: DateTime.now(),
-                  ),
-                  Gap(8),
-                  TimeEntryInfo(timeEntry: timeEntry),
-                  Gap(8),
-                  EditTimeEntryButton(timeEntry: timeEntry),
-                  DeleteTimeEntryButton(timeEntryID: timeEntry.id),
-                  Gap(16),
-                ],
-              );
+              return ProjectDetailsTile(timeEntry: timeEntry);
             },
           );
         },

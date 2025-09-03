@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
+import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/core/widgets/app_change_date.dart';
@@ -85,7 +86,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         onTap: () {
                           context.pushNamed(
                             AppRoutes.dateDetailsScreen,
-                            extra: date,
+                            pathParameters: {
+                              AppArguments.selectedDate: date.toIso8601String(),
+                            },
                           );
                         },
                         borderRadius: BorderRadius.circular(12),
