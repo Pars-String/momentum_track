@@ -11,7 +11,7 @@ import 'package:momentum_track/core/utils/extensions/date_formatter_extension.da
 import 'package:momentum_track/core/utils/extensions/duration_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_modal_bottom_sheet.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/project_info_dialog_box.dart';
 

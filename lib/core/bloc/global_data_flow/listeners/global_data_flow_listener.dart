@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
-import 'package:momentum_track/features/projects/presentation/cubit/project_overview_cubit.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 
 class GlobalDataFlowListener {
   static void projectsScreenListener(

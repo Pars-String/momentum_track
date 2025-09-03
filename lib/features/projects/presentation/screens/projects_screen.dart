@@ -6,7 +6,7 @@ import 'package:momentum_track/core/bloc/global_data_flow/listeners/global_data_
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/listeners/global_date_listener.dart';
 import 'package:momentum_track/core/widgets/app_change_date.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_new_project_button.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/projects_list.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/screens/streak_tracker.dart';

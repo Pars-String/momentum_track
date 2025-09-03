@@ -8,7 +8,7 @@ import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
-import 'package:momentum_track/features/projects/presentation/bloc/projects_bloc.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 
 class AddProjectDialogBox extends StatefulWidget {
   final BuildContext innerContext;

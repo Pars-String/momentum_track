@@ -5,7 +5,7 @@ import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dar
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/theme/app_theme.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
-import 'package:momentum_track/features/projects/presentation/cubit/project_overview_cubit.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/cubit/streak_cubit.dart';
 import 'package:momentum_track/locator.dart';
 import 'package:window_manager/window_manager.dart';

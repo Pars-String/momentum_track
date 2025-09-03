@@ -16,7 +16,7 @@ import 'package:momentum_track/features/project_details/data/project_details_loc
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
 import 'package:momentum_track/features/projects/data/projects_service.dart';
-import 'package:momentum_track/features/projects/presentation/cubit/project_overview_cubit.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
 import 'package:momentum_track/features/projects/repository/projects_repository.dart';
 import 'package:momentum_track/features/streak_tracker/data/providers/streak_local_provider.dart';
 import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
