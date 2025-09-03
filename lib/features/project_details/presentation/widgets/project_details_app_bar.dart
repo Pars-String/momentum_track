@@ -42,6 +42,7 @@ class ProjectDetailsAppBar extends StatelessWidget
                                 projects: null,
                                 selectedDate: DateTime.now(),
                                 timeEntry: null,
+                                onPressedDelete: null,
                                 onPressedSubmit: (timeEntry) {
                                   context.read<ProjectDetailsBloc>().add(
                                     AddNewTimeEntry(

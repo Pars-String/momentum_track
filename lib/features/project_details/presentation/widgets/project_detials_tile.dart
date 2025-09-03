@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hugeicons/hugeicons.dart';
+import 'package:gap/gap.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/widgets/app_time_entry_form_with_dialog_box.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/date_tile.dart';
+import 'package:momentum_track/features/project_details/presentation/widgets/time_entry_info.dart';
 
-class EditTimeEntryButton extends StatelessWidget {
-  const EditTimeEntryButton({super.key, required this.timeEntry});
+class ProjectDetailsTile extends StatelessWidget {
+  const ProjectDetailsTile({super.key, required this.timeEntry});
 
   final TimeEntry timeEntry;
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         showDialog(
           context: context,
           builder: (_) {
@@ -21,6 +23,11 @@ class EditTimeEntryButton extends StatelessWidget {
               projects: null,
               selectedDate: timeEntry.startTime,
               timeEntry: timeEntry,
+              onPressedDelete: () {
+                context.read<ProjectDetailsBloc>().add(
+                  DeleteTimeEntry(timeEntryID: timeEntry.id),
+                );
+              },
               onPressedSubmit: (timeEntry) {
                 context.read<ProjectDetailsBloc>().add(
                   EditTimeEntry(
@@ -32,9 +39,15 @@ class EditTimeEntryButton extends StatelessWidget {
           },
         );
       },
-      icon: HugeIcon(
-        icon: HugeIcons.strokeRoundedEdit01,
-        color: Theme.of(context).colorScheme.primaryContainer,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Gap(16),
+          DateTile(date: timeEntry.startTime, selectedDate: DateTime.now()),
+          Gap(8),
+          TimeEntryInfo(timeEntry: timeEntry),
+          Gap(16),
+        ],
       ),
     );
   }

@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
 
-class DeleteTimeEntryButton extends StatelessWidget {
-  final int timeEntryID;
-  const DeleteTimeEntryButton({super.key, required this.timeEntryID});
+class DeleteEventButton extends StatelessWidget {
+  final VoidCallback? onPressedDelete;
+  const DeleteEventButton({super.key, required this.onPressedDelete});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
+        context.pop();
         showDialog(
           context: context,
-          builder: (_) {
+          builder: (innerContext) {
             return AlertDialog(
               title: Text('Delete Time Entry'),
               content: Text('Are you sure you want to delete this time entry?'),
               actions: <Widget>[
                 TextButton(
                   child: Text('Cancel'),
-                  onPressed: () => context.pop(),
+                  onPressed: () => innerContext.pop(),
                 ),
                 TextButton(
+                  onPressed: onPressedDelete == null
+                      ? null
+                      : () {
+                          innerContext.pop();
+                          onPressedDelete?.call();
+                        },
                   child: Text('Delete'),
-                  onPressed: () {
-                    context.read<ProjectDetailsBloc>().add(
-                      DeleteTimeEntry(timeEntryID: timeEntryID),
-                    );
-                    context.pop();
-                  },
                 ),
               ],
             );

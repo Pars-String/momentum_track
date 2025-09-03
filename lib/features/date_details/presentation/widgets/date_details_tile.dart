@@ -62,6 +62,11 @@ class _DateDetailsTileState extends State<DateDetailsTile> {
               projects: projects,
               selectedDate: widget.timeEntry.startTime,
               timeEntry: widget.timeEntry,
+              onPressedDelete: () {
+                context.read<DateDetailsBloc>().add(
+                  DeleteTimeEntry(timeEntryID: widget.timeEntry.id),
+                );
+              },
               onPressedSubmit: (timeEntry) {
                 context.read<DateDetailsBloc>().add(
                   EditTimeEntry(timeEntryForm: timeEntry),

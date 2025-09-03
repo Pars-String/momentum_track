@@ -38,6 +38,7 @@ class DateDetailsAppBar extends StatelessWidget implements PreferredSizeWidget {
                             projects: projects,
                             selectedDate: selectedDate,
                             timeEntry: null,
+                            onPressedDelete: null,
                             onPressedSubmit: (timeEntry) {
                               context.read<DateDetailsBloc>().add(
                                 AddNewTimeEntry(timeEntryForm: timeEntry),

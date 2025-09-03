@@ -29,3 +29,12 @@ class EditTimeEntry extends DateDetailsEvent {
   @override
   List<Object> get props => [timeEntryForm];
 }
+
+class DeleteTimeEntry extends DateDetailsEvent {
+  final int timeEntryID;
+
+  const DeleteTimeEntry({required this.timeEntryID});
+
+  @override
+  List<Object> get props => [timeEntryID];
+}
