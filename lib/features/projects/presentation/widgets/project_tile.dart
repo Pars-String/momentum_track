@@ -43,24 +43,19 @@ class _ProjectTileState extends State<ProjectTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.project.name),
-                        TotalDuration(duration: widget.duration),
-                        StartFrom(project: widget.project),
-                      ],
-                    ),
-                  ),
+                  Text(widget.project.name),
+                  TotalDuration(duration: widget.duration),
+                  StartFrom(project: widget.project),
                   Gap(5),
-                  Text(
-                    widget.project.description ?? '-',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
-                    style: TextStyle(
-                      color: context.colorScheme.onSurface.withAlpha(150),
-                      fontSize: 12,
+                  Expanded(
+                    child: Text(
+                      widget.project.description ?? '-',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 4,
+                      style: TextStyle(
+                        color: context.colorScheme.onSurface.withAlpha(150),
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                 ],
