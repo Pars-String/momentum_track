@@ -12,11 +12,11 @@ final class ProjectOverviewInitial extends ProjectOverviewState {}
 final class ProjectOverviewLoading extends ProjectOverviewState {}
 
 final class ProjectOverviewLoaded extends ProjectOverviewState {
-  final Duration totalDuration;
-  const ProjectOverviewLoaded(this.totalDuration);
+  final Map<int, Duration> durationsList;
+  const ProjectOverviewLoaded(this.durationsList);
 
   @override
-  List<Object> get props => [totalDuration];
+  List<Object> get props => [durationsList];
 }
 
 final class ProjectOverviewFailure extends ProjectOverviewState {}
