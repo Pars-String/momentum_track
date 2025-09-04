@@ -9,18 +9,12 @@ class ProjectOverviewCubit extends Cubit<ProjectOverviewState> {
   final ProjectsRepository _repository;
   ProjectOverviewCubit(this._repository) : super(ProjectOverviewInitial());
 
-  Future<void> loadProjectDuration(
-    List<TimeEntry> timeEntries,
-    int projectID,
-  ) async {
+  Future<void> loadProjectDuration(List<TimeEntry> timeEntries) async {
     emit(ProjectOverviewLoading());
 
     try {
-      final duration = await _repository.calculateDurationFrom(
-        timeEntries,
-        projectID,
-      );
-      emit(ProjectOverviewLoaded(duration));
+      final durations = await _repository.calculateDurationFrom(timeEntries);
+      emit(ProjectOverviewLoaded(durations));
     } catch (e) {
       emit(ProjectOverviewFailure());
     }
