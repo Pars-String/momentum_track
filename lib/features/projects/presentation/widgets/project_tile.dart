@@ -1,49 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
+import 'package:gap/gap.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
-import 'package:momentum_track/features/projects/presentation/widgets/tile_info.dart';
+import 'package:momentum_track/core/utils/extensions/context_extension.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/project_tile_buttons.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/start_from.dart';
+import 'package:momentum_track/features/projects/presentation/widgets/total_duration.dart';
 
-class ProjectTile extends StatelessWidget {
+class ProjectTile extends StatefulWidget {
   final Project project;
-  final List<TimeEntry> timeEntries;
-  const ProjectTile({
-    required this.project,
-    required this.timeEntries,
-    super.key,
-  });
+  final Duration? duration;
+  const ProjectTile({required this.project, required this.duration, super.key});
+
+  @override
+  State<ProjectTile> createState() => _ProjectTileState();
+}
+
+class _ProjectTileState extends State<ProjectTile> {
+  bool showButtons = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProjectOverviewCubit, ProjectOverviewState>(
-      builder: (context, state) {
-        final isCalculating =
-            state is ProjectOverviewLoading || state is ProjectOverviewInitial;
-        final calculatingFailed = state is ProjectOverviewFailure;
-        Duration duration = Duration.zero;
-
-        if (state is ProjectOverviewInitial) {
-          context.read<ProjectOverviewCubit>().loadProjectDuration(
-            timeEntries,
-            project.id,
-          );
-        }
-
-        if (state is ProjectOverviewLoaded) {
-          duration = state.totalDuration;
-          context.read<GlobalDataFlowCubit>().updateProjectOverviewStatus(
-            OverviewStatus.loaded,
-          );
-        }
-
-        return TileInfo(
-          project: project,
-          duration: duration,
-          isCalculating: isCalculating,
-          hasError: calculatingFailed,
-        );
+    return InkWell(
+      onTap: () {},
+      onHover: (value) {
+        setState(() {
+          showButtons = value;
+        });
       },
+      child: Stack(
+        children: [
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: context.colorScheme.surface,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary.withAlpha(100),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.project.name),
+                        TotalDuration(duration: widget.duration),
+                        StartFrom(project: widget.project),
+                      ],
+                    ),
+                  ),
+                  Gap(5),
+                  Text(
+                    widget.project.description ?? '-',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 4,
+                    style: TextStyle(
+                      color: context.colorScheme.onSurface.withAlpha(150),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (showButtons)
+            ProjectTileButtons(project: widget.project, innerContext: context),
+        ],
+      ),
     );
   }
 }
