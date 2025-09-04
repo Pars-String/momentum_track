@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 
 class DateTile extends StatelessWidget {
   const DateTile({super.key, required this.date, required this.selectedDate});
@@ -14,16 +14,14 @@ class DateTile extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color:
-              date == CalculatingHelper.today()
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : Colors.transparent,
+          color: DateHelper.isToday(date)
+              ? Theme.of(context).colorScheme.primaryContainer
+              : Colors.transparent,
           width: 1,
         ),
-        color:
-            selectedDate == date
-                ? Theme.of(context).colorScheme.primary
-                : Colors.transparent,
+        color: selectedDate == date
+            ? Theme.of(context).colorScheme.primary
+            : Colors.transparent,
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,26 +1,29 @@
+import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
+import 'package:momentum_track/features/projects/data/projects_service.dart';
 
 class ProjectsRepository {
   final ProjectsLocalProvider dbProvider;
-  ProjectsRepository(this.dbProvider);
+  final ProjectsService service;
+  final GlobalDateService dateService;
+  ProjectsRepository(this.dbProvider, this.service, this.dateService);
 
-  Future<void> addProject(String projectName) async {
-    await dbProvider.addProject(projectName);
+  Future<void> addProject({
+    required String projectName,
+    required String? description,
+    required DateTime? startDate,
+  }) async {
+    await dbProvider.addProject(
+      projectName: projectName,
+      description: description,
+      startDate: startDate,
+    );
   }
 
-  Future<void> updateProject({
-    required int projectId,
-    required String newProjectName,
-    required DateTime newStartDate,
-    required String? newDescription,
-  }) async {
-    await dbProvider.updateProject(
-      projectId: projectId,
-      newProjectName: newProjectName,
-      newStartDate: newStartDate,
-      newDescription: newDescription,
-    );
+  Future<void> updateProject({required Project project}) async {
+    await dbProvider.updateProject(project: project);
   }
 
   Future<void> deleteProject(int projectId) async {
@@ -36,6 +39,18 @@ class ProjectsRepository {
   }
 
   Future<List<TimeEntry>> getThisMonthTimeEntry(DateTime? date) async {
-    return await dbProvider.getThisMonthTimeEntry(date);
+    final DateTime sDate =
+        date?.copyWith(hour: 0, minute: 0, second: 0) ?? DateHelper.today();
+    final DateTime eDate = dateService
+        .calculateLastDayOfMonth(sDate)
+        .gregorianLastDay;
+    return await dbProvider.getThisMonthTimeEntry(sDate, eDate);
+  }
+
+  Future<Duration> calculateDurationFrom(
+    List<TimeEntry> timeEntries,
+    int projectID,
+  ) async {
+    return await service.calculateDurationFrom(timeEntries, projectID);
   }
 }

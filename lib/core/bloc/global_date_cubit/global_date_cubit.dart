@@ -1,17 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
+import 'package:momentum_track/core/repositories/global_repository.dart';
 
 part 'global_date_state.dart';
 
 class GlobalDateCubit extends Cubit<GlobalDateState> {
-  GlobalDateCubit() : super(GlobalDateState());
+  final GlobalRepository _repository;
+  GlobalDateCubit(this._repository) : super(GlobalDateState());
 
   void setThisMonthDates() {
     emit(state.copyWith(dateListStatus: DateListStatus.loading));
 
-    final List<DateTime> dateList =
-        CalculatingHelper.calculateMonthDates(null).gregorianDates;
+    final List<DateTime> dateList = _repository
+        .calculateFullMonthDates(null)
+        .gregorianDates;
 
     emit(
       state.copyWith(
@@ -25,8 +27,9 @@ class GlobalDateCubit extends Cubit<GlobalDateState> {
     final DateTime nextMonth = state.thisMonthDates.last.add(Duration(days: 1));
     emit(state.copyWith(dateListStatus: DateListStatus.loading));
 
-    final List<DateTime> dateList =
-        CalculatingHelper.calculateMonthDates(nextMonth).gregorianDates;
+    final List<DateTime> dateList = _repository
+        .calculateFullMonthDates(nextMonth)
+        .gregorianDates;
 
     emit(
       state.copyWith(
@@ -42,8 +45,9 @@ class GlobalDateCubit extends Cubit<GlobalDateState> {
     );
     emit(state.copyWith(dateListStatus: DateListStatus.loading));
 
-    final List<DateTime> dateList =
-        CalculatingHelper.calculateMonthDates(previousMonth).gregorianDates;
+    final List<DateTime> dateList = _repository
+        .calculateFullMonthDates(previousMonth)
+        .gregorianDates;
 
     emit(
       state.copyWith(

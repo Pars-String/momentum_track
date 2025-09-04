@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:momentum_track/core/data/models/time_entry_form.dart';
+import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/services/database_service.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 
 class DateDetailsLocalProvider {
@@ -8,25 +9,22 @@ class DateDetailsLocalProvider {
   DateDetailsLocalProvider(this.dbService);
 
   Future<TimeEntry> addNewTimeEntry({
-    required int projectId,
-    String? note,
-    required DateTime startTime,
-    DateTime? endTime,
+    required TimeEntryForm timeEntryForm,
   }) async {
     double? duration;
-    if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
-        startAt: startTime,
-        endAt: endTime,
+    if (timeEntryForm.endDate != null) {
+      duration = CalculatingHelper.convertDurationToHours(
+        startAt: timeEntryForm.startDate,
+        endAt: timeEntryForm.endDate!,
       );
     }
 
     final int id = await dbService.insertTimeEntry(
       TimeEntriesCompanion(
-        projectId: Value(projectId),
-        note: Value(note),
-        startTime: Value(startTime),
-        endTime: Value(endTime),
+        projectId: Value(timeEntryForm.projectID!),
+        note: Value(timeEntryForm.description),
+        startTime: Value(timeEntryForm.startDate),
+        endTime: Value(timeEntryForm.endDate),
         duration: Value(duration),
         createAt: Value(DateTime.now()),
       ),
@@ -34,10 +32,10 @@ class DateDetailsLocalProvider {
 
     return TimeEntry(
       id: id,
-      projectId: projectId,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
+      projectId: timeEntryForm.projectID!,
+      note: timeEntryForm.description,
+      startTime: timeEntryForm.startDate,
+      endTime: timeEntryForm.endDate,
       duration: duration,
       createAt: DateTime.now(),
     );
@@ -45,35 +43,32 @@ class DateDetailsLocalProvider {
 
   Future<TimeEntry> updateTimeEntry({
     required TimeEntry timeEntry,
-    required int projectId,
-    String? note,
-    required DateTime startTime,
-    DateTime? endTime,
+    required TimeEntryForm timeEntryForm,
   }) async {
     double? duration;
-    if (endTime != null) {
-      duration = CalculatingHelper.calculateDuration(
-        startAt: startTime,
-        endAt: endTime,
+    if (timeEntryForm.endDate != null) {
+      duration = CalculatingHelper.convertDurationToHours(
+        startAt: timeEntryForm.startDate,
+        endAt: timeEntryForm.endDate!,
       );
     }
 
     await dbService.updateTimeEntry(
       timeEntry.copyWith(
-        note: Value(note),
-        startTime: startTime,
-        projectId: projectId,
-        endTime: Value(endTime),
+        note: Value(timeEntryForm.description),
+        startTime: timeEntryForm.startDate,
+        projectId: timeEntryForm.projectID,
+        endTime: Value(timeEntryForm.endDate),
         duration: Value(duration),
       ),
     );
 
     return TimeEntry(
-      id: timeEntry.id,
-      projectId: projectId,
-      note: note,
-      startTime: startTime,
-      endTime: endTime,
+      id: timeEntryForm.id!,
+      projectId: timeEntryForm.projectID!,
+      note: timeEntryForm.description,
+      startTime: timeEntryForm.startDate,
+      endTime: timeEntryForm.endDate,
       duration: duration,
       createAt: timeEntry.createAt,
     );
@@ -81,6 +76,10 @@ class DateDetailsLocalProvider {
 
   Future<List<Project>> getAllProjects() async {
     return await dbService.getAllProjects();
+  }
+
+  Future<void> deleteTimeEntry(int timeEntryId) async {
+    await dbService.deleteTimeEntry(timeEntryId);
   }
 
   Future<List<TimeEntry>> getTimeEntriesForOneDay({
