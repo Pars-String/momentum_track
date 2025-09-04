@@ -55,6 +55,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 StreakTracker(),
                 SliverGap(12),
                 ProjectsList(),
+                SliverGap(85),
               ],
             ),
           );
