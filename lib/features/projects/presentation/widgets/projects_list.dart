@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
+import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
 import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/project_tile.dart';
 
@@ -27,25 +29,49 @@ class ProjectsList extends StatelessWidget {
             child: const Center(child: Text('No projects found')),
           );
         }
-        return SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          sliver: SliverGrid.builder(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 480,
-              mainAxisExtent: 150,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: state.projects.length,
-            itemBuilder: (context, index) {
-              final project = state.projects[index];
 
-              return ProjectTile(
-                project: project,
-                timeEntries: state.timeEntries,
+        return BlocBuilder<ProjectOverviewCubit, ProjectOverviewState>(
+          builder: (context, overviewState) {
+            final durations = <int, Duration>{};
+
+            if (state.status == ProjectsStatus.success &&
+                overviewState is ProjectOverviewInitial) {
+              context.read<ProjectOverviewCubit>().loadProjectDuration(
+                state.timeEntries,
               );
-            },
-          ),
+            }
+
+            if (overviewState is ProjectOverviewLoaded) {
+              durations
+                ..clear()
+                ..addAll(overviewState.durationsList);
+
+              context.read<GlobalDataFlowCubit>().updateProjectOverviewStatus(
+                OverviewStatus.loaded,
+              );
+            }
+
+            return SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              sliver: SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 480,
+                  mainAxisExtent: 150,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: state.projects.length,
+                itemBuilder: (context, index) {
+                  final project = state.projects[index];
+
+                  return ProjectTile(
+                    project: project,
+                    duration: durations[project.id],
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

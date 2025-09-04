@@ -2,14 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 
 class ProjectsService {
-  Future<Duration> calculateDurationFrom(
+  Future<Map<int, Duration>> calculateDurationFrom(
     List<TimeEntry> timeEntries,
-    int projectID,
   ) async {
-    final args = (timeEntries, projectID);
-    Duration totalDuration = await compute(_calculateDurationFrom, args);
+    final Map<int, Duration> durationsList = {};
+    final List<int> projectIDs = await compute(_extractProjectIDs, timeEntries);
 
-    return totalDuration;
+    for (var projectID in projectIDs) {
+      final args = (timeEntries, projectID);
+      Duration totalDuration = await compute(_calculateDurationFrom, args);
+      durationsList[projectID] = totalDuration;
+    }
+
+    return durationsList;
   }
 }
 
@@ -28,4 +33,13 @@ Duration _calculateDurationFrom((List<TimeEntry>, int) args) {
   }
 
   return totalDuration;
+}
+
+List<int> _extractProjectIDs(List<TimeEntry> timeEntries) {
+  final projectIDs = timeEntries
+      .map((entry) => entry.projectId)
+      .toSet()
+      .toList();
+
+  return projectIDs;
 }

@@ -47,10 +47,9 @@ class ProjectsRepository {
     return await dbProvider.getThisMonthTimeEntry(sDate, eDate);
   }
 
-  Future<Duration> calculateDurationFrom(
+  Future<Map<int, Duration>> calculateDurationFrom(
     List<TimeEntry> timeEntries,
-    int projectID,
   ) async {
-    return await service.calculateDurationFrom(timeEntries, projectID);
+    return await service.calculateDurationFrom(timeEntries);
   }
 }
