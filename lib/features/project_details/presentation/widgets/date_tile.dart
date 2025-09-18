@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 
 class DateTile extends StatelessWidget {
@@ -10,35 +12,45 @@ class DateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: DateHelper.isToday(date)
-              ? Theme.of(context).colorScheme.primaryContainer
-              : Colors.transparent,
-          width: 1,
-        ),
-        color: selectedDate == date
-            ? Theme.of(context).colorScheme.primary
-            : Colors.transparent,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text(
-              '${date.day < 10 ? "0${date.day}" : date.day} ${DateFormat('MMM').format(date)}',
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+    return BlocBuilder<GlobalDateCubit, GlobalDateState>(
+      builder: (context, state) {
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: DateHelper.isToday(date, state.today)
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : Colors.transparent,
+              width: 1,
             ),
+            color: selectedDate == date
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text(
+                  '${date.day < 10 ? "0${date.day}" : date.day} ${DateFormat('MMM').format(date)}',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
 
-            Text(
-              DateFormat('EEE').format(date),
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                Text(
+                  DateFormat('EEE').format(date),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
