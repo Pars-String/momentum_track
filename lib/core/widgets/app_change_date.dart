@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
-import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 
 class AppChangeDate extends StatelessWidget {
   final GlobalDateState state;
@@ -28,7 +27,7 @@ class AppChangeDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime now = DateHelper.today();
+    // final DateTime now = DateHelper.today();
 
     return Row(
       children: [
@@ -83,14 +82,23 @@ class AppChangeDate extends StatelessWidget {
         ),
 
         Spacer(),
-        if (now.year != state.thisMonthDates.first.year ||
-            now.month != state.thisMonthDates.first.month)
-          TextButton(
-            onPressed: () {
-              context.read<GlobalDateCubit>().setThisMonthDates();
-            },
-            child: Text('Current Month', style: TextStyle(fontSize: 12)),
-          ),
+        BlocBuilder<GlobalDateCubit, GlobalDateState>(
+          builder: (context, state) {
+            final today = state.today;
+
+            if (today.year != state.thisMonthDates.first.year ||
+                today.month != state.thisMonthDates.first.month) {
+              return TextButton(
+                onPressed: () {
+                  context.read<GlobalDateCubit>().setThisMonthDates();
+                },
+                child: Text('Current Month', style: TextStyle(fontSize: 12)),
+              );
+            }
+
+            return SizedBox.shrink();
+          },
+        ),
       ],
     );
   }
