@@ -1,6 +1,6 @@
 import 'package:momentum_track/core/data/services/global_date_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/utils/helpers/date_helper.dart';
+import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
 import 'package:momentum_track/features/projects/data/projects_service.dart';
 
@@ -39,8 +39,7 @@ class ProjectsRepository {
   }
 
   Future<List<TimeEntry>> getThisMonthTimeEntry(DateTime? date) async {
-    final DateTime sDate =
-        date?.copyWith(hour: 0, minute: 0, second: 0) ?? DateHelper.today();
+    final DateTime sDate = date?.resetTime ?? DateTime.now().resetTime;
     final DateTime eDate = dateService
         .calculateLastDayOfMonth(sDate)
         .gregorianLastDay;
