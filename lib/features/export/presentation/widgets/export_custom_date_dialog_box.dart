@@ -11,6 +11,7 @@ import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
+import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/export/presentation/cubit/report_cubit.dart';
 import 'package:path/path.dart';
 
@@ -166,17 +167,18 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                 );
               }
               if (state.exportingStatus is ExportingSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Report exported successfully')),
+                AppToastification.showInfo(
+                  context,
+                  description: 'Your report exported successfully.',
                 );
+
                 context
                   ..pop()
                   ..read<ReportCubit>().reset();
               }
               if (state.exportingStatus is ExportingFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Report exported failed')),
-                );
+                AppToastification.showWarning(context);
+
                 context
                   ..pop()
                   ..read<ReportCubit>().reset();
