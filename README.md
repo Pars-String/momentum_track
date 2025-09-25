@@ -1,6 +1,6 @@
 # ⏱️ Momentum Track
 
-| <img src="https://github.com/Pars-String/momentum_track/tree/main/doc/images/momentum_track_screenshot_calendar.png?raw=true" width='250' alt="calendar" /> | <img src="https://github.com/Pars-String/momentum_track/tree/main/doc/images/momentum_track_screenshot_projects.png?raw=true" width='250' alt="projects" /> |
+| <img src="https://github.com/Pars-String/momentum_track/blob/main/doc/images/momentum_track_screenshot_calendar.png?raw=true" width='250' alt="calendar" /> | <img src="https://github.com/Pars-String/momentum_track/blob/main/doc/images/momentum_track_screenshot_projects.png?raw=true" width='250' alt="projects" /> |
 | :------: | :------: | 
 | **Calendar** | **Heat Map Tracker & Projects** |      
 
