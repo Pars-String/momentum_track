@@ -44,6 +44,9 @@ class _StreakTrackerState extends State<StreakTracker> {
     return BlocListener<GlobalDataFlowCubit, GlobalDataFlowState>(
       listenWhen: (p, c) => p.heatMapStatus != c.heatMapStatus,
       listener: (context, state) {
+        if (state.heatMapStatus == HeatMapStatus.initial) {
+          context.read<StreakCubit>().resetStreakHeatMap();
+        }
         if (state.heatMapStatus == HeatMapStatus.needUpdate) {
           context.read<StreakCubit>().loadStreakDurations();
         }

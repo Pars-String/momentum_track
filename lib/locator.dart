@@ -9,9 +9,11 @@ import 'package:momentum_track/features/calendar/data/calendar_local_provider.da
 import 'package:momentum_track/features/calendar/repository/calendar_repository.dart';
 import 'package:momentum_track/features/date_details/data/date_details_local_provider.dart';
 import 'package:momentum_track/features/date_details/repository/date_details_repository.dart';
-import 'package:momentum_track/features/export/data/reports_local_provider.dart';
-import 'package:momentum_track/features/export/repository/reports_repository.dart';
+import 'package:momentum_track/features/generate_report/data/reports_local_provider.dart';
+import 'package:momentum_track/features/generate_report/repository/reports_repository.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
+import 'package:momentum_track/features/manage_database/date/helpers/manage_db_helper.dart';
+import 'package:momentum_track/features/manage_database/repository/manage_db_repository.dart';
 import 'package:momentum_track/features/project_details/data/project_details_local_provider.dart';
 import 'package:momentum_track/features/project_details/repository/project_details_repository.dart';
 import 'package:momentum_track/features/projects/data/projects_local_provider.dart';
@@ -51,6 +53,7 @@ void _callProviders() {
   locator.registerSingleton<StreakLocalProvider>(
     StreakLocalProvider(locator()),
   );
+  locator.registerSingleton<ManageDbHelper>(ManageDbHelper(locator()));
 }
 
 void _callServices() {
@@ -82,6 +85,7 @@ void _callRepositories() {
     DateDetailsRepository(locator()),
   );
   locator.registerSingleton<GlobalRepository>(GlobalRepository(locator()));
+  locator.registerSingleton<ManageDbRepository>(ManageDbRepository(locator()));
 }
 
 void _callBlocs() {

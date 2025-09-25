@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/main.dart';
@@ -58,23 +60,29 @@ class StreakTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             color: tileColor,
           ),
-          child: SizedBox.square(
-            dimension: 20,
-            child: dateTime != DateHelper.today()
-                ? null
-                : Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: FittedBox(
-                      child: Text(
-                        dateTime!.day.toString(),
-                        style: TextStyle(
-                          color: repeat > 0
-                              ? Theme.of(context).scaffoldBackgroundColor
-                              : Theme.of(context).colorScheme.primaryContainer,
+          child: BlocBuilder<GlobalDateCubit, GlobalDateState>(
+            builder: (context, state) {
+              return SizedBox.square(
+                dimension: 20,
+                child: !DateHelper.isToday(dateTime, state.today)
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: FittedBox(
+                          child: Text(
+                            dateTime!.day.toString(),
+                            style: TextStyle(
+                              color: repeat > 0
+                                  ? Theme.of(context).scaffoldBackgroundColor
+                                  : Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+              );
+            },
           ),
         ),
       ),
