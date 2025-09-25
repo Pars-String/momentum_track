@@ -1,5 +1,9 @@
 # ⏱️ Momentum Track
 
+| <img src="https://github.com/Pars-String/momentum_track/tree/main/doc/images/momentum_track_screenshot_calendar.png?raw=true" width='250' alt="calendar" /> | <img src="https://github.com/Pars-String/momentum_track/tree/main/doc/images/momentum_track_screenshot_projects.png?raw=true" width='250' alt="projects" /> |
+| :------: | :------: | 
+| **Calendar** | **Heat Map Tracker & Projects** |      
+
 **Momentum Track** is an open-source time tracking app built with Flutter. It helps you log your work, organize it by project, and export detailed time reports. Designed for simplicity and productivity, it's perfect for freelancers, developers, and anyone who needs to track their time.
 
 > 🚧 This is a **pre-release version** — macOS builds are available now, and Windows support is on the way!
