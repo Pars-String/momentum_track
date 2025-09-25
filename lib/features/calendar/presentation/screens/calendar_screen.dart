@@ -20,13 +20,16 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime today;
+  final List<DateTime> thisMonthDates = [];
 
   @override
   void initState() {
     super.initState();
 
     context.read<CalendarBloc>().add(InitThisMonth());
-    today = context.read<GlobalDateCubit>().state.today.resetTime;
+    final dateState = context.read<GlobalDateCubit>().state;
+    today = dateState.today.resetTime;
+    thisMonthDates.addAll(dateState.thisMonthDates);
   }
 
   @override
@@ -36,6 +39,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
         BlocListener<GlobalDateCubit, GlobalDateState>(
           listenWhen: (p, c) => p.dateListStatus != c.dateListStatus,
           listener: (context, state) {
+            thisMonthDates
+              ..clear()
+              ..addAll(state.thisMonthDates);
+
             if (state.dateListStatus == DateListStatus.success) {
               context.read<CalendarBloc>().add(
                 InitThisMonth(date: state.thisMonthDates.first),
@@ -57,132 +64,123 @@ class _CalendarScreenState extends State<CalendarScreen> {
           },
         ),
       ],
-      child: BlocBuilder<GlobalDateCubit, GlobalDateState>(
-        builder: (context, state) {
-          final List<DateTime> thisMonthDates = state.thisMonthDates;
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(title: AppChangeDate(), pinned: true),
 
-          return CustomScrollView(
-            slivers: [
-              SliverAppBar(title: AppChangeDate(state), pinned: true),
+          SliverGap(25),
 
-              SliverGap(25),
+          BlocBuilder<CalendarBloc, CalendarState>(
+            builder: (context, state) {
+              if (state.overviewStatus == CalendarStatus.loading ||
+                  state.overviewStatus == CalendarStatus.initial) {
+                return SliverToBoxAdapter(
+                  child: const Center(child: CircularProgressIndicator()),
+                );
+              }
+              if (state.overviewStatus == CalendarStatus.failure) {
+                return SliverToBoxAdapter(
+                  child: const Center(child: Text('Failed to load overview')),
+                );
+              }
 
-              BlocBuilder<CalendarBloc, CalendarState>(
-                builder: (context, state) {
-                  if (state.overviewStatus == CalendarStatus.loading ||
-                      state.overviewStatus == CalendarStatus.initial) {
-                    return SliverToBoxAdapter(
-                      child: const Center(child: CircularProgressIndicator()),
-                    );
-                  }
-                  if (state.overviewStatus == CalendarStatus.failure) {
-                    return SliverToBoxAdapter(
-                      child: const Center(
-                        child: Text('Failed to load overview'),
-                      ),
-                    );
-                  }
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                sliver: SliverGrid.builder(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 100,
+                    mainAxisExtent: 75,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: thisMonthDates.length,
+                  itemBuilder: (context, index) {
+                    final date = thisMonthDates[index].resetTime;
+                    final isToday = DateHelper.isToday(date, today);
+                    // final timeEntries =
+                    //     state.timeEntries
+                    //         .where(
+                    //           (element) =>
+                    //               element.startTime.year == date.year &&
+                    //               element.startTime.month == date.month &&
+                    //               element.startTime.day == date.day,
+                    //         )
+                    //         .toList();
 
-                  return SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    sliver: SliverGrid.builder(
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 100,
-                        mainAxisExtent: 75,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                      ),
-                      itemCount: thisMonthDates.length,
-                      itemBuilder: (context, index) {
-                        final date = thisMonthDates[index].resetTime;
-                        final isToday = DateHelper.isToday(date, today);
-                        // final timeEntries =
-                        //     state.timeEntries
-                        //         .where(
-                        //           (element) =>
-                        //               element.startTime.year == date.year &&
-                        //               element.startTime.month == date.month &&
-                        //               element.startTime.day == date.day,
-                        //         )
-                        //         .toList();
-
-                        return InkWell(
-                          onTap: () {
-                            context.pushNamed(
-                              AppRoutes.dateDetailsScreen,
-                              pathParameters: {
-                                AppArguments.selectedDate: date
-                                    .toIso8601String(),
-                              },
-                            );
+                    return InkWell(
+                      onTap: () {
+                        context.pushNamed(
+                          AppRoutes.dateDetailsScreen,
+                          pathParameters: {
+                            AppArguments.selectedDate: date.toIso8601String(),
                           },
-                          borderRadius: BorderRadius.circular(12),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: isToday
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.primary,
-                                width: .8,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    DateFormat('EEEE').format(date),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: isToday
-                                          ? Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer
-                                          : Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
-                                    ),
-                                  ),
-                                  Text(
-                                    '${date.day < 10 ? "0${date.day}" : date.day}',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: isToday
-                                          ? Theme.of(
-                                              context,
-                                            ).colorScheme.onPrimaryContainer
-                                          : Theme.of(
-                                              context,
-                                            ).colorScheme.primaryContainer,
-                                    ),
-                                  ),
-                                  if (isToday)
-                                    Text(
-                                      'Today',
-                                      style: TextStyle(
-                                        fontSize: 9,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
                         );
                       },
-                    ),
-                  );
-                },
-              ),
-            ],
-          );
-        },
+                      borderRadius: BorderRadius.circular(12),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: isToday
+                              ? Theme.of(context).colorScheme.primary
+                              : null,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: .8,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                DateFormat('EEEE').format(date),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: isToday
+                                      ? Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                ),
+                              ),
+                              Text(
+                                '${date.day < 10 ? "0${date.day}" : date.day}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: isToday
+                                      ? Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimaryContainer
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.primaryContainer,
+                                ),
+                              ),
+                              if (isToday)
+                                Text(
+                                  'Today',
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimaryContainer,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
