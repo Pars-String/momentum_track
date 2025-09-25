@@ -1,6 +1,6 @@
 name: momentum_track
 description: "Manage your momentum with this app. Track your progress and stay motivated."
-version: 1.7.0
+version: 1.8.0
 
 environment:
   sdk: ^3.8.1
