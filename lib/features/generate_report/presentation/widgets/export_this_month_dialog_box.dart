@@ -11,7 +11,7 @@ import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
-import 'package:momentum_track/features/export/presentation/cubit/report_cubit.dart';
+import 'package:momentum_track/features/generate_report/presentation/cubit/report_cubit.dart';
 import 'package:path/path.dart';
 
 class ExportThisMonthDialogBox extends StatefulWidget {
