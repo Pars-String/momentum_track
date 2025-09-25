@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/features/export/repository/reports_repository.dart';
+import 'package:momentum_track/features/generate_report/repository/reports_repository.dart';
 
 part 'report_state.dart';
 part 'status/exporting_status.dart';
