@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:momentum_track/core/database/app_database.dart';
-import 'package:momentum_track/core/utils/helpers/recovery_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/export/presentation/widgets/export_custom_date_report.dart';
 import 'package:momentum_track/features/export/presentation/widgets/export_this_month_report.dart';
+import 'package:momentum_track/features/manage_database/presentation/widgets/backup_data_button.dart';
+import 'package:momentum_track/features/manage_database/presentation/widgets/delete_all_data_button.dart';
+import 'package:momentum_track/features/manage_database/presentation/widgets/recover_data_button.dart';
 import 'package:momentum_track/features/settings/presentation/widgets/setting_box.dart';
-import 'package:momentum_track/locator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -25,30 +25,11 @@ class SettingsScreen extends StatelessWidget {
           title: 'Database Settings',
           child: Row(
             children: [
-              AppElevatedButton(
-                onPressed: () async {
-                  await RecoveryHelper.restoreDatabase();
-                },
-                title: 'Restore Database',
-                icon: HugeIcons.strokeRoundedDataRecovery,
-              ),
+              RecoverDataButton(),
               Gap(8),
-              AppElevatedButton(
-                onPressed: () async {
-                  await RecoveryHelper.createDatabaseBackup(
-                    locator<AppDatabase>(),
-                  );
-                },
-                title: 'Create Backup',
-                icon: HugeIcons.strokeRoundedDatabaseExport,
-              ),
-              // Gap(8),
-              // AppElevatedButton(
-              //   onPressed: () {},
-              //   backgroundColor: Theme.of(context).colorScheme.error,
-              //   title: 'Delete All Data',
-              //   icon: HugeIcons.strokeRoundedFolderRemove,
-              // ),
+              BackupDataButton(),
+              Gap(8),
+              DeleteAllDataButton(),
             ],
           ),
         ),
