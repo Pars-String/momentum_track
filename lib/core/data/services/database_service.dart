@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:drift/drift.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:momentum_track/core/constant/app_versions.dart';
 import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 class DatabaseService {
   final AppDatabase db;
@@ -183,14 +184,35 @@ class DatabaseService {
     await (db.delete(db.timeEntries)..where((tbl) => tbl.id.equals(id))).go();
   }
 
-  Future<void> deleteDatabase() async {
-    await db.close();
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final dbPath = join(dbFolder.path, 'your_database_name.sqlite');
-    final file = File(dbPath);
+  Future<void> clearDatabase() async {
+    await db.customStatement('PRAGMA foreign_keys = OFF;');
 
+    for (final table in db.allTables) {
+      await db.delete(table).go();
+    }
+
+    await db.customStatement('PRAGMA foreign_keys = ON;');
+  }
+
+  Future<bool> createDatabaseBackup() async {
+    final chosenDirectory = await FilePicker.platform.getDirectoryPath();
+    if (chosenDirectory == null) return false;
+
+    final String fileName =
+        'momentum_${DateTime.now().toIso8601String()}_${AppVersions.dbSchemaVersion}.sqlite';
+    final parent = Directory(chosenDirectory);
+    final file = File(join(chosenDirectory, fileName));
+
+    // Make sure the directory of the file exists
+    if (!await parent.exists()) {
+      await parent.create(recursive: true);
+    }
+    // However, the file itself must not exist
     if (await file.exists()) {
       await file.delete();
     }
+
+    await db.customStatement('VACUUM INTO ?', [file.absolute.path]);
+    return true;
   }
 }
