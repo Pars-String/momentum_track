@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/features/generate_report/presentation/cubit/report_cubit.dart';
 import 'package:momentum_track/features/generate_report/presentation/widgets/export_custom_date_dialog_box.dart';
@@ -24,7 +25,7 @@ class ExportCustomDateReport extends StatelessWidget {
                 },
               );
             },
-            title: 'Save as Excel (custom date)',
+            title: S.current.button_saveSelectedMonthAsExcel,
             icon: HugeIcons.strokeRoundedFolderExport,
           );
         },

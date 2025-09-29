@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
-import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/utils/extensions/duration_extension.dart';
 import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
 
@@ -24,7 +23,7 @@ class TotalDuration extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: 'Total duration: ',
+                    text: S.current.projectsScreen_totalDuration,
                     style: TextStyle(
                       fontSize: 12,
                       color: context.colorScheme.primary.withAlpha(150),
@@ -32,14 +31,14 @@ class TotalDuration extends StatelessWidget {
                   ),
                   if (isCalculating)
                     TextSpan(
-                      text: 'calculating...',
+                      text: S.current.projectsScreen_calculating,
                       style: TextStyle(
                         color: context.colorScheme.primary.withAlpha(200),
                       ),
                     )
                   else if (calculatingFailed)
                     TextSpan(
-                      text: 'Error calculating duration',
+                      text: S.current.projectsScreen_calculatingFailure,
                       style: TextStyle(color: context.colorScheme.error),
                     )
                   else
@@ -47,27 +46,27 @@ class TotalDuration extends StatelessWidget {
                 ],
               ),
             ),
-            BlocBuilder<GlobalDateCubit, GlobalDateState>(
-              builder: (context, state) {
-                DateTime? selectedDate;
-                if (state.dateListStatus == DateListStatus.success) {
-                  selectedDate = state.thisMonthDates.first;
-                }
+            // BlocBuilder<GlobalDateCubit, GlobalDateState>(
+            //   builder: (context, state) {
+            //     DateTime? selectedDate;
+            //     if (state.dateListStatus == DateListStatus.success) {
+            //       selectedDate = state.thisMonthDates.first;
+            //     }
 
-                if (selectedDate == null &&
-                    !isCalculating &&
-                    !calculatingFailed) {
-                  return const SizedBox.shrink();
-                }
-                return Text(
-                  ' on ${selectedDate.shortMonthTitle}',
-                  style: TextStyle(
-                    color: context.colorScheme.primary.withAlpha(200),
-                    fontSize: 12,
-                  ),
-                );
-              },
-            ),
+            //     if (selectedDate == null &&
+            //         !isCalculating &&
+            //         !calculatingFailed) {
+            //       return const SizedBox.shrink();
+            //     }
+            //     return Text(
+            //       ' on ${selectedDate.shortMonthTitle}',
+            //       style: TextStyle(
+            //         color: context.colorScheme.primary.withAlpha(200),
+            //         fontSize: 12,
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         );
       },

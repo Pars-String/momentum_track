@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/constant/app_pages.dart';
 import 'package:momentum_track/core/constant/app_versions.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 import 'package:momentum_track/features/main/presentation/widgets/menu_item.dart';
 
@@ -38,10 +39,9 @@ class _SideMenuState extends State<SideMenu> {
         children: [
           IconButton(
             icon: HugeIcon(
-              icon:
-                  isExpanded
-                      ? HugeIcons.strokeRoundedSidebarLeft01
-                      : HugeIcons.strokeRoundedSidebarLeft,
+              icon: isExpanded
+                  ? HugeIcons.strokeRoundedSidebarLeft01
+                  : HugeIcons.strokeRoundedSidebarLeft,
               color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: () {
@@ -53,7 +53,7 @@ class _SideMenuState extends State<SideMenu> {
           ),
           Gap(35),
           MenuItem(
-            title: 'Overview',
+            title: S.current.sideMenuTitle_calendar,
             icon: HugeIcons.strokeRoundedCalendar01,
             showTitle: isCompletedOpen,
             page: AppPages.overview,
@@ -64,7 +64,7 @@ class _SideMenuState extends State<SideMenu> {
 
           Gap(14),
           MenuItem(
-            title: 'Projects',
+            title: S.current.sideMenuTitle_projects,
             icon: HugeIcons.strokeRoundedLeftToRightListNumber,
             showTitle: isCompletedOpen,
             page: AppPages.projects,
@@ -87,7 +87,7 @@ class _SideMenuState extends State<SideMenu> {
           // ),
           Gap(14),
           MenuItem(
-            title: 'Settings',
+            title: S.current.sideMenuTitle_settings,
             icon: HugeIcons.strokeRoundedDashboardCircleSettings,
             showTitle: isCompletedOpen,
             page: AppPages.settings,

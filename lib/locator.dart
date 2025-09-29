@@ -1,8 +1,11 @@
 import 'package:get_it/get_it.dart';
+import 'package:momentum_track/core/bloc/app_settings/app_settings_cubit.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
+import 'package:momentum_track/core/data/providers/localization_provider.dart';
 import 'package:momentum_track/core/data/services/database_service.dart';
 import 'package:momentum_track/core/data/services/global_date_service.dart';
+import 'package:momentum_track/core/data/services/preferences_service.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/repositories/global_repository.dart';
 import 'package:momentum_track/features/calendar/data/calendar_local_provider.dart';
@@ -24,11 +27,12 @@ import 'package:momentum_track/features/streak_tracker/data/providers/streak_loc
 import 'package:momentum_track/features/streak_tracker/data/services/streak_date_service.dart';
 import 'package:momentum_track/features/streak_tracker/presentation/cubit/streak_cubit.dart';
 import 'package:momentum_track/features/streak_tracker/repository/streak_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 GetIt locator = GetIt.instance;
 
 Future<void> locatorSetup() async {
-  _callServices();
+  await _callServices();
   _callProviders();
   _callRepositories();
   _callBlocs();
@@ -50,16 +54,25 @@ void _callProviders() {
   locator.registerSingleton<ReportsLocalProvider>(
     ReportsLocalProvider(locator()),
   );
+  locator.registerSingleton<LocalizationProvider>(
+    LocalizationProvider(locator()),
+  );
   locator.registerSingleton<StreakLocalProvider>(
     StreakLocalProvider(locator()),
   );
   locator.registerSingleton<ManageDbHelper>(ManageDbHelper(locator()));
 }
 
-void _callServices() {
+Future<void> _callServices() async {
   final database = locator.registerSingleton<AppDatabase>(AppDatabase());
-
   locator.registerSingleton<DatabaseService>(DatabaseService(database));
+
+  final SharedPreferences initSharedPreferences =
+      await SharedPreferences.getInstance();
+  locator.registerSingleton<PreferencesService>(
+    PreferencesService(initSharedPreferences),
+  );
+
   locator.registerSingleton<StreakDateService>(StreakDateService());
   locator.registerSingleton<ProjectsService>(ProjectsService());
   locator.registerSingleton<GlobalDateService>(GlobalDateService());
@@ -84,7 +97,9 @@ void _callRepositories() {
   locator.registerSingleton<DateDetailsRepository>(
     DateDetailsRepository(locator()),
   );
-  locator.registerSingleton<GlobalRepository>(GlobalRepository(locator()));
+  locator.registerSingleton<GlobalRepository>(
+    GlobalRepository(locator(), locator()),
+  );
   locator.registerSingleton<ManageDbRepository>(ManageDbRepository(locator()));
 }
 
@@ -93,6 +108,7 @@ void _callBlocs() {
   locator.registerSingleton<MenuCubit>(MenuCubit());
   locator.registerSingleton<GlobalDataFlowCubit>(GlobalDataFlowCubit());
   locator.registerSingleton<StreakCubit>(StreakCubit(locator()));
+  locator.registerSingleton<AppSettingsCubit>(AppSettingsCubit(locator()));
   locator.registerSingleton<ProjectOverviewCubit>(
     ProjectOverviewCubit(locator()),
   );

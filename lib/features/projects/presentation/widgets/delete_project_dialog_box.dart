@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 
 class DeleteProjectDialogBox extends StatelessWidget {
@@ -18,11 +19,9 @@ class DeleteProjectDialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Delete Project'),
+      title: Text(S.current.projects_deleteProjectDialogBox_title),
       content: Text(
-        'Do you really want to delete ${project.name} project?\n'
-        'This action cannot be undone and will delete all time entries '
-        'related to this project.',
+        S.current.projects_deleteProjectDialogBox_content(project.name),
       ),
       actions: [
         ElevatedButton(
@@ -33,9 +32,12 @@ class DeleteProjectDialogBox extends StatelessWidget {
               ..updateHeatMapStatus(HeatMapStatus.needUpdate)
               ..updateProjectOverviewStatus(OverviewStatus.needUpdate);
           },
-          child: const Text('Delete'),
+          child: Text(S.current.button_delete),
         ),
-        TextButton(onPressed: () => context.pop(), child: const Text('Cancel')),
+        TextButton(
+          onPressed: () => context.pop(),
+          child: Text(S.current.button_cancel),
+        ),
       ],
     );
   }

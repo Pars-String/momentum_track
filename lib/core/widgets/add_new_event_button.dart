@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 
 class AddNewEventButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -9,7 +10,7 @@ class AddNewEventButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: onPressed,
-      tooltip: 'Add Time Entry',
+      tooltip: S.current.tooltip_addTimeEntry,
       icon: HugeIcon(
         icon: HugeIcons.strokeRoundedTaskAdd01,
         color: Theme.of(context).colorScheme.primaryContainer,

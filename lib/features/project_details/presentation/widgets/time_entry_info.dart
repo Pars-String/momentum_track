@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 
 class TimeEntryInfo extends StatelessWidget {
   const TimeEntryInfo({super.key, required this.timeEntry});
@@ -10,7 +11,7 @@ class TimeEntryInfo extends StatelessWidget {
   String get note {
     return timeEntry.note != null && timeEntry.note?.isNotEmpty == true
         ? timeEntry.note!
-        : 'No description';
+        : S.current.common_noDescription;
   }
 
   String get startTime {
@@ -25,7 +26,7 @@ class TimeEntryInfo extends StatelessWidget {
 
   String get duration {
     return timeEntry.endTime == null
-        ? 'In progress'
+        ? S.current.common_inProgress
         : '${timeEntry.endTime!.difference(timeEntry.startTime).inHours}h ${timeEntry.endTime!.difference(timeEntry.startTime).inMinutes.remainder(60)}m';
   }
 
@@ -51,7 +52,7 @@ class TimeEntryInfo extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Start at  ',
+                            text: '${S.current.common_startAt}  ',
                             style: TextStyle(
                               fontSize: 13,
                               color: Theme.of(
@@ -70,7 +71,7 @@ class TimeEntryInfo extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: '\nEnd at    ',
+                            text: '\n${S.current.common_endAt}    ',
                             style: TextStyle(
                               fontSize: 13,
                               color: Theme.of(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_time_entry_form_with_dialog_box.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/date_details_bloc.dart';
 
@@ -25,7 +26,7 @@ class _DateDetailsTileState extends State<DateDetailsTile> {
 
   String get duration {
     return widget.timeEntry.endTime == null
-        ? 'In progress'
+        ? S.current.common_inProgress
         : '${widget.timeEntry.endTime!.difference(widget.timeEntry.startTime).inHours}h ${widget.timeEntry.endTime!.difference(widget.timeEntry.startTime).inMinutes.remainder(60)}m';
   }
 
@@ -41,7 +42,7 @@ class _DateDetailsTileState extends State<DateDetailsTile> {
     return widget.timeEntry.note != null &&
             widget.timeEntry.note?.isNotEmpty == true
         ? widget.timeEntry.note!
-        : 'No description';
+        : S.current.common_noDescription;
   }
 
   @override
@@ -108,7 +109,7 @@ class _DateDetailsTileState extends State<DateDetailsTile> {
                         TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Start at  ',
+                              text: '${S.current.common_startAt}  ',
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Theme.of(context).colorScheme.secondary,
@@ -126,7 +127,7 @@ class _DateDetailsTileState extends State<DateDetailsTile> {
                             ),
                             if (widget.timeEntry.endTime != null) ...[
                               TextSpan(
-                                text: '\nEnd at    ',
+                                text: '\n${S.current.common_endAt}  ',
                                 style: TextStyle(
                                   fontSize: 13,
                                   color: Theme.of(

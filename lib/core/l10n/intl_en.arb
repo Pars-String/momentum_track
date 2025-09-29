@@ -1,0 +1,162 @@
+{
+    "@@locale": "en",
+
+    "gregorian_month_january": "January",
+    "gregorian_month_february": "February",
+    "gregorian_month_march": "March",
+    "gregorian_month_april": "April",
+    "gregorian_month_may": "May",
+    "gregorian_month_june": "June",
+    "gregorian_month_july": "July",
+    "gregorian_month_august": "August",
+    "gregorian_month_september": "September",
+    "gregorian_month_october": "October",
+    "gregorian_month_november": "November",
+    "gregorian_month_december": "December",
+
+    "jalali_month_farvardin": "Farvardin",
+    "jalali_month_ordibehesht": "Ordibehesht",
+    "jalali_month_khordad": "Khordad",
+    "jalali_month_tir": "Tir",
+    "jalali_month_mordad": "Mordad",
+    "jalali_month_shahrivar": "Shahrivar",
+    "jalali_month_mehr": "Mehr",
+    "jalali_month_aban": "Aban",
+    "jalali_month_azar": "Azar",
+    "jalali_month_dey": "Dey",
+    "jalali_month_bahman": "Bahman",
+    "jalali_month_esfand": "Esfand",
+
+    "weekday_saturday": "Saturday",
+    "weekday_sunday": "Sunday",
+    "weekday_monday": "Monday",
+    "weekday_tuesday": "Tuesday",
+    "weekday_wednesday": "Wednesday",
+    "weekday_thursday": "Thursday",
+    "weekday_friday": "Friday",
+
+    "weekday_saturday_code": "Sa",
+    "weekday_sunday_code": "Su",
+    "weekday_monday_code": "Mo",
+    "weekday_tuesday_code": "Tu",
+    "weekday_wednesday_code": "We",
+    "weekday_thursday_code": "Th",
+    "weekday_friday_code": "Fr",
+
+    "calendarType_gregorian": "Gregorian",
+    "calendarType_jalali": "Persian",
+
+    "sideMenuTitle_calendar":"Calendar",
+    "sideMenuTitle_projects":"Projects",
+    "sideMenuTitle_settings":"Settings",
+
+    "common_inProgress": "In progress",
+    "common_noDescription": "No description",
+    "common_startAt": "Start at",
+    "common_endAt": "End at",
+    "common_pleaseWait": "Please Wait",
+
+    "toast_reportExportedSuccess": "Your report exported successfully",
+    "toast_copyEmailToClipboard": "Email address copied to clipboard",
+    "toast_backupDbSuccess": "Backup database successfully",
+    "toast_deleteDbSuccess": "Delete all data successfully",
+    "toast_recoverDbSuccess": "Recover all data successfully",
+    "toast_success_title": "Successful",
+    "toast_failure_title": "Failure",
+    "toast_failure_content": "Something went wrong, please try again",
+
+    "tooltip_addProject": "Add Project",
+    "tooltip_addTimeEntry": "Add Time Entry",
+
+    "button_generate": "Generate",
+    "button_cancel": "Cancel",
+    "button_delete": "Delete",
+    "button_submit": "Submit",
+    "button_continue": "Continue",
+    "button_restoreDatabase": "Restore Database",
+    "button_createBackup": "Create Backup",
+    "button_deleteData": "Delete All Data",
+    "button_saveThisMonthAsExcel": "Save as Excel (this month)",
+    "button_saveSelectedMonthAsExcel": "Save as Excel (custom date)",
+    "button_changeLanguage": "Change Language",
+    "button_reportIssue": "Report an Issue",
+    "button_close": "Close",
+    "button_contactInfo": "Contact Info",
+    "button_currentMonth": "Current Month",
+
+    "validator_selectEndDate": "Please select an end date",
+    "validator_selectStartDate": "Please select a start date",
+    "validator_enterProjectName": "Please enter a project name",
+    "validator_required": "Required",
+
+    "fieldLabel_endDate": "Select end date",
+    "fieldLabel_startDate": "Select start date",
+    "fieldLabel_projectName": "Project Name",
+    "fieldLabel_startAt": "Start at",
+    "fieldLabel_endAt": "End at",
+    "fieldLabel_time": "time",
+
+    "fieldHint_chooseProject": "Choose your Project",
+    "fieldHint_enterDescription": "Enter description (optional)",
+
+    "generateReport_exportDialogBox_title": "Export Report",
+    "timeEntryDialogBox_title": "Add Time Entry",
+    "projects_deleteProjectDialogBox_title": "Delete Project",
+    "projects_deleteProjectDialogBox_content": "Do you really want to delete {projectName} project?\nThis action cannot be undone and will delete all time entries related to this project.",
+        "@projects_deleteProjectDialogBox_content": {
+            "description": "project name",
+            "placeholders": {
+                "projectName": {
+                    "type": "String"
+                }
+            }
+        },
+    "contactAndSupport_contactDialogBox_contents": "{line, select, line1{Help us make this app better!} line2{Share your thoughts, report problems, or suggest new features.} line3{You can contact us anytime via email or send me a message on LinkedIn.} other{}}",
+        "@contactAndSupport_contactDialogBox_contents": {
+            "description": "handle description lines",
+            "placeholders": {
+                "line": {
+                    "type": "String"
+                }
+            }
+        },
+    "projects_addOrEditProjectDialogBox_title": "{title, select, true{Add New Project} false{Edit Project} other{}}",
+        "@projects_addOrEditProjectDialogBox_title": {
+            "description": "add or edit project title",
+            "placeholders": {
+                "title": {
+                    "type": "String"
+                }
+            }
+        },
+    "projects_projectInfoDialogBox_createAt": "Create at ",
+    "manageDatabase_backupDialogBox_title": "Backup",
+    "manageDatabase_backupDialogBox_chooseDir": "Please choose a directory.",
+    "manageDatabase_deleteDialogBox_title": "Warning",
+    "manageDatabase_deleteDialogBox_content": "Do you really wanna delete all data?",
+    "manageDatabase_recoverDialogBox_title": "Notice",
+    "manageDatabase_recoverDialogBox_content": "This action will be delete all your current data and replace them with your backup data that you provide.",
+    "deleteEventButton_deleteDialogBox_title": "Delete Time Entry",
+    "deleteEventButton_deleteDialogBox_content": "Are you sure you want to delete this time entry?",
+    
+    "dateDetailsScreen_failure": "Failed to load date details",
+    
+    "projectsScreen_failure": "Failed to load projects",
+    "projectsScreen_emptyList": "No projects found",
+    "projectsScreen_startFrom": "Start from ",
+    "projectsScreen_totalDuration": "Total duration  ",
+    "projectsScreen_calculating": "calculating",
+    "projectsScreen_calculatingFailure": "Error calculating duration",
+    "projectsScreen_noActivities": "No activities!",
+    
+    "projectDetailsScreen_emptyList": "No time entries found",
+    "projectDetailsScreen_fetchData": "Fetching Data...",
+
+    "settingsScreen_database_title": "Database Settings",
+    "settingsScreen_generateReport_title": "Generate Report",
+    "settingsScreen_appSettings_title": "App Settings",
+    "settingsScreen_contact_title": "Contact & Support",
+
+    "calendarScreen_today": "Today",
+    "calendarScreen_failure": "Failed to load overview"
+}

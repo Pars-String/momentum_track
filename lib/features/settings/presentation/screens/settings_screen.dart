@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/generate_report/presentation/widgets/export_custom_date_report.dart';
@@ -10,6 +11,7 @@ import 'package:momentum_track/features/generate_report/presentation/widgets/exp
 import 'package:momentum_track/features/manage_database/presentation/widgets/backup_data_button.dart';
 import 'package:momentum_track/features/manage_database/presentation/widgets/delete_all_data_button.dart';
 import 'package:momentum_track/features/manage_database/presentation/widgets/recover_data_button.dart';
+import 'package:momentum_track/features/settings/presentation/widgets/change_language_dialog_box.dart';
 import 'package:momentum_track/features/settings/presentation/widgets/setting_box.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       children: [
         SettingBox(
-          title: 'Database Settings',
+          title: S.current.settingsScreen_database_title,
           child: Row(
             children: [
               RecoverDataButton(),
@@ -36,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
 
         Gap(12),
         SettingBox(
-          title: 'Generate Report',
+          title: S.current.settingsScreen_generateReport_title,
           child: Row(
             children: [
               ExportThisMonthReport(),
@@ -46,34 +48,41 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
 
-        // Gap(12),
-        // SettingBox(
-        //   title: 'Appearance Settings',
-        //   child: Row(
-        //     children: [
-        //       AppElevatedButton(
-        //         onPressed: () {},
-        //         title: 'Change Language',
-        //         icon: HugeIcons.strokeRoundedLanguageSkill,
-        //       ),
-        //       Gap(8),
-        //       AppElevatedButton(
-        //         onPressed: () {},
-        //         title: 'Change Theme',
-        //         icon: HugeIcons.strokeRoundedDarkMode,
-        //       ),
-        //     ],
-        //   ),
-        // ),
         Gap(12),
         SettingBox(
-          title: 'Contact & Support',
+          title: S.current.settingsScreen_appSettings_title,
+          child: Row(
+            children: [
+              AppElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ChangeLanguageDialogBox();
+                    },
+                  );
+                },
+                title: S.current.button_changeLanguage,
+                icon: HugeIcons.strokeRoundedLanguageCircle,
+              ),
+              // Gap(8),
+              // AppElevatedButton(
+              //   onPressed: () {},
+              //   title: 'Change Theme',
+              //   icon: HugeIcons.strokeRoundedDarkMode,
+              // ),
+            ],
+          ),
+        ),
+        Gap(12),
+        SettingBox(
+          title: S.current.settingsScreen_contact_title,
           child: Row(
             children: [
               AppElevatedButton(
                 onPressed: () =>
                     _launchUrl('github.com/Pars-String/momentum_track/issues'),
-                title: 'Report an Issue',
+                title: S.current.button_reportIssue,
                 icon: HugeIcons.strokeRoundedBug02,
               ),
               Gap(8),
@@ -89,15 +98,16 @@ class SettingsScreen extends StatelessWidget {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Help us make this app better!\n',
+                                  text:
+                                      '${S.current.contactAndSupport_contactDialogBox_contents('line1')}\n',
                                 ),
                                 TextSpan(
                                   text:
-                                      'Share your thoughts, report problems, or suggest new features.\n',
+                                      '${S.current.contactAndSupport_contactDialogBox_contents('line2')}\n',
                                 ),
                                 TextSpan(
                                   text:
-                                      'You can contact us anytime via email or send me a message on LinkedIn.\n',
+                                      '${S.current.contactAndSupport_contactDialogBox_contents('line3')}\n',
                                 ),
                               ],
                             ),
@@ -126,8 +136,9 @@ class SettingsScreen extends StatelessWidget {
                                     if (context.mounted) {
                                       AppToastification.showInfo(
                                         context,
-                                        description:
-                                            'Email address copied to clipboard.',
+                                        description: S
+                                            .current
+                                            .toast_copyEmailToClipboard,
                                       );
                                     }
                                   });
@@ -139,14 +150,14 @@ class SettingsScreen extends StatelessWidget {
                           Gap(20),
                           TextButton(
                             onPressed: () => context.pop(),
-                            child: Text('Close'),
+                            child: Text(S.current.button_close),
                           ),
                         ],
                       );
                     },
                   );
                 },
-                title: 'Contact Info',
+                title: S.current.button_contactInfo,
                 icon: HugeIcons.strokeRoundedContact,
               ),
             ],

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/theme/app_theme.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/manage_database/presentation/cubit/manage_db_cubit.dart';
@@ -26,7 +27,7 @@ class DeleteAllDataDialogBox extends StatelessWidget {
                 context.pop();
                 AppToastification.showInfo(
                   context,
-                  description: 'Delete all data successfully',
+                  description: S.current.toast_deleteDbSuccess,
                 );
               }
             },
@@ -34,7 +35,7 @@ class DeleteAllDataDialogBox extends StatelessWidget {
               final isLoading = state is ManageDbLoading;
 
               return AlertDialog(
-                title: Text('Warning'),
+                title: Text(S.current.manageDatabase_deleteDialogBox_title),
                 contentPadding: EdgeInsets.all(16),
                 content: isLoading
                     ? SizedBox(
@@ -43,11 +44,11 @@ class DeleteAllDataDialogBox extends StatelessWidget {
                           children: [
                             CircularProgressIndicator.adaptive(),
                             Gap(8),
-                            Text('Please wait...'),
+                            Text(S.current.common_pleaseWait),
                           ],
                         ),
                       )
-                    : Text('Do you really wanna delete all data?'),
+                    : Text(S.current.manageDatabase_deleteDialogBox_content),
                 actions: [
                   TextButton(
                     onPressed: isLoading
@@ -55,7 +56,7 @@ class DeleteAllDataDialogBox extends StatelessWidget {
                         : () {
                             context.pop();
                           },
-                    child: Text('Cancel'),
+                    child: Text(S.current.button_cancel),
                   ),
                   TextButton(
                     onPressed: isLoading
@@ -64,7 +65,7 @@ class DeleteAllDataDialogBox extends StatelessWidget {
                             context.read<ManageDbCubit>().deleteAllData();
                           },
                     child: Text(
-                      'Delete',
+                      S.current.button_delete,
                       style: TextStyle(color: AppTheme.errorColor),
                     ),
                   ),

@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
@@ -157,7 +158,7 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
               if (state.exportingStatus is ExportingSuccess) {
                 AppToastification.showInfo(
                   context,
-                  description: 'Your report exported successfully.',
+                  description: S.current.toast_reportExportedSuccess,
                 );
 
                 context
@@ -179,7 +180,7 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                   state.exportingStatus is ExportingLoading;
 
               return SimpleDialog(
-                title: const Text('Export Report'),
+                title: Text(S.current.generateReport_exportDialogBox_title),
                 contentPadding: const EdgeInsets.all(16),
 
                 children: [
@@ -194,7 +195,7 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                         ),
                       ),
                       child: DropdownButton<int>(
-                        hint: const Text('Choose your Project'),
+                        hint: Text(S.current.fieldHint_chooseProject),
                         borderRadius: BorderRadius.circular(16),
                         isExpanded: true,
                         elevation: 1,
@@ -263,13 +264,15 @@ class _ExportThisMonthDialogBoxState extends State<ExportThisMonthDialogBox> {
                                         projectId: projectID!,
                                       );
                                 },
-                          title: isLoading ? 'Please Wait...' : 'Generate',
+                          title: isLoading
+                              ? S.current.common_pleaseWait
+                              : S.current.button_generate,
                         ),
                       ),
                       Gap(8),
                       TextButton(
                         onPressed: () => context.pop(),
-                        child: Text('Cancel'),
+                        child: Text(S.current.button_cancel),
                       ),
                     ],
                   ),

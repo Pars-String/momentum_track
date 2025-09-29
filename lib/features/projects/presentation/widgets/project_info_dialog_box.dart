@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 
@@ -34,7 +35,7 @@ class ProjectInfoDialogBox extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Create at ',
+                  text: S.current.projects_projectInfoDialogBox_createAt,
                   style: TextStyle(
                     fontSize: 12,
                     color: context.colorScheme.primary.withAlpha(150),

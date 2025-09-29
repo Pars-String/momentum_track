@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/helpers/calculating_helper.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
@@ -169,7 +170,7 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
               if (state.exportingStatus is ExportingSuccess) {
                 AppToastification.showInfo(
                   context,
-                  description: 'Your report exported successfully.',
+                  description: S.current.toast_reportExportedSuccess,
                 );
 
                 context
@@ -191,7 +192,7 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                   state.exportingStatus is ExportingLoading;
 
               return SimpleDialog(
-                title: const Text('Export Report'),
+                title: Text(S.current.generateReport_exportDialogBox_title),
                 contentPadding: const EdgeInsets.all(16),
 
                 children: [
@@ -206,7 +207,7 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                         ),
                       ),
                       child: DropdownButton<int>(
-                        hint: const Text('Choose your Project'),
+                        hint: Text(S.current.fieldHint_chooseProject),
                         borderRadius: BorderRadius.circular(16),
                         isExpanded: true,
                         elevation: 1,
@@ -235,12 +236,12 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                           Form(
                             key: startDateFormKey,
                             child: AppTextFormField(
-                              label: 'Select start date',
+                              label: S.current.fieldLabel_startDate,
                               controller: sDateController,
                               readOnly: true,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please select a start date';
+                                  return S.current.validator_selectStartDate;
                                 }
                                 return null;
                               },
@@ -270,12 +271,12 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
 
                           Gap(16),
                           AppTextFormField(
-                            label: 'Select end date',
+                            label: S.current.fieldLabel_endDate,
                             controller: eDateController,
                             readOnly: true,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please select an end date';
+                                return S.current.validator_selectEndDate;
                               }
 
                               return null;
@@ -327,13 +328,15 @@ class _ExportCustomDateDialogBoxState extends State<ExportCustomDateDialogBox> {
                                         );
                                   }
                                 },
-                          title: isLoading ? 'Please Wait...' : 'Generate',
+                          title: isLoading
+                              ? '${S.current.common_pleaseWait}...'
+                              : S.current.button_generate,
                         ),
                       ),
                       Gap(8),
                       TextButton(
                         onPressed: () => context.pop(),
-                        child: Text('Cancel'),
+                        child: Text(S.current.button_cancel),
                       ),
                     ],
                   ),

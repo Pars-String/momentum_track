@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 
 class WeekDays extends StatelessWidget {
   const WeekDays({super.key});
@@ -12,7 +13,7 @@ class WeekDays extends StatelessWidget {
       children: [
         // Gap(5),
         Text(
-          'Mo',
+          S.current.weekday_monday_code,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primaryContainer,
             fontSize: 9.5,
@@ -20,7 +21,7 @@ class WeekDays extends StatelessWidget {
         ),
         Gap(28),
         Text(
-          'We',
+          S.current.weekday_wednesday_code,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primaryContainer,
             fontSize: 9.5,
@@ -28,7 +29,7 @@ class WeekDays extends StatelessWidget {
         ),
         Gap(30),
         Text(
-          'Fr',
+          S.current.weekday_friday_code,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primaryContainer,
             fontSize: 9.5,
@@ -36,7 +37,7 @@ class WeekDays extends StatelessWidget {
         ),
         Gap(29),
         Text(
-          'Su',
+          S.current.weekday_sunday_code,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primaryContainer,
             fontSize: 9.5,

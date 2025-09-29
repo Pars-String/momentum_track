@@ -4,6 +4,7 @@ import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/parse_data_extension.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/listeners/project_details_listener.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
@@ -58,7 +59,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
           }
 
           if (state.timeEntries.isEmpty && !isLoading) {
-            return const Center(child: Text('No time entries found'));
+            return Center(
+              child: Text(S.current.projectDetailsScreen_emptyList),
+            );
           }
 
           return ListView.separated(
