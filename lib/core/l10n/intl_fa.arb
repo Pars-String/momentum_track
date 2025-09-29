@@ -1,0 +1,162 @@
+{
+    "@@locale": "fa",
+
+    "gregorian_month_january": "ژانویه",
+    "gregorian_month_february": "فوریه",
+    "gregorian_month_march": "مارس",
+    "gregorian_month_april": "آوریل",
+    "gregorian_month_may": "مه",
+    "gregorian_month_june": "ژوئن",
+    "gregorian_month_july": "ژوئیه",
+    "gregorian_month_august": "اوت",
+    "gregorian_month_september": "سپتامبر",
+    "gregorian_month_october": "اکتبر",
+    "gregorian_month_november": "نوامبر",
+    "gregorian_month_december": "دسامبر",
+
+    "jalali_month_farvardin": "فروردین",
+    "jalali_month_ordibehesht": "اردیبهشت",
+    "jalali_month_khordad": "خرداد",
+    "jalali_month_tir": "تیر",
+    "jalali_month_mordad": "مرداد",
+    "jalali_month_shahrivar": "شهریور",
+    "jalali_month_mehr": "مهر",
+    "jalali_month_aban": "آبان",
+    "jalali_month_azar": "آذر",
+    "jalali_month_dey": "دی",
+    "jalali_month_bahman": "بهمن",
+    "jalali_month_esfand": "اسفند",
+
+    "weekday_saturday": "شنبه",
+    "weekday_sunday": "یک‌شنبه",
+    "weekday_monday": "دوشنبه",
+    "weekday_tuesday": "سه‌شنبه",
+    "weekday_wednesday": "چهارشنبه",
+    "weekday_thursday": "پنج‌شنبه",
+    "weekday_friday": "جمعه",
+    
+    "weekday_saturday_code": "ش",
+    "weekday_sunday_code": "ی",
+    "weekday_monday_code": "د",
+    "weekday_tuesday_code": "س",
+    "weekday_wednesday_code": "چ",
+    "weekday_thursday_code": "پ",
+    "weekday_friday_code": "ج",
+
+    "calendarType_gregorian": "میلادی",
+    "calendarType_jalali": "شمسی",
+    
+    "sideMenuTitle_calendar":"تقویم",
+    "sideMenuTitle_projects":"پروژه ها",
+    "sideMenuTitle_settings":"تنظیمات",
+
+    "common_inProgress": "در حال انجام",
+    "common_noDescription": "بدون توضیحات",
+    "common_startAt": "شروع",
+    "common_endAt": "پایان",
+    "common_pleaseWait": "لطفا صبر کنید",
+
+    "toast_reportExportedSuccess": "گزارش شما با موفقیت صادر شد",
+    "toast_copyEmailToClipboard": "آدرس ایمیل کپی شد",
+    "toast_backupDbSuccess": "پایگاه داده با موفقیت پشتیبان‌گیری شد",
+    "toast_deleteDbSuccess": "تمام داده‌ها با موفقیت حذف شدند",
+    "toast_recoverDbSuccess": "تمام داده‌ها با موفقیت بازیابی شدند",
+    "toast_success_title": "با موفقیت انجام شد",
+    "toast_failure_title": "ناموفق",
+    "toast_failure_content": "مشکلی پیش آمد، لطفاً دوباره تلاش کنید",
+
+    "tooltip_addProject": "ایجاد پروژه",
+    "tooltip_addTimeEntry": "افزودن ثبت زمان",
+    
+    "button_generate": "ایجاد",
+    "button_cancel": "کنسل",
+    "button_delete": "حذف",
+    "button_submit": "تایید",
+    "button_continue": "ادامه",
+    "button_restoreDatabase": "بازیابی دیتابیس",
+    "button_createBackup": "ایجاد پشتیبانی",
+    "button_deleteData": "حذف تمام اطلاعات",
+    "button_saveThisMonthAsExcel": "ذخیره اکسل (برای این ماه)",
+    "button_saveSelectedMonthAsExcel": "ذخیره اکسل (تاریخ انتخابی)",
+    "button_changeLanguage": "تغییر زبان",
+    "button_reportIssue": "گزارش مشکل",
+    "button_close": "بستن",
+    "button_contactInfo": "اطلاعات تماس",
+    "button_currentMonth": "ماه جاری",
+
+    "validator_selectEndDate": "لطفا تاریخ پایان را انتخاب کنید",
+    "validator_selectStartDate": "لطفا تاریخ شروع را انتخاب کنید",
+    "validator_enterProjectName": "لطفا نام پروژه خود را وارد کنید",
+    "validator_required": "ضروری",
+
+    "fieldLabel_endDate": "انتخاب تاریخ پایان",
+    "fieldLabel_startDate": "انتخاب تاریخ شروع",
+    "fieldLabel_projectName": "نام پروژه",
+    "fieldLabel_startAt": "شروع",
+    "fieldLabel_endAt": "پایان",
+    "fieldLabel_time": "ساعت",
+
+    "fieldHint_chooseProject": "انتخاب پروژه",
+    "fieldHint_enterDescription": "توضیحات (اختیاری)",
+
+    "generateReport_exportDialogBox_title": "صدور گزارش",
+    "timeEntryDialogBox_title": "افزودن بازه زمانی",
+    "projects_deleteProjectDialogBox_title": "حذف پروژه",
+    "projects_deleteProjectDialogBox_content": "آیا واقعاً می‌خواهید پروژه {projectName} را حذف کنید؟\nاین عملیات قابل بازگشت نیست و تمام ثبت‌های زمانی مرتبط با این پروژه را حذف خواهد کرد.",
+        "@projects_deleteProjectDialogBox_content": {
+            "description": "project name",
+            "placeholders": {
+                "projectName": {
+                    "type": "String"
+                }
+            }
+        },
+    "contactAndSupport_contactDialogBox_contents": "{line, select, line1{برای بهبود این اپلیکیشن به ما کمک کنید!} line2{ایده های خودتون، گزارش مشکل و باگ یا درخواست قابلیت جدید رو با ما به اشتراک بذارید.} line3{شما با ارسال پیام به ایمیل و یا اکانت لینکدین من می توانید درارتباط باشید.} other{}}",
+        "@contactAndSupport_contactDialogBox_contents": {
+            "description": "handle description lines",
+            "placeholders": {
+                "line": {
+                    "type": "String"
+                }
+            }
+        },
+    "projects_addOrEditProjectDialogBox_title": "{title, select, true{ایجاد پروژه جدید} false{ویرایش پروژه} other{}}",
+        "@projects_addOrEditProjectDialogBox_title": {
+            "description": "add or edit project title",
+            "placeholders": {
+                "title": {
+                    "type": "String"
+                }
+            }
+        },
+    "projects_projectInfoDialogBox_createAt": "ایجاد شده در ",
+    "manageDatabase_backupDialogBox_title": "پشتیبان‌گیری",
+    "manageDatabase_backupDialogBox_chooseDir": "لطفاً یک پوشه انتخاب کنید.",
+    "manageDatabase_deleteDialogBox_title": "هشدار",
+    "manageDatabase_deleteDialogBox_content": "آیا واقعاً می‌خواهید تمام داده‌ها را حذف کنید؟",
+    "manageDatabase_recoverDialogBox_title": "توجه",
+    "manageDatabase_recoverDialogBox_content": "این عملیات تمام داده‌های فعلی شما را حذف کرده و آن‌ها را با داده‌های پشتیبان ارائه‌شده توسط شما جایگزین خواهد کرد.",
+    "deleteEventButton_deleteDialogBox_title": "حذف ثبت زمان",
+    "deleteEventButton_deleteDialogBox_content": "آیا مطمئن هستید که می‌خواهید این ثبت زمان را حذف کنید؟",
+
+    "dateDetailsScreen_failure": "مشکل در دریافت جزئیات",
+
+    "projectsScreen_failure": "بارگذاری پروژه‌ها با شکست مواجه شد",
+    "projectsScreen_emptyList": "هیچ پروژه‌ای یافت نشد",
+    "projectsScreen_startFrom": "شروع از ",
+    "projectsScreen_totalDuration": "مدت کل  ",
+    "projectsScreen_calculating": "در حال محاسبه",
+    "projectsScreen_calculatingFailure": "خطا در محاسبه مدت زمان",
+    "projectsScreen_noActivities": "هیچ فعالیتی ثبت نشده است!",
+
+    "projectDetailsScreen_emptyList": "هیچ ثبت زمانی‌ای یافت نشد",
+    "projectDetailsScreen_fetchData": "در حال دریافت داده‌ها...",
+
+    "settingsScreen_database_title": "تنظیمات دیتابیس",
+    "settingsScreen_generateReport_title": "تولید گزارش",
+    "settingsScreen_appSettings_title": "تنظیمات اپلیکیشن",
+    "settingsScreen_contact_title": "پشتیبانی و راه ارتباطی",
+
+    "calendarScreen_today": "امروز",
+    "calendarScreen_failure": "مشکل در دریافت اطفاعات تقویم"
+}
