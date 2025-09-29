@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/features/manage_database/presentation/widgets/delete_all_data_dialog_box.dart';
 
@@ -18,7 +19,7 @@ class DeleteAllDataButton extends StatelessWidget {
         );
       },
       backgroundColor: Theme.of(context).colorScheme.error,
-      title: 'Delete All Data',
+      title: S.current.button_deleteData,
       icon: HugeIcons.strokeRoundedFolderRemove,
     );
   }

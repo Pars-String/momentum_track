@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
@@ -96,7 +97,10 @@ class _AppTimeEntryFormWithDialogBoxState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Add Time Entry', style: TextStyle(fontSize: 22)),
+              Text(
+                S.current.timeEntryDialogBox_title,
+                style: TextStyle(fontSize: 22),
+              ),
               Gap(18),
               if (widget.projects != null) ...[
                 DecoratedBox(
@@ -107,7 +111,7 @@ class _AppTimeEntryFormWithDialogBoxState
                     ),
                   ),
                   child: DropdownButton<int>(
-                    hint: const Text('Choose your Project'),
+                    hint: Text(S.current.fieldHint_chooseProject),
                     borderRadius: BorderRadius.circular(16),
                     isExpanded: true,
                     elevation: 1,
@@ -133,7 +137,7 @@ class _AppTimeEntryFormWithDialogBoxState
                   Flexible(
                     flex: 2,
                     child: AppTextFormField(
-                      label: 'Start at',
+                      label: S.current.fieldLabel_startAt,
                       controller: startDateController,
                       readOnly: true,
                       onTap: (focusNode) {
@@ -165,11 +169,11 @@ class _AppTimeEntryFormWithDialogBoxState
                       key: formKey,
                       child: AppTextFormField(
                         controller: startTimeController,
-                        label: 'time',
+                        label: S.current.fieldLabel_time,
                         readOnly: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return '*Required';
+                            return S.current.validator_required;
                           }
                           return null;
                         },
@@ -204,7 +208,7 @@ class _AppTimeEntryFormWithDialogBoxState
                   Flexible(
                     flex: 2,
                     child: AppTextFormField(
-                      label: 'End at (optional)',
+                      label: S.current.fieldLabel_endAt,
                       controller: endDateController,
                       readOnly: true,
                       onTap: (focusNode) {
@@ -233,7 +237,7 @@ class _AppTimeEntryFormWithDialogBoxState
                   Flexible(
                     child: AppTextFormField(
                       controller: endTimeController,
-                      label: 'time',
+                      label: S.current.fieldLabel_time,
                       readOnly: true,
                       onTap: (focusNode) {
                         showTimePicker(
@@ -262,7 +266,7 @@ class _AppTimeEntryFormWithDialogBoxState
               Gap(35),
               AppTextFormField(
                 controller: descriptionController,
-                hint: 'Enter description (optional)',
+                hint: S.current.fieldHint_enterDescription,
                 minLines: 3,
                 maxLines: 4,
               ),
@@ -287,13 +291,13 @@ class _AppTimeEntryFormWithDialogBoxState
                               widget.onPressedSubmit(timeEntry);
                               context.pop();
                             },
-                      title: 'Submit',
+                      title: S.current.button_submit,
                     ),
                   ),
                   Gap(8),
                   TextButton(
                     onPressed: () => context.pop(),
-                    child: Text('Cancel'),
+                    child: Text(S.current.button_cancel),
                   ),
                   if (widget.onPressedDelete != null) ...[
                     Gap(28),

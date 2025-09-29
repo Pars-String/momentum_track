@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/add_project_dialog_box.dart';
 
 class AddNewProjectButton extends StatelessWidget {
@@ -7,7 +8,7 @@ class AddNewProjectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      tooltip: 'Add Project',
+      tooltip: S.current.tooltip_addProject,
       onPressed: () {
         showDialog(
           context: context,

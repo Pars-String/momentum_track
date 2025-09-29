@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 
 class DeleteEventButton extends StatelessWidget {
   final VoidCallback? onPressedDelete;
@@ -15,11 +16,13 @@ class DeleteEventButton extends StatelessWidget {
           context: context,
           builder: (innerContext) {
             return AlertDialog(
-              title: Text('Delete Time Entry'),
-              content: Text('Are you sure you want to delete this time entry?'),
+              title: Text(S.current.deleteEventButton_deleteDialogBox_title),
+              content: Text(
+                S.current.deleteEventButton_deleteDialogBox_content,
+              ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Cancel'),
+                  child: Text(S.current.button_cancel),
                   onPressed: () => innerContext.pop(),
                 ),
                 TextButton(
@@ -29,7 +32,7 @@ class DeleteEventButton extends StatelessWidget {
                           innerContext.pop();
                           onPressedDelete?.call();
                         },
-                  child: Text('Delete'),
+                  child: Text(S.current.button_delete),
                 ),
               ],
             );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/manage_database/presentation/cubit/manage_db_cubit.dart';
@@ -22,7 +23,7 @@ class BackupDataDialogBox extends StatelessWidget {
                 context.pop();
                 AppToastification.showInfo(
                   context,
-                  description: 'Backup database successfully',
+                  description: S.current.toast_backupDbSuccess,
                 );
               }
             },
@@ -30,7 +31,7 @@ class BackupDataDialogBox extends StatelessWidget {
               final isLoading = state is ManageDbLoading;
 
               return AlertDialog(
-                title: Text('Backup'),
+                title: Text(S.current.manageDatabase_backupDialogBox_title),
                 contentPadding: EdgeInsets.all(16),
                 content: isLoading
                     ? SizedBox(
@@ -39,11 +40,11 @@ class BackupDataDialogBox extends StatelessWidget {
                           children: [
                             CircularProgressIndicator.adaptive(),
                             Gap(8),
-                            Text('Please wait...'),
+                            Text(S.current.common_pleaseWait),
                           ],
                         ),
                       )
-                    : Text('Please choose a directory.'),
+                    : Text(S.current.manageDatabase_backupDialogBox_chooseDir),
                 actions: [
                   TextButton(
                     onPressed: isLoading
@@ -51,7 +52,7 @@ class BackupDataDialogBox extends StatelessWidget {
                         : () {
                             context.pop();
                           },
-                    child: Text('Cancel'),
+                    child: Text(S.current.button_cancel),
                   ),
                   AppElevatedButton(
                     onPressed: isLoading
@@ -59,7 +60,7 @@ class BackupDataDialogBox extends StatelessWidget {
                         : () async {
                             context.read<ManageDbCubit>().createBackup();
                           },
-                    title: 'Continue',
+                    title: S.current.button_continue,
                   ),
                 ],
               );

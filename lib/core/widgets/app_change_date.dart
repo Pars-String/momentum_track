@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/bloc/app_settings/app_settings_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/listeners/global_date_listener.dart';
+import 'package:momentum_track/core/data/enums/language_details.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 
 class AppChangeDate extends StatefulWidget {
@@ -40,6 +43,7 @@ class _AppChangeDateState extends State<AppChangeDate> {
   @override
   Widget build(BuildContext context) {
     // final DateTime now = DateHelper.today();
+    final language = context.read<AppSettingsCubit>().state.languageDetails;
 
     return BlocConsumer<GlobalDateCubit, GlobalDateState>(
       listenWhen: (p, c) => p.dateListStatus != c.dateListStatus,
@@ -57,10 +61,12 @@ class _AppChangeDateState extends State<AppChangeDate> {
               child: Row(
                 children: [
                   HugeIcon(
-                    icon: HugeIcons.strokeRoundedArrowLeftDouble,
+                    icon: language == LanguageDetails.persian
+                        ? HugeIcons.strokeRoundedArrowRightDouble
+                        : HugeIcons.strokeRoundedArrowLeftDouble,
                     color: Theme.of(context).colorScheme.primaryContainer,
                   ),
-                  Text(nextMonth, style: TextStyle(fontSize: 8)),
+                  Text(nextMonth, style: TextStyle(fontSize: 10)),
                 ],
               ),
             ),
@@ -94,9 +100,11 @@ class _AppChangeDateState extends State<AppChangeDate> {
               },
               child: Row(
                 children: [
-                  Text(previousMonth, style: TextStyle(fontSize: 8)),
+                  Text(previousMonth, style: TextStyle(fontSize: 10)),
                   HugeIcon(
-                    icon: HugeIcons.strokeRoundedArrowRightDouble,
+                    icon: language == LanguageDetails.persian
+                        ? HugeIcons.strokeRoundedArrowLeftDouble
+                        : HugeIcons.strokeRoundedArrowRightDouble,
                     color: Theme.of(context).colorScheme.primaryContainer,
                   ),
                 ],
@@ -110,7 +118,10 @@ class _AppChangeDateState extends State<AppChangeDate> {
                 onPressed: () {
                   context.read<GlobalDateCubit>().setThisMonthDates();
                 },
-                child: Text('Current Month', style: TextStyle(fontSize: 12)),
+                child: Text(
+                  S.current.button_currentMonth,
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
           ],
         );

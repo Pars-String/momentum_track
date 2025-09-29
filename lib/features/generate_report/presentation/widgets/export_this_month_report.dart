@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/features/generate_report/presentation/cubit/report_cubit.dart';
 import 'package:momentum_track/features/generate_report/presentation/widgets/export_this_month_dialog_box.dart';
@@ -24,7 +25,7 @@ class ExportThisMonthReport extends StatelessWidget {
                 },
               );
             },
-            title: 'Save as Excel (this month)',
+            title: S.current.button_saveThisMonthAsExcel,
             icon: HugeIcons.strokeRoundedFolderExport,
           );
         },

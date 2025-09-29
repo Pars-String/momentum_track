@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_toastification.dart';
 import 'package:momentum_track/features/manage_database/presentation/cubit/manage_db_cubit.dart';
@@ -26,7 +27,7 @@ class RecoverDataDialogBox extends StatelessWidget {
                 context.pop();
                 AppToastification.showInfo(
                   context,
-                  description: 'Recover all data successfully',
+                  description: S.current.toast_recoverDbSuccess,
                 );
               }
             },
@@ -34,7 +35,7 @@ class RecoverDataDialogBox extends StatelessWidget {
               final isLoading = state is ManageDbLoading;
 
               return AlertDialog(
-                title: Text('Notice'),
+                title: Text(S.current.manageDatabase_recoverDialogBox_title),
                 contentPadding: EdgeInsets.all(16),
                 content: isLoading
                     ? SizedBox(
@@ -44,14 +45,14 @@ class RecoverDataDialogBox extends StatelessWidget {
                           children: [
                             CircularProgressIndicator.adaptive(),
                             Gap(8),
-                            Text('Please wait...'),
+                            Text(S.current.common_pleaseWait),
                           ],
                         ),
                       )
                     : SizedBox(
                         width: 250,
                         child: Text(
-                          'This action will be delete all your current data and replace them with your backup data that you provide.',
+                          S.current.manageDatabase_recoverDialogBox_content,
                         ),
                       ),
                 actions: [
@@ -61,7 +62,7 @@ class RecoverDataDialogBox extends StatelessWidget {
                         : () {
                             context.pop();
                           },
-                    child: Text('Cancel'),
+                    child: Text(S.current.button_cancel),
                   ),
                   AppElevatedButton(
                     onPressed: isLoading
@@ -69,7 +70,7 @@ class RecoverDataDialogBox extends StatelessWidget {
                         : () async {
                             context.read<ManageDbCubit>().recoverData();
                           },
-                    title: 'Continue',
+                    title: S.current.button_continue,
                   ),
                 ],
               );

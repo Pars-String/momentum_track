@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/features/manage_database/presentation/widgets/recover_data_dialog_box.dart';
 
@@ -17,7 +18,7 @@ class RecoverDataButton extends StatelessWidget {
           },
         );
       },
-      title: 'Restore Database',
+      title: S.current.button_restoreDatabase,
       icon: HugeIcons.strokeRoundedDataRecovery,
     );
   }

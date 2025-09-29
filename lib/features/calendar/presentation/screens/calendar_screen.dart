@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
 import 'package:momentum_track/core/constant/app_arguments.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
@@ -80,7 +81,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               }
               if (state.overviewStatus == CalendarStatus.failure) {
                 return SliverToBoxAdapter(
-                  child: const Center(child: Text('Failed to load overview')),
+                  child: Center(child: Text(S.current.calendarScreen_failure)),
                 );
               }
 
@@ -162,7 +163,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               ),
                               if (isToday)
                                 Text(
-                                  'Today',
+                                  S.current.calendarScreen_today,
                                   style: TextStyle(
                                     fontSize: 9,
                                     color: Theme.of(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/widgets/add_new_event_button.dart';
 import 'package:momentum_track/core/widgets/app_time_entry_form_with_dialog_box.dart';
 import 'package:momentum_track/features/project_details/presentation/bloc/project_details_bloc.dart';
@@ -18,7 +19,7 @@ class ProjectDetailsAppBar extends StatelessWidget
       builder: (context, state) {
         late Project project;
         final isFetched = state.projectDetailsStatus is ProjectDetailsSuccess;
-        String projectName = 'Fetching Data...';
+        String projectName = S.current.projectDetailsScreen_fetchData;
 
         if (isFetched) {
           project =

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/listeners/global_data_flow_listener.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/features/projects/presentation/blocs/project_overview_cubit/project_overview_cubit.dart';
 import 'package:momentum_track/features/projects/presentation/blocs/projects_bloc/projects_bloc.dart';
 import 'package:momentum_track/features/projects/presentation/widgets/project_tile.dart';
@@ -46,7 +47,7 @@ class _ProjectsListState extends State<ProjectsList> {
           }
           if (state.status == ProjectsStatus.failure) {
             return SliverToBoxAdapter(
-              child: const Center(child: Text('Failed to load projects')),
+              child: Center(child: Text(S.current.projectsScreen_failure)),
             );
           }
 
@@ -57,7 +58,7 @@ class _ProjectsListState extends State<ProjectsList> {
             );
 
             return SliverToBoxAdapter(
-              child: const Center(child: Text('No projects found')),
+              child: Center(child: Text(S.current.projectsScreen_emptyList)),
             );
           }
 

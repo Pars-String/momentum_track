@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 import 'package:momentum_track/core/widgets/app_elevated_button.dart';
 import 'package:momentum_track/core/widgets/app_text_form_field.dart';
@@ -62,9 +63,9 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
             builder: (context, state) {
               return SimpleDialog(
                 title: Text(
-                  widget.projectInfo == null
-                      ? 'Add New Project'
-                      : 'Edit Project',
+                  S.current.projects_addOrEditProjectDialogBox_title(
+                    (widget.projectInfo == null).toString(),
+                  ),
                 ),
                 contentPadding: const EdgeInsets.all(16),
 
@@ -76,13 +77,13 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
                       child: Column(
                         children: [
                           AppTextFormField(
-                            label: 'Project Name',
+                            label: S.current.fieldLabel_projectName,
                             controller: _nameController,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter a project name';
+                                return S.current.validator_enterProjectName;
                               }
                               return null;
                             },
@@ -90,7 +91,7 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
 
                           Gap(8),
                           AppTextFormField(
-                            label: 'Start at',
+                            label: S.current.fieldLabel_startAt,
                             controller: _startDateController,
                             readOnly: true,
                             suffixIcon: HugeIcons.strokeRoundedCalendarRemove01,
@@ -122,7 +123,7 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
                           Gap(16),
                           AppTextFormField(
                             controller: _descriptionController,
-                            hint: 'Enter description (optional)',
+                            hint: S.current.fieldHint_enterDescription,
                             minLines: 3,
                             maxLines: 7,
                           ),
@@ -166,13 +167,13 @@ class _AddProjectDialogBoxState extends State<AddProjectDialogBox> {
                                       )
                                       ..pop();
                                   },
-                                  title: 'Submit',
+                                  title: S.current.button_submit,
                                 ),
                               ),
                               Gap(8),
                               TextButton(
                                 onPressed: () => context.pop(),
-                                child: Text('Cancel'),
+                                child: Text(S.current.button_cancel),
                               ),
                             ],
                           ),

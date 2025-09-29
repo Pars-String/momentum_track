@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
 import 'package:momentum_track/core/utils/extensions/date_formatter_extension.dart';
 
@@ -13,7 +14,7 @@ class StartFrom extends StatelessWidget {
       TextSpan(
         children: [
           TextSpan(
-            text: 'Start from: ',
+            text: S.current.projectsScreen_startFrom,
             style: TextStyle(
               fontSize: 12,
               color: context.colorScheme.primary.withAlpha(150),

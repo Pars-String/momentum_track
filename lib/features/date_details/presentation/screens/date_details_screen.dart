@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/constant/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
+import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/parse_data_extension.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/date_details_bloc.dart';
 import 'package:momentum_track/features/date_details/presentation/bloc/listeners/date_details_listener.dart';
@@ -55,7 +56,7 @@ class _DateDetailsScreenState extends State<DateDetailsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state.dateDetailsStatus == DateDetailsStatus.failure) {
-            return const Center(child: Text('Failed to load date details'));
+            return Center(child: Text(S.current.dateDetailsScreen_failure));
           }
           if (state.dateDetailsStatus == DateDetailsStatus.success) {
             timeEntries.addAll(state.timeEntries);
