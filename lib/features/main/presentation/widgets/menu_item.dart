@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:momentum_track/core/constant/app_pages.dart';
+import 'package:momentum_track/core/data/constants/app_pages.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
 
 class MenuItem extends StatefulWidget {
@@ -34,10 +34,9 @@ class _MenuItemState extends State<MenuItem> {
         return DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color:
-                isHovered || widget.page == state.selectedPage
-                    ? Colors.white30
-                    : Theme.of(context).colorScheme.primaryContainer,
+            color: isHovered || widget.page == state.selectedPage
+                ? Colors.white30
+                : Theme.of(context).colorScheme.primaryContainer,
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),

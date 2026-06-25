@@ -1,0 +1,11 @@
+{
+  "version": {
+    "name": "1.8.0",
+    "windows": {
+      "code": 1
+    },
+    "macos": {
+      "code": 1
+    }
+  }
+}

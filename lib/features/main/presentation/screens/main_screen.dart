@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
-import 'package:momentum_track/core/constant/app_pages.dart';
+import 'package:momentum_track/core/data/constants/app_pages.dart';
 import 'package:momentum_track/core/utils/helpers/date_helper.dart';
 import 'package:momentum_track/features/calendar/presentation/screens/calendar_screen.dart';
 import 'package:momentum_track/features/main/presentation/cubit/menu_cubit.dart';
