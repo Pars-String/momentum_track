@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum_track/core/bloc/global_data_flow/global_data_flow_cubit.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
-import 'package:momentum_track/core/constant/app_arguments.dart';
+import 'package:momentum_track/core/data/constants/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/utils/extensions/parse_data_extension.dart';

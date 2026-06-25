@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum_track/core/bloc/global_date_cubit/global_date_cubit.dart';
-import 'package:momentum_track/core/constant/app_arguments.dart';
+import 'package:momentum_track/core/data/constants/app_arguments.dart';
 import 'package:momentum_track/core/l10n/generated/l10n.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/extensions/date_reset_extension.dart';

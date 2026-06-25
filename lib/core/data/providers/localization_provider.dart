@@ -1,5 +1,5 @@
 import 'package:intl/intl_standalone.dart';
-import 'package:momentum_track/core/constant/app_arguments.dart';
+import 'package:momentum_track/core/data/constants/app_arguments.dart';
 import 'package:momentum_track/core/data/enums/language_details.dart';
 import 'package:momentum_track/core/data/services/preferences_service.dart';
 

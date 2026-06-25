@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:momentum_track/core/constant/app_versions.dart';
+import 'package:momentum_track/core/data/constants/app_versions.dart';
 import 'package:momentum_track/core/data/models/time_entry_form.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:path/path.dart';

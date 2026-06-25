@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:momentum_track/core/constant/app_pages.dart';
+import 'package:momentum_track/core/data/constants/app_pages.dart';
 
 part 'menu_state.dart';
 

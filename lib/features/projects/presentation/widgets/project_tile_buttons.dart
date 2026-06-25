@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:momentum_track/core/constant/app_arguments.dart';
+import 'package:momentum_track/core/data/constants/app_arguments.dart';
 import 'package:momentum_track/core/database/app_database.dart';
 import 'package:momentum_track/core/resources/app_routes.dart';
 import 'package:momentum_track/core/utils/extensions/context_extension.dart';
